@@ -64,6 +64,7 @@ public class ConexionBD {
         return null;
     }
 
+
     public ResultSet ejecutarSQL(String CadenaSQL) {
         Connection conexionConSQL = establecerConexion();
         Statement statconcons = null;

@@ -14,18 +14,16 @@ public class EmployeeDAO extends ConexionBD{
             ResultSet rsc;
             String sql ="";
 
-            sql = "SELECT * FROM Alumno;";
+            sql = "Select * from Alumno;";
             rsc = this.ejecutarSQL(sql);
 
             if (rsc != null)
             {
                 System.out.println("Datos Alumnos\n");
-                System.out.println("Código  Nombre Edad Telefono");
+                System.out.println("Código  Nombre Fecha");
                 System.out.println("--------------------------------");
                 while (rsc.next()) {
-                    System.out.println(rsc.getString("Nombre") + " "
-                            +rsc.getString("Apellido") + " "
-                            +rsc.getInt("Edad"));
+                    System.out.println(rsc.getInt("Id") + " " + rsc.getString(2) + " " + rsc.getDate(3));
                 }
             } else {
                 System.out.println("No existen Datos Alumnos.");
