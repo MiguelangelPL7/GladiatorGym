@@ -1,11 +1,9 @@
 package mvc.model.vo;
 
-import java.sql.Timestamp;
-
 public class Activity {
     private int CodigoActividad;
     private int ActividadPID;
-    private Timestamp ActividadHorario;
+    private String ActividadHorario;
     private String MonitorDNI;
     private boolean ActividadDisponibilidad;
     private int CapacidadMaxima;
@@ -35,12 +33,12 @@ public class Activity {
     }
 
     ///ActividadHorario///
-    public Timestamp getActividadHorario()
+    public String getActividadHorario()
     {
         return ActividadHorario;
     }
 
-    public void setActividadHorario(Timestamp ActividadHorario)
+    public void setActividadHorario(String ActividadHorario)
     {
         this.ActividadHorario = ActividadHorario;
     }

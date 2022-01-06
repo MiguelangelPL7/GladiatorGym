@@ -1,11 +1,9 @@
 package mvc.model.vo;
 
-import java.sql.Timestamp;
-
 public class Track {
     private int CodigoPista;
     private int PistaPID;
-    private Timestamp PistaHorario;
+    private String PistaHorario;
     private int MiembroID;
     private boolean PistaDisponibilidad;
     private double PrecioPorHora;
@@ -35,12 +33,12 @@ public class Track {
     }
 
     ///PistaHorario///
-    public Timestamp getPistaHorario()
+    public String getPistaHorario()
     {
         return PistaHorario;
     }
 
-    public void setPistaHorario(Timestamp PistaHorario)
+    public void setPistaHorario(String PistaHorario)
     {
         this.PistaHorario = PistaHorario;
     }

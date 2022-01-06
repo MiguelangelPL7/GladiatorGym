@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class TrackDAO extends ConexionBD{
 
-    public ArrayList<Track> listar() throws Exception{
+    public ArrayList<Track> listar(){
         ArrayList<Track> listaPistas = new <Track>ArrayList();
         try{
             String sql = "Select * from pistas;";
@@ -18,7 +18,7 @@ public class TrackDAO extends ConexionBD{
                 Track pista = new Track();
                 pista.setCodigoPista(rsc.getInt("CodigoPista"));
                 pista.setPistaPID(rsc.getInt("PistaPid"));
-                pista.setPistaHorario(rsc.getTimestamp("PistaHorario"));
+                pista.setPistaHorario(rsc.getString("PistaHorario"));
                 pista.setMiembroID(rsc.getInt("MiembroID"));
                 pista.setPistaDisponibilidad(rsc.getBoolean("PistaDisponibilidad"));
                 pista.setPrecioPorHora(rsc.getDouble("PrecioPorHora"));
@@ -33,33 +33,31 @@ public class TrackDAO extends ConexionBD{
         return(listaPistas);
     }
 
-    public void eliminar(Track pista) throws Exception{
+    public void eliminar(Track pista){
         try{
             int cod = pista.getCodigoPista();
             String sql = "DELETE FROM pistas WHERE CodigoPista="+cod+";";
-            ResultSet rsc = this.ejecutarSQL(sql);
-            rsc.close();
-        }catch (SQLException e) {
+            this.ejecutarActualizacion(sql);
+        }catch (Exception e) {
             System.out.println("Error al eliminar Pista.\n" + e.getMessage());
         }
     }
 
-    public void registrar(Track pista) throws Exception{
+    public void registrar(Track pista){
         try{
             int a = pista.getCodigoPista();
             int b = pista.getPistaPID();
-            String c = pista.getPistaHorario().toString();
+            String c = pista.getPistaHorario();
             int d = pista.getMiembroID();
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
             double f = pista.getPrecioPorHora();
 
             String sql = "INSERT INTO pistas (CodigoPista, PistaPID, PistaHorario, " +
-                    "MiembroID, PistaDisponibilidad, PrecioPorHora) VALUES ("+a+","+b+","+
-                    c+","+d+","+e+","+f+");";
+                    "MiembroID, PistaDisponibilidad, PrecioPorHora) VALUES ("+a+","+b+",'"+
+                    c+"',"+d+","+e+","+f+");";
 
-            ResultSet rsc = this.ejecutarSQL(sql);
-            rsc.close();
-        }catch (SQLException e) {
+            this.ejecutarActualizacion(sql);
+        }catch (Exception e) {
             System.out.println("Error al registar Pista.\n" + e.getMessage());
         }
     }
