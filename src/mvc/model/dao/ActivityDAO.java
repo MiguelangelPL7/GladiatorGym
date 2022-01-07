@@ -61,4 +61,68 @@ public class ActivityDAO extends ConexionBD {
             System.out.println("Error al registar Actividad.\n" + e.getMessage());
         }
     }
+
+    public boolean validarCodigoActividad(int cod){
+        try{
+            String sql = "Select CodigoActividad from actividades where CodigoActividad="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar codigo de actividad.\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public ArrayList<String> mostrarInfoAtributos(int cod){
+        ArrayList<String> info = new <String>ArrayList();
+        try{
+            String sql = "Select * from actividades where CodigoActividad="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+            rsc.next();
+
+            info.add(rsc.getString("CodigoActividad"));
+            info.add(rsc.getString("ActividadPid"));
+            info.add(rsc.getString("ActividadHorario"));
+            info.add(rsc.getString("MonitorDNI"));
+            info.add(rsc.getString("ActividadDisponibilidad"));
+            info.add(rsc.getString("CapacidadMaxima"));
+
+            rsc.close();
+        }catch (SQLException e) {
+            System.out.println("Error al obtener info de actividad.\n" + e.getMessage());
+        }
+
+        return(info);
+    }
+
+    public boolean actualizar(Activity actividad){
+        try{
+            int a = actividad.getCodigoActividad();
+            int b = actividad.getActividadPID();
+            String c = actividad.getActividadHorario();
+            String d = actividad.getMonitorDNI();
+            int e = actividad.getActividadDisponibilidad() ? 1 : 0;
+            int f = actividad.getCapacidadMaxima();
+            String sql = "UPDATE actividades SET ActividadPID="+b+", ActividadHorario='"+c+"', MonitorDNI="+d+", " +
+                    "ActividadDisponibilidad="+e+", CapacidadMaxima="+f+" WHERE CodigoActividad="+a+";";
+
+
+            this.ejecutarActualizacion(sql);
+        }catch (Exception e) {
+            System.out.println("Error al actualizar Actividad.\n" + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+
 }

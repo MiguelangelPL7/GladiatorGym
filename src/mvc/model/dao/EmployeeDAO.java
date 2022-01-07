@@ -1,6 +1,7 @@
 package mvc.model.dao;
 
 import conexion.ConexionBD;
+import mvc.model.vo.Activity;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,6 +33,25 @@ public class EmployeeDAO extends ConexionBD{
             rsc.close();
         } catch (SQLException e) {
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
+        }
+    }
+
+    public boolean validarDNI(String dni){
+        try{
+            String sql = "Select EmpleadoDNI from empleados where EmpleadoDNI='"+dni+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar DNI de empleado.\n" + e.getMessage());
+            return false;
         }
     }
 }

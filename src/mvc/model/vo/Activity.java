@@ -11,15 +11,9 @@ public class Activity {
     ///GETTERS AND SETTERS///
 
     ///CodigoActividad///
-    public int getCodigoActividad()
-    {
-        return CodigoActividad;
-    }
+    public int getCodigoActividad() { return CodigoActividad; }
 
-    public void setCodigoActividad(int CodigoActividad)
-    {
-        this.CodigoActividad = CodigoActividad;
-    }
+    public void setCodigoActividad(int CodigoActividad) { this.CodigoActividad = CodigoActividad; }
 
     ///ActividadPID///
     public int getActividadPID()
