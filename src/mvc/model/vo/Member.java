@@ -1,19 +1,24 @@
 package mvc.model.vo;
 
+import java.math.BigDecimal;
+
 public class Member {
 
     private String dniMember;
     private String nameMember;
-    private String surnamesMember;
+    private String firstsurnameMember;
+    private String secondsurnameMember;
     private String rateMember;
     private String dateSubscriptionMember;
-    private int priceSubscriptionMember;
-    private byte ageMember;
+    private BigDecimal priceSubscriptionMember;
     private String dateOfBirthdayMember;
     private String paymentMethodMember;
+    private String paymentNumberMember;
     private int phoneMember;
     private String mailMember;
-    private String addressMember;
+    private String streetMember;
+    private String cityMember;
+    private int postalCodeMember;
     private boolean activeMember;
     private int idMember;
 
@@ -25,7 +30,7 @@ public class Member {
         return dniMember;
     }
 
-    public void setDniMember(String dniMemberdniEmployee)
+    public void setDniMember(String dniMember)
     {
         this.dniMember = dniMember;
     }
@@ -41,15 +46,26 @@ public class Member {
         this.nameMember = nameMember;
     }
 
-    ///SURNAME///
-    public String getSurnamesMember()
+    ///FIRST SURNAME///
+    public String getFirstsurnameMember()
     {
-        return surnamesMember;
+        return firstsurnameMember;
     }
 
-    public void setSurnamesMember(String surnamesMember)
+    public void setFirstsurnameMember(String firstsurnameMember)
     {
-        this.surnamesMember = surnamesMember;
+        this.firstsurnameMember = firstsurnameMember;
+    }
+
+    ///SECOND SURNAME///
+    public String getSecondsurnameMember()
+    {
+        return secondsurnameMember;
+    }
+
+    public void setSecondsurnameMember(String secondsurnameMember)
+    {
+        this.secondsurnameMember = secondsurnameMember;
     }
 
     ///RATE///
@@ -75,27 +91,15 @@ public class Member {
     }
 
     ///PRICE OF SUBSCRIPTION///
-    public int getPriceSubscriptionMember()
+    public BigDecimal getPriceSubscriptionMember()
     {
         return priceSubscriptionMember;
     }
 
-    public void setPriceSubscriptionMember(int  priceSubscriptionMember)
+    public void setPriceSubscriptionMember(BigDecimal  priceSubscriptionMember)
     {
         this.priceSubscriptionMember = priceSubscriptionMember;
     }
-
-    ///AGE///
-    public byte getAgeMember()
-    {
-        return ageMember;
-    }
-
-    public void setAgeMember(byte ageMember)
-    {
-        this. ageMember = ageMember;
-    }
-
 
     ///DATE OF BIRTHDAY///
     public String getDateOfBirthdayMember()
@@ -119,6 +123,18 @@ public class Member {
         this.paymentMethodMember = paymentMethodMember;
     }
 
+    ///NUMBER METHOD///
+    public String getPaymentNumberMember()
+    {
+        return paymentNumberMember;
+    }
+
+    public void setPaymentNumberMember(String paymentNumberMember)
+    {
+        this.paymentNumberMember = paymentNumberMember;
+    }
+
+
     ///PHONE NUMBER///
     public int getPhoneMember()
     {
@@ -141,15 +157,37 @@ public class Member {
         this.mailMember = mailMember;
     }
 
-    ///ADDRESS///
-    public String getAddressMember()
+    ///STREET///
+    public String getStreetMember()
     {
-        return addressMember;
+        return streetMember;
     }
 
-    public void setAddressMember(String  addressMember)
+    public void setStreetMember(String  streetMember)
     {
-        this.addressMember = addressMember;
+        this.streetMember = streetMember;
+    }
+
+    ///CITY///
+    public String getCityMember()
+    {
+        return cityMember;
+    }
+
+    public void setCityMember(String cityMember)
+    {
+        this.cityMember = cityMember;
+    }
+
+    ///POSTAL CODE///
+    public int getPostalCodeMember()
+    {
+        return postalCodeMember;
+    }
+
+    public void setPostalCodeMember(int  postalCodeMember)
+    {
+        this.postalCodeMember = postalCodeMember;
     }
 
     ///ACTIVE: TRUE OR FALSE///
