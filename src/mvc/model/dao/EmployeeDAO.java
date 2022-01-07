@@ -85,7 +85,7 @@ public class EmployeeDAO extends ConexionBD{
             String mail = employee.getMailEmployee();
             int phone = employee.getPhoneEmployee();
             String street = employee.getStreetEmployee();
-            String city = employee.getMailEmployee();
+            String city = employee.getCityEmployee();
             int postal = employee.getPostalCodeEmployee();
             String method = employee.getPaymentMethodEmployee();
             String number = employee.getPaymentNumberEmployee();
@@ -123,14 +123,15 @@ public class EmployeeDAO extends ConexionBD{
             String method = employee.getPaymentMethodEmployee();
             String number = employee.getPaymentNumberEmployee();
             int phone = employee.getPhoneEmployee();
+            String mail = employee.getMailEmployee();
             String street = employee.getStreetEmployee();
-            String city = employee.getMailEmployee();
+            String city = employee.getCityEmployee();
             int postal = employee.getPostalCodeEmployee();
 
             sql = "UPDATE empleados SET Rango = '"+grade+"', SalarioMensual = '"+salary+"', EmpleadoMetodoPago = "+
-                    "'"+method+"', EmpleadoNumeroPago = '"+number+"', EmpleadoTelefono = "+phone+", "+
-                    " EmpleadoCalle = '"+street+"', EmpleadoCiudad ='"+city+"', EmpleadoCodigoPostal = "+postal+" "+
-                    "WHERE EmpleadoDNI = '"+dni+"';";
+                    "'"+method+"', EmpleadoNumeroPago = '"+number+"', EmpleadoTelefono = "+phone+", EmpleadoCorreo = "+
+                    "'"+mail+"', EmpleadoCalle = '"+street+"', EmpleadoCiudad ='"+city+"', EmpleadoCodigoPostal = "+
+                    ""+postal+" WHERE EmpleadoDNI = '"+dni+"';";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {
@@ -138,7 +139,7 @@ public class EmployeeDAO extends ConexionBD{
         }
 
     }
-    
+
     public boolean validarDNI(String dni){
         try{
             String sql = "Select EmpleadoDNI from empleados where EmpleadoDNI='"+dni+"';";
