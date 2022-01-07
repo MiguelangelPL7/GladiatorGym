@@ -8,9 +8,10 @@ import java.util.ArrayList;
 
 import mvc.model.vo.Member;
 
-public class MemberDAO {
 
-///LISTA MIEMBROS///
+public class MemberDAO extends ConexionBD {
+
+	///LISTA MIEMBROS///
 	public ArrayList<Member> listMember()
 	{
 		ArrayList<Member> listOfMember = new <Member>ArrayList();
@@ -85,7 +86,7 @@ public class MemberDAO {
 			String birthday = member.getDateOfBirthdayMember();
 			int phone = member.getPhoneMember();
 			String street = member.getStreetMember();
-			String city = member.getMailMember();
+			String city = member.getCityMember();
 			int postal = member.getPostalCodeMember();
 			String method = member.getPaymentMethodMember();
 			String number = member.getPaymentNumberMember();
@@ -123,13 +124,14 @@ public class MemberDAO {
 			String method = member.getPaymentMethodMember();
 			String number = member.getPaymentNumberMember();
 			int phone = member.getPhoneMember();
+			String mail = member.getMailMember();
 			String street = member.getStreetMember();
-			String city = member.getMailMember();
+			String city = member.getCityMember();
 			int postal = member.getPostalCodeMember();
 
 			sql = "UPDATE miembros SET Tarifa = '"+rate+"', PrecioSubscripcion = '"+price+"', MiembroMetodoPago = "+
-					"'"+method+"', MiembroNumeroPago = '"+number+"', MiembroTelefono = "+phone+", "+
-					" MiembroCalle = '"+street+"', MiembroCiudad ='"+city+"', MiembroCodigoPostal = "+postal+" "+
+					"'"+method+"', MiembroNumeroPago = '"+number+"', MiembroTelefono = "+phone+", MiembroCorreo = "+
+					"'"+mail+" MiembroCalle = '"+street+"', MiembroCiudad ='"+city+"', MiembroCodigoPostal = "+postal+" "+
 					"WHERE MiembroID = '"+id+"';";
 			this.ejecutarActualizacion(sql);
 		}
