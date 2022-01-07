@@ -1,5 +1,13 @@
 package mvc.model.dao;
 
+import conexion.ConexionBD;
+
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.ArrayList;
+
+import mvc.model.vo.Member;
+
 public class MemberDAO {
 
 ///LISTA MIEMBROS///
