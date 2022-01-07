@@ -1,24 +1,29 @@
 package mvc.model.vo;
 
 
+import java.math.BigDecimal;
+
 public class Employee {
 
-    public static enum gradeEmployee {receptionist, manager, instructor}
+
 
     private String dniEmployee;
     private String nameEmployee;
-    private String surnamesEmployee;
+    private String firstSurnameEmployee;
+    private String secondSurnameEmployee;
     private String dateAdmissionEmployee;
-    private byte ageEmployee;
     private String dateOfBirthdayEmployee;
     private String paymentMethodEmployee;
+    private String paymentNumberEmployee;
     private int phoneEmployee;
     private String mailEmployee;
-    private String addressEmployee;
-    private int salaryEmployee;
+    private String streetEmployee;
+    private String cityEmployee;
+    private int postalCodeEmployee;
+    private BigDecimal salaryEmployee;
     private String userEmployee;
     private String passwordEmployee;
-    private gradeEmployee grade;
+    private String gradeEmployee;
 
     ///GETTERS AND SETTERS///
 
@@ -45,14 +50,26 @@ public class Employee {
     }
 
     ///SURNAME///
-    public String getSurnamesEmployee()
+    ///FIRST///
+    public String getFirstSurnameEmployee()
     {
-        return surnamesEmployee;
+        return firstSurnameEmployee;
     }
 
-    public void setSurnamesEmployee(String surnamesEmployee)
+    public void setFirstSurnameEmployee(String firstSurnameEmployee)
     {
-        this.surnamesEmployee = surnamesEmployee;
+        this.firstSurnameEmployee = firstSurnameEmployee;
+    }
+
+    ///SECOND///
+    public String getSecondSurnameEmployee()
+    {
+        return secondSurnameEmployee;
+    }
+
+    public void setSecondSurnameEmployee(String secondSurnameEmployee)
+    {
+        this.secondSurnameEmployee = secondSurnameEmployee;
     }
 
     ///DATE OF ADMISSION///
@@ -65,18 +82,6 @@ public class Employee {
     {
         this.dateAdmissionEmployee = dateAdmissionEmployee;
     }
-
-    ///AGE///
-    public byte getAgeEmployee()
-    {
-        return ageEmployee;
-    }
-
-    public void setAgeEmployee(byte ageEmployee)
-    {
-        this. ageEmployee = ageEmployee;
-    }
-
 
     ///DATE OF BIRTHDAY///
     public String getDateOfBirthdayEmployee()
@@ -98,6 +103,17 @@ public class Employee {
     public void setPaymentMethodEmployee(String paymentMethodEmployee)
     {
         this.paymentMethodEmployee = paymentMethodEmployee;
+    }
+
+    ///PAYMENT NUMBER///
+    public String getPaymentNumberEmployee()
+    {
+        return paymentNumberEmployee;
+    }
+
+    public void setPaymentNumberEmployee(String paymentNumberEmployee)
+    {
+        this.paymentNumberEmployee = paymentNumberEmployee;
     }
 
     ///PHONE NUMBER///
@@ -123,23 +139,47 @@ public class Employee {
     }
 
     ///ADDRESS///
-    public String getAddressEmployee()
+    ///STREET///
+    public String getStreetEmployee()
     {
-        return addressEmployee;
+        return streetEmployee;
     }
 
-    public void setAddressEmployee(String  addressEmployee)
+    public void setStreetEmployee(String  streetEmployee)
     {
-        this.addressEmployee = addressEmployee;
+        this.streetEmployee = streetEmployee;
     }
+
+    ///CITY
+    public String getCityEmployee()
+    {
+        return cityEmployee;
+    }
+
+    public void setCityEmployee(String cityEmployee)
+    {
+        this.cityEmployee = cityEmployee;
+    }
+
+    ///POSTAL CODE///
+    public int getPostalCodeEmployee()
+    {
+        return postalCodeEmployee;
+    }
+
+    public void setPostalCodeEmployee(int  postalCodeEmployee)
+    {
+        this.postalCodeEmployee = postalCodeEmployee;
+    }
+
 
     ///SALARY///
-    public int getSalaryEmployee()
+    public BigDecimal getSalaryEmployee()
     {
         return salaryEmployee;
     }
 
-    public void setSalaryEmployee(int salaryEmployee)
+    public void setSalaryEmployee(BigDecimal salaryEmployee)
     {
         this.salaryEmployee = salaryEmployee;
     }
@@ -167,14 +207,14 @@ public class Employee {
     }
 
     ///GRADE///
-    public gradeEmployee getGrade()
+    public String getGradeEmployee()
     {
-        return grade;
+        return gradeEmployee;
     }
 
-    public void setGrade(gradeEmployee grade)
+    public void setGradeEmployee(String gradeEmployee)
     {
-        this.grade = grade;
+        this.gradeEmployee = gradeEmployee;
     }
 
 }
