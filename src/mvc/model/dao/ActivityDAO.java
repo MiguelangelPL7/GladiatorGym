@@ -50,7 +50,7 @@ public class ActivityDAO extends ConexionBD {
             String c = actividad.getActividadHorario();
             String d = actividad.getMonitorDNI();
             int e = actividad.getActividadDisponibilidad() ? 1 : 0;
-            int f = actividad.getCapacidadMaxima();
+            String f = checkNullInt(actividad.getCapacidadMaxima());
 
             String sql = "INSERT INTO actividades (CodigoActividad, ActividadPID, ActividadHorario, " +
                     "MonitorDNI, ActividadDisponibilidad, CapacidadMaxima) VALUES ("+a+","+b+",'"+
@@ -89,7 +89,7 @@ public class ActivityDAO extends ConexionBD {
             rsc.next();
 
             info.add(rsc.getString("CodigoActividad"));
-            info.add(rsc.getString("ActividadPid"));
+            info.add(rsc.getString("ActividadPID"));
             info.add(rsc.getString("ActividadHorario"));
             info.add(rsc.getString("MonitorDNI"));
             info.add(rsc.getString("ActividadDisponibilidad"));
@@ -110,7 +110,7 @@ public class ActivityDAO extends ConexionBD {
             String c = actividad.getActividadHorario();
             String d = actividad.getMonitorDNI();
             int e = actividad.getActividadDisponibilidad() ? 1 : 0;
-            int f = actividad.getCapacidadMaxima();
+            String f = checkNullInt(actividad.getCapacidadMaxima());
             String sql = "UPDATE actividades SET ActividadPID="+b+", ActividadHorario='"+c+"', MonitorDNI="+d+", " +
                     "ActividadDisponibilidad="+e+", CapacidadMaxima="+f+" WHERE CodigoActividad="+a+";";
 
@@ -122,6 +122,11 @@ public class ActivityDAO extends ConexionBD {
         }
 
         return true;
+    }
+
+    private String checkNullInt(int n){
+        if(n==0) return null;
+        return String.valueOf(n);
     }
 
 

@@ -1,8 +1,10 @@
 package mvc.model;
 
 import mvc.model.dao.ActivityDAO;
+import mvc.model.dao.TrackDAO;
 import mvc.model.dao.EmployeeDAO;
 import mvc.model.vo.Activity;
+import mvc.model.vo.Track;
 
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
@@ -19,13 +21,29 @@ public class Logic {
         return act.validarCodigoActividad(cod);
     }
 
+    public boolean validarCodigoPista(int cod){
+        TrackDAO pist = new TrackDAO();
+        return pist.validarCodigoPista(cod);
+    }
+
     public ArrayList<String> solicitarInfoA(int CodigoActividad){
         ArrayList<String> info = new ArrayList<String>();
         if(validarCodigoActividad(CodigoActividad)){
             ActivityDAO act = new ActivityDAO();
             info = act.mostrarInfoAtributos(CodigoActividad);
         }else{
-            info.add("null"); // si info.get(0)=="null" entonces codigo de actividad inválido
+            info.add(null); // si info.get(0)==null entonces codigo de actividad inválido
+        }
+        return info;
+    }
+
+    public ArrayList<String> solicitarInfoP(int CodigoPista){
+        ArrayList<String> info = new ArrayList<String>();
+        if(validarCodigoPista(CodigoPista)){
+            TrackDAO pist = new TrackDAO();
+            info = pist.mostrarInfoAtributos(CodigoPista);
+        }else{
+            info.add(null); // si info.get(0)==null entonces codigo de pista inválido
         }
         return info;
     }
@@ -52,13 +70,41 @@ public class Logic {
         }
     }
 
+    public int validarModificarAtributosP(Track pist){
+        int cod = pist.getCodigoPista();
+        ArrayList<String> atributos = new ArrayList<String>();
+        atributos.add(String.valueOf(cod));
+        atributos.add(String.valueOf(pist.getPistaPID()));
+        atributos.add(pist.getPistaHorario());
+        atributos.add(String.valueOf(pist.getMiembroID()));
+        atributos.add(String.valueOf(pist.getPistaDisponibilidad() ? 1 : 0));
+        atributos.add(String.valueOf(pist.getPrecioPorHora()));
+
+        if(validarCodigoPista(cod)){
+            if(validarAtributos("pista", atributos)){
+                TrackDAO pistD = new TrackDAO();
+                if(pistD.actualizar(pist)) {return 1;} else { return 0;}
+            }else{
+                return -1; // -1 = atributos inválidos
+            }
+        }else{
+            return -2; //-2 = codigo de actividad inválido
+        }
+    }
+
     public boolean validarAtributos(String tipo, ArrayList<String> atributos){
-        if(tipo=="actividad"){
+        if(tipo=="actividad" || tipo=="pista"){
             if(!validarInt(atributos.get(1)) && atributos.get(1)!=null){ return false;}
             if(!validarFecha(atributos.get(2)) && atributos.get(2)!=null){ return false; }
-            if(atributos.get(3)!=null && !validarFormatoDNI(atributos.get(3))){ return false; }
             if(!atributos.get(4).equals("0") && !atributos.get(4).equals("1")) { return false; }
-            if(!validarInt(atributos.get(5)) && atributos.get(5)!=null){ return false;}
+            if(tipo=="actividad"){
+                if(atributos.get(3)!=null && !validarFormatoDNI(atributos.get(3))){ return false; }
+                if(!validarInt(atributos.get(5)) && atributos.get(5)!=null){ return false;}
+            }
+            if (tipo == "pista") {
+                if(!validarInt(atributos.get(3)) && atributos.get(3)!=null){ return false;}
+                if(!validarDouble(atributos.get(5)) && !validarInt(atributos.get(5)) && atributos.get(5)!=null){ return false;}
+            }
             return true;
         }
         return false;
@@ -76,9 +122,15 @@ public class Logic {
     }
 
     private static boolean validarInt(String num) {
-        if(num.matches("[0-9]+") && num.length() > 2) { return true;}
-        return false;
+        try { int d = Integer.parseInt(num); } catch (NumberFormatException nfe) { return false; }
+        return true;
     }
+
+    private static boolean validarDouble(String num) {
+        try { double d = Double.parseDouble(num); } catch (NumberFormatException nfe) { return false; }
+        return true;
+    }
+
 
     private static boolean validarFormatoDNI(String num) {
         if(num.length()!=9 || Character.isLetter(num.charAt(8)) == false) { return false;}

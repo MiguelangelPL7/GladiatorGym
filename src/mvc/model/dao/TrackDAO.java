@@ -1,5 +1,6 @@
 package mvc.model.dao;
 import conexion.ConexionBD;
+import mvc.model.vo.Activity;
 import mvc.model.vo.Track;
 
 import java.sql.ResultSet;
@@ -48,9 +49,9 @@ public class TrackDAO extends ConexionBD{
             int a = pista.getCodigoPista();
             int b = pista.getPistaPID();
             String c = pista.getPistaHorario();
-            int d = pista.getMiembroID();
+            String d = checkNullDouble(pista.getMiembroID());
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
-            double f = pista.getPrecioPorHora();
+            String f = checkNullDouble(pista.getPrecioPorHora());
 
             String sql = "INSERT INTO pistas (CodigoPista, PistaPID, PistaHorario, " +
                     "MiembroID, PistaDisponibilidad, PrecioPorHora) VALUES ("+a+","+b+",'"+
@@ -60,5 +61,77 @@ public class TrackDAO extends ConexionBD{
         }catch (Exception e) {
             System.out.println("Error al registar Pista.\n" + e.getMessage());
         }
+    }
+
+    public boolean validarCodigoPista(int cod){
+        try{
+            String sql = "Select CodigoPista from pistas where CodigoPista="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar codigo de pista.\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public ArrayList<String> mostrarInfoAtributos(int cod){
+        ArrayList<String> info = new <String>ArrayList();
+        try{
+            String sql = "Select * from pistas where CodigoPista="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+            rsc.next();
+
+            info.add(rsc.getString("CodigoPista"));
+            info.add(rsc.getString("PistaPID"));
+            info.add(rsc.getString("PistaHorario"));
+            info.add(rsc.getString("MiembroID"));
+            info.add(rsc.getString("PistaDisponibilidad"));
+            info.add(rsc.getString("PrecioPorHora"));
+
+            rsc.close();
+        }catch (SQLException e) {
+            System.out.println("Error al obtener info de pista.\n" + e.getMessage());
+        }
+
+        return(info);
+    }
+
+    public boolean actualizar(Track pista){
+        try{
+            int a = pista.getCodigoPista();
+            int b = pista.getPistaPID();
+            String c = pista.getPistaHorario();
+            String d = checkNullDouble(pista.getMiembroID());
+            int e = pista.getPistaDisponibilidad() ? 1 : 0;
+            String f = checkNullDouble(pista.getPrecioPorHora());
+            String sql = "UPDATE pistas SET PistaPID="+b+", PistaHorario='"+c+"', MiembroID="+d+", " +
+                    "PistaDisponibilidad="+e+", PrecioPorHora="+f+" WHERE CodigoPista="+a+";";
+
+
+            this.ejecutarActualizacion(sql);
+        }catch (Exception e) {
+            System.out.println("Error al actualizar Actividad.\n" + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
+    private String checkNullInt(int n){
+        if(n==0) return null;
+        return String.valueOf(n);
+    }
+
+    private String checkNullDouble(double n){
+        if(n==0) return null;
+        return String.valueOf(n);
     }
 }

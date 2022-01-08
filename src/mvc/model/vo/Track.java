@@ -71,8 +71,5 @@ public class Track {
         return MiembroID;
     }
 
-    public void setMiembroID(int MiembroID)
-    {
-        this.MiembroID = MiembroID;
-    }
+    public void setMiembroID(int MiembroID) { this.MiembroID = MiembroID; }
 }
