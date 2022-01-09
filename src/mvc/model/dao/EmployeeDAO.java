@@ -100,7 +100,7 @@ public class EmployeeDAO extends ConexionBD{
                     "EmpleadoCodigoPostal, EmpleadoMetodoPago, EmpleadoNumeroPago, EmpleadoFechaIngreso, "+
                     "SalarioMensual, Usuario, Cotraseña, Rango) VALUES('"+dni+"','"+name+"','"+surname1+"',"+
                     "'"+ surname2+"','"+birthday+"','"+mail+"',"+phone+",'"+street+"','"+city+"',"+postal+","+
-                    "'"+method+ "','"+number+"','"+admission+"',"+salary+",'"+user+"','"+password+"','"+grade+");";
+                    "'"+method+ "','"+number+"','"+admission+"',"+salary+",'"+user+"','"+password+"','"+grade+"');";
 
             this.ejecutarActualizacion(sql);
         }

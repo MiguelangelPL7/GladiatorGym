@@ -99,8 +99,8 @@ public class MemberDAO extends ConexionBD {
 					" MiembroSegundoApellido, MiembroFechaNacimiento, MiembroTelefono, MiembroCalle, MiembroCiudad, "+
 					"MiembroCodigoPostal, MiembroMetodoPago, MiembroNumeroPago, MiembroFechaIngreso, "+
 					"PrecioSubscripcion, Tarifa, EmpleadoCorreo, Activo) VALUES('"+id+"','"+dni+"','"+name+"'"+
-					",'"+surname1+"','"+surname2+"','"+birthday+"',"+phone+",'"+street+"','"+city+"',"+postal+"'"+
-					",'"+method+"','"+number+"','"+admission+"',"+price+",'"+rate+"','"+mail+"','"+active+");";
+					",'"+surname1+"','"+surname2+"','"+birthday+"',"+phone+",'"+street+"','"+city+"',"+postal+""+
+					",'"+method+"','"+number+"','"+admission+"',"+price+",'"+rate+"','"+mail+"',"+active+");";
 
 			this.ejecutarActualizacion(sql);
 		}

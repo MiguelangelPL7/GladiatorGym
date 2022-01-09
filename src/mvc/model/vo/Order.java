@@ -1,6 +1,7 @@
 package mvc.model.vo;
 
 import java.lang.reflect.Array;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -8,11 +9,11 @@ public class Order {
 
     private String nidOrder;
     private String nameProviderOrder;
-    private float priceOrder;
+    private BigDecimal priceOrder;
     private String orderDateOrder;
     private String dateDeliveryOrder;
-    private float weightOrder;
-    //private Set<Material> materialsIncludedOrder = new HashSet<Material>();
+    private BigDecimal weightOrder;
+    private String employeeDniOrder;
 
     ///GETTERS AND SETTERS///
 
@@ -39,12 +40,12 @@ public class Order {
     }
 
     ///PRICE///
-    public float getPriceOrder()
+    public BigDecimal getPriceOrder()
     {
         return priceOrder;
     }
 
-    public void setPriceOrder(float priceOrder)
+    public void setPriceOrder(BigDecimal priceOrder)
     {
         this.priceOrder = priceOrder;
     }
@@ -72,16 +73,25 @@ public class Order {
     }
 
     ///WEIGHT///
-    public float getWeightOrder()
+    public BigDecimal getWeightOrder()
     {
         return weightOrder;
     }
 
-    public void setWeightOrder(float weightOrder)
+    public void setWeightOrder(BigDecimal weightOrder)
     {
         this.weightOrder = weightOrder;
     }
 
-    ///MATERIALS INCLUDED///
+    ///EMPLOYEE DNI///
+    public String getEmployeeDniOrder()
+    {
+        return employeeDniOrder;
+    }
+
+    public void setEmployeeDniOrder(String employeeDniOrder)
+    {
+        this.employeeDniOrder = employeeDniOrder;
+    }
 
 }

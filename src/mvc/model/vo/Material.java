@@ -1,14 +1,28 @@
 package mvc.model.vo;
 
+import java.math.BigDecimal;
+
 public class Material {
 
+    private String midMaterial;
     private String nameMaterial;
-    private float weightMaterial;
+    private BigDecimal weightMaterial;
     private int unitsMaterial;
-    //activity associated
+    private String activityMaterial;
+    private String brandMaterial;
     private String othersMaterial;
 
     ///GETTERS AND SETTERS///
+    ///MID///
+    public String getMidMaterial()
+    {
+        return midMaterial;
+    }
+
+    public void setMidMaterial(String midMaterial)
+    {
+        this.midMaterial = midMaterial;
+    }
 
     ///NAME///
     public String getNameMaterial()
@@ -22,12 +36,12 @@ public class Material {
     }
 
     ///WEIGHT///
-    public float getWeightMaterial()
+    public BigDecimal getWeightMaterial()
     {
         return weightMaterial;
     }
 
-    public void setWeightMaterial(float weightMaterial)
+    public void setWeightMaterial(BigDecimal weightMaterial)
     {
         this.weightMaterial = weightMaterial;
     }
@@ -44,9 +58,26 @@ public class Material {
     }
 
     ///ACTIVITY ASSOCIATED///
-    //get
+    public String getBrandMaterial()
+    {
+        return  brandMaterial;
+    }
 
-    //set
+    public void  setBrandMaterial(String brandMaterial)
+    {
+        this.brandMaterial = brandMaterial;
+    }
+
+    ///BRAND///
+    public String getActivityMaterial()
+    {
+        return  activityMaterial;
+    }
+
+    public void  setActivityMaterial(String activityMaterial)
+    {
+        this.activityMaterial = activityMaterial;
+    }
 
     ///OTHERS///
     public String getOthersMaterial()
