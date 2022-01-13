@@ -141,13 +141,13 @@ public class MemberDAO extends ConexionBD {
 
 	}
 
-	public boolean subirPrecio(int id, int precio){
+	public boolean subirPrecio(int id, double precio){
 		try{
 			String sql = "Select * from miembros where MiembroID="+id+";";
 			ResultSet rsc = this.ejecutarSQL(sql);
 
 			rsc.next();
-			int p=rsc.getInt("PrecioSubscripcion")+precio;
+			double p=rsc.getDouble("PrecioSubscripcion")+precio;
 			rsc.close();
 
 			String sql2 = "UPDATE miembros SET PrecioSubscripcion ="+p+" WHERE MiembroID = '"+id+"';";

@@ -6,6 +6,7 @@ import mvc.model.vo.Material;
 
 import java.math.BigDecimal;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class MaterialDAO extends ConexionBD {
@@ -24,7 +25,7 @@ public class MaterialDAO extends ConexionBD {
                 Material material = new Material();
                 material.setMidMaterial(rsc.getString("MID"));
                 material.setNameMaterial(rsc.getString("NombreMaterial"));
-                material.setWeightMaterial(rsc.getBigDecimal("Peso"));
+                material.setWeightMaterial(rsc.getDouble("Peso"));
                 material.setUnitsMaterial(rsc.getInt("Unidades"));
                 material.setActivityMaterial(rsc.getString("ActividadAsociada"));
                 material.setBrandMaterial(rsc.getString("Marca"));
@@ -60,7 +61,7 @@ public class MaterialDAO extends ConexionBD {
     }
 
     ///AGREGAR EMPLEADO///
-    public void registerMaterial(Material material)
+    public boolean registerMaterial(Material material)
     {
         try{
 
@@ -68,7 +69,7 @@ public class MaterialDAO extends ConexionBD {
 
             String mid = material.getMidMaterial();
             String name = material.getNameMaterial();
-            BigDecimal weight = material.getWeightMaterial();
+            double weight = material.getWeightMaterial();
             int units = material.getUnitsMaterial();
             String activity = material.getActivityMaterial();
             String brand = material.getBrandMaterial();
@@ -76,7 +77,7 @@ public class MaterialDAO extends ConexionBD {
 
 
             sql = "INSERT INTO materiales (MID, NombreMaterial, Peso, Unidades,"+
-                    " ActividadAsociada, Marca, OtraInfo) VALUES('"+mid+"','"+name+"','"+weight+"',"+
+                    " ActividadAsociada, Marca, OtraInfo) VALUES('"+mid+"','"+name+"',"+weight+","+
                     ""+units+",'"+activity+"','"+brand+"','"+others+"');";
 
             this.ejecutarActualizacion(sql);
@@ -84,7 +85,10 @@ public class MaterialDAO extends ConexionBD {
         catch (Exception e)
         {
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
+            return false;
         }
+
+        return true;
     }
 
     ///MODIFICAR MATERIAL///
@@ -104,5 +108,78 @@ public class MaterialDAO extends ConexionBD {
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
         }
 
+    }
+
+    public ArrayList<String> mostrarInfoAtributos(String mid){
+        ArrayList<String> info = new <String>ArrayList();
+        try{
+            String sql = "Select * from materiales where MID='"+mid+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+            rsc.next();
+
+            info.add(rsc.getString("MID"));
+            info.add(rsc.getString("NombreMaterial"));
+            info.add(rsc.getString("Peso"));
+            info.add(rsc.getString("Unidades"));
+            info.add(rsc.getString("ActividadAsociada"));
+            info.add(rsc.getString("OtraInfo"));
+
+            rsc.close();
+        }catch (SQLException e) {
+            System.out.println("Error al obtener info de material.\n" + e.getMessage());
+        }
+
+        return(info);
+    }
+
+    public String generarMID(){
+        String mid=null;
+
+        while(mid==null || validarMID(mid)){
+            int num = (int)(Math.random()*9000+1000);
+            char c1 = (char)(Math.random()*26+65);
+            char c2 = (char)(Math.random()*26+65);
+            mid=String.valueOf(num)+c1+c2;
+        }
+
+        return mid;
+    }
+
+    public boolean validarNombreMaterial(String nom){
+        try{
+            String sql = "Select * from materiales where NombreMaterial='"+nom+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar nombre de material.\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean validarMID(String mid){
+        try{
+            String sql = "Select * from materiales where MID='"+mid+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar MID de material.\n" + e.getMessage());
+            return false;
+        }
     }
 }

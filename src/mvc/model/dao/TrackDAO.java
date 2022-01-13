@@ -145,7 +145,7 @@ public class TrackDAO extends ConexionBD{
         }
     }
 
-    public int apuntarMiembroPista(int cod, int id, int duracion){
+    public double apuntarMiembroPista(int cod, int id, int duracion){
         try{
             String sql = "UPDATE pistas SET MiembroID="+id+" WHERE CodigoPista="+cod+";";
             this.ejecutarActualizacion(sql);
@@ -159,15 +159,15 @@ public class TrackDAO extends ConexionBD{
 
     }
 
-    public int actualizarPista(int cod, int duracion){
-        int precio;
+    public double actualizarPista(int cod, int duracion){
+        double precio;
 
         try{
             String sql = "Select * from pistas where CodigoPista="+cod+";";
             ResultSet rsc = this.ejecutarSQL(sql);
 
             rsc.next();
-            precio=rsc.getInt("PrecioPorHora")*duracion;
+            precio=rsc.getDouble("PrecioPorHora")*duracion;
             rsc.close();
 
             String sql2 = "UPDATE pistas SET PistaDisponibilidad=0 WHERE CodigoPista="+cod+";";

@@ -4,6 +4,8 @@ import mvc.model.dao.ActivityDAO;
 import mvc.model.dao.TrackDAO;
 import mvc.model.dao.EmployeeDAO;
 import mvc.model.dao.MemberDAO;
+import mvc.model.dao.MaterialDAO;
+import mvc.model.vo.Material;
 import mvc.model.vo.Activity;
 import mvc.model.vo.Track;
 
@@ -12,6 +14,8 @@ import java.text.SimpleDateFormat;
 import java.text.ParseException;
 
 public class Logic {
+    private String dniEmpleadoEnSesion;
+
     public boolean validarDNI(String dni){
         EmployeeDAO emp = new EmployeeDAO();
         return emp.validarDNI(dni);
@@ -37,10 +41,24 @@ public class Logic {
         return pist.validarCodigoPista(cod);
     }
 
+    public boolean validarNombreMaterial(String nom){
+        MaterialDAO ma = new MaterialDAO();
+        return ma.validarNombreMaterial(nom);
+    }
+
+    public boolean validarMID(String mid){
+        MaterialDAO ma = new MaterialDAO();
+        return ma.validarMID(mid);
+    }
+
     public int validarInicioSesion(String dni, String pass){
         if(validarDNI(dni)){
             EmployeeDAO emp = new EmployeeDAO();
-            if(emp.validarInicioSesion(dni,pass)) {return 1;} else {return 0;}
+            if(emp.validarInicioSesion(dni,pass)) {
+                this.dniEmpleadoEnSesion = dni;
+                return 1;
+            }
+            else { return 0;}
             //1=inicio de sesión correcto, 0=contraseña incorrecta
         }
         return -1; //-1 = dni no existe
@@ -67,7 +85,7 @@ public class Logic {
             TrackDAO pist = new TrackDAO();
             int cod = pist.validarHorario(pid, horario);
             if(cod!=0){
-                int n = pist.apuntarMiembroPista(cod,id,horasDuracion);
+                double n = pist.apuntarMiembroPista(cod,id,horasDuracion);
                 if(n!=-1) {
                     MemberDAO mem = new MemberDAO();
                     if(mem.subirPrecio(id, n)){ return 2;} else {return 1;}
@@ -150,21 +168,67 @@ public class Logic {
         }
     }
 
+    public int validarAdicionMaterial(Material ma){
+        ArrayList<String> atributos = new ArrayList<String>();
+        String nom = ma.getNameMaterial();
+        atributos.add(nom);
+        atributos.add(String.valueOf(ma.getWeightMaterial()));
+        atributos.add(String.valueOf(ma.getUnitsMaterial()));
+        atributos.add(ma.getActivityMaterial());
+        atributos.add(ma.getBrandMaterial());
+        atributos.add(ma.getOthersMaterial());
+
+        if(!validarNombreMaterial(nom)){
+            if(validarAtributos("material", atributos)){
+                MaterialDAO maD = new MaterialDAO();
+                String mid = maD.generarMID();
+                ma.setMidMaterial(mid);
+                if(maD.registerMaterial(ma)) {return 1;} else { return 0;}
+                // 1 = adicion correcta; 0= adicion fallida
+            }else{
+                return -1; // -1 = atributos inválidos
+            }
+        }else{
+            return -2; //-2 = nombre de material ya existente
+        }
+    }
+
+    public ArrayList<ArrayList<String>> solicitarListaMateriales(){
+        MaterialDAO m = new MaterialDAO();
+        ArrayList<Material> material = m.listMaterial();
+        ArrayList<ArrayList<String>> info = new ArrayList<ArrayList<String>>();
+
+        for(int x=0;x<material.size();x++){
+            String mid = material.get(x).getMidMaterial();
+            ArrayList<String> i = m.mostrarInfoAtributos(mid);
+            info.add(i);
+        }
+
+        return info;
+    }
+
     public boolean validarAtributos(String tipo, ArrayList<String> atributos){
         if(tipo=="actividad" || tipo=="pista"){
-            if(!validarInt(atributos.get(1)) && atributos.get(1)!=null){ return false;}
-            if(!validarFecha(atributos.get(2)) && atributos.get(2)!=null){ return false; }
+            if(!validarInt(atributos.get(1))){ return false;}
+            if(!validarFecha(atributos.get(2))){ return false; }
             if(!atributos.get(4).equals("0") && !atributos.get(4).equals("1")) { return false; }
             if(tipo=="actividad"){
                 if(atributos.get(3)!=null && !validarFormatoDNI(atributos.get(3))){ return false; }
-                if(!validarInt(atributos.get(5)) && atributos.get(5)!=null){ return false;}
+                if(!validarInt(atributos.get(5))){ return false; }
             }
             if (tipo == "pista") {
-                if(!validarInt(atributos.get(3)) && atributos.get(3)!=null){ return false;}
-                if(!validarDouble(atributos.get(5)) && !validarInt(atributos.get(5)) && atributos.get(5)!=null){ return false;}
+                if(!validarInt(atributos.get(3))){ return false; }
+                if(!validarDouble(atributos.get(5)) && !validarInt(atributos.get(5))){ return false; }
             }
             return true;
         }
+
+        if(tipo=="material"){
+            if(!validarInt(atributos.get(2))){ return false; }
+            if(!validarDouble(atributos.get(1)) && !validarInt(atributos.get(1))){ return false; }
+            return true;
+        }
+
         return false;
     }
 

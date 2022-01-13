@@ -6,7 +6,7 @@ public class Material {
 
     private String midMaterial;
     private String nameMaterial;
-    private BigDecimal weightMaterial;
+    private double weightMaterial;
     private int unitsMaterial;
     private String activityMaterial;
     private String brandMaterial;
@@ -36,12 +36,12 @@ public class Material {
     }
 
     ///WEIGHT///
-    public BigDecimal getWeightMaterial()
+    public double getWeightMaterial()
     {
         return weightMaterial;
     }
 
-    public void setWeightMaterial(BigDecimal weightMaterial)
+    public void setWeightMaterial(double weightMaterial)
     {
         this.weightMaterial = weightMaterial;
     }
