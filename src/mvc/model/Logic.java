@@ -3,6 +3,7 @@ package mvc.model;
 import mvc.model.dao.ActivityDAO;
 import mvc.model.dao.TrackDAO;
 import mvc.model.dao.EmployeeDAO;
+import mvc.model.dao.MemberDAO;
 import mvc.model.vo.Activity;
 import mvc.model.vo.Track;
 
@@ -16,6 +17,16 @@ public class Logic {
         return emp.validarDNI(dni);
     }
 
+    public boolean validarID(int id){
+        MemberDAO emp = new MemberDAO();
+        return emp.validarID(id);
+    }
+
+    public boolean validarID_activo(int id){
+        MemberDAO emp = new MemberDAO();
+        return emp.validarID_activo(id);
+    }
+
     public boolean validarCodigoActividad(int cod){
         ActivityDAO act = new ActivityDAO();
         return act.validarCodigoActividad(cod);
@@ -24,6 +35,51 @@ public class Logic {
     public boolean validarCodigoPista(int cod){
         TrackDAO pist = new TrackDAO();
         return pist.validarCodigoPista(cod);
+    }
+
+    public int validarInicioSesion(String dni, String pass){
+        if(validarDNI(dni)){
+            EmployeeDAO emp = new EmployeeDAO();
+            if(emp.validarInicioSesion(dni,pass)) {return 1;} else {return 0;}
+            //1=inicio de sesión correcto, 0=contraseña incorrecta
+        }
+        return -1; //-1 = dni no existe
+    }
+
+    public int validarApuntarMiembroA(int id, int pid, String horario){
+        if(validarID_activo(id)){
+            ActivityDAO act = new ActivityDAO();
+            int cod = act.validarHorario(pid, horario);
+            if(cod!=0){
+                if(act.validarMiembroActividad(cod,id)){return 100;}
+                //100 = miembro ya apuntado
+                if(act.apuntarMiembroActividad(cod,id)){return 2;} else {return 1;}
+                //2 = apuntado correctamente, 1 = apuntar fallido
+            }else{
+                return 0; //0 = actividad no encontrada o no disponible
+            }
+        }
+        return -1; //-1 = id de miembro no existe
+    }
+
+    public int validarApuntarMiembroP(int id, int pid, String horario, int horasDuracion){
+        if(validarID_activo(id)){
+            TrackDAO pist = new TrackDAO();
+            int cod = pist.validarHorario(pid, horario);
+            if(cod!=0){
+                int n = pist.apuntarMiembroPista(cod,id,horasDuracion);
+                if(n!=-1) {
+                    MemberDAO mem = new MemberDAO();
+                    if(mem.subirPrecio(id, n)){ return 2;} else {return 1;}
+                }else{
+                    return 1;
+                    //1 = apuntar fallido
+                }
+            }else{
+                return 0; //0 = actividad no encontrada o no disponible
+            }
+        }
+        return -1; //-1 = id de miembro no existe
     }
 
     public ArrayList<String> solicitarInfoA(int CodigoActividad){
@@ -62,6 +118,7 @@ public class Logic {
             if(validarAtributos("actividad", atributos)){
                 ActivityDAO actD = new ActivityDAO();
                 if(actD.actualizar(act)) {return 1;} else { return 0;}
+                // 1 = actualizacion correcta; 0= actualizacion fallida
             }else{
                 return -1; // -1 = atributos inválidos
             }
@@ -84,6 +141,7 @@ public class Logic {
             if(validarAtributos("pista", atributos)){
                 TrackDAO pistD = new TrackDAO();
                 if(pistD.actualizar(pist)) {return 1;} else { return 0;}
+                // 1 = actualizacion correcta; 0= actualizacion fallida
             }else{
                 return -1; // -1 = atributos inválidos
             }

@@ -61,7 +61,7 @@ public class EmployeeDAO extends ConexionBD{
             String sql = "";
             String DNI = dni;
 
-            sql = "DELETE FROM Miembros WHERE EmpleadoDNI="+DNI+";";
+            sql = "DELETE FROM empleados WHERE EmpleadoDNI="+DNI+";";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {
@@ -122,11 +122,11 @@ public class EmployeeDAO extends ConexionBD{
             BigDecimal salary = employee.getSalaryEmployee();
             String method = employee.getPaymentMethodEmployee();
             String number = employee.getPaymentNumberEmployee();
-            int phone = employee.getPhoneEmployee();
+            String phone = checkNullInt(employee.getPhoneEmployee());
             String mail = employee.getMailEmployee();
             String street = employee.getStreetEmployee();
             String city = employee.getCityEmployee();
-            int postal = employee.getPostalCodeEmployee();
+            String postal = checkNullInt(employee.getPostalCodeEmployee());
 
             sql = "UPDATE empleados SET Rango = '"+grade+"', SalarioMensual = '"+salary+"', EmpleadoMetodoPago = "+
                     "'"+method+"', EmpleadoNumeroPago = '"+number+"', EmpleadoTelefono = "+phone+", EmpleadoCorreo = "+
@@ -138,6 +138,24 @@ public class EmployeeDAO extends ConexionBD{
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
         }
 
+    }
+
+    public boolean validarInicioSesion(String dni, String pass){
+        String realPass;
+        try{
+            String sql = "Select * from empleados where EmpleadoDNI='"+dni+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            rsc.next();
+            realPass=rsc.getString("Contraseña");
+            rsc.close();
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar DNI de empleado.\n" + e.getMessage());
+            return false;
+        }
+
+        if(pass.equals(realPass)){ return true; }
+        return false;
     }
 
     public boolean validarDNI(String dni){
@@ -157,5 +175,10 @@ public class EmployeeDAO extends ConexionBD{
             System.out.println("Error al comprobar DNI de empleado.\n" + e.getMessage());
             return false;
         }
+    }
+
+    private String checkNullInt(int n){
+        if(n==0) return null;
+        return String.valueOf(n);
     }
 }

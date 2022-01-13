@@ -124,6 +124,82 @@ public class ActivityDAO extends ConexionBD {
         return true;
     }
 
+    public int validarHorario(int pid, String horario){
+        try{
+            String sql = "Select * from actividades WHERE ActividadPID="+pid+" AND ActividadHorario='"+horario+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                int codigo = rsc.getInt("CodigoActividad");
+                int disp = rsc.getInt("ActividadDisponibilidad");
+                rsc.close();
+                if(disp==0) {return 0;} else { return codigo;}
+            }else{
+                rsc.close();
+                return 0;
+            }
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar codigo de actividad.\n" + e.getMessage());
+            return 0;
+        }
+    }
+
+    public boolean apuntarMiembroActividad(int cod, int id){
+        try{
+            String sql = "INSERT INTO miembrosactividad (CodigoActividad, MiembroID) VALUES ("+cod+","+id+");";
+            this.ejecutarActualizacion(sql);
+        }catch (Exception e) {
+            System.out.println("Error al apuntar miembro Actividad.\n" + e.getMessage());
+            return false;
+        }
+
+        return actualizarActividad(cod);
+
+    }
+
+    public boolean validarMiembroActividad(int cod, int id){
+        try{
+            String sql = "Select * from miembrosactividad where CodigoActividad="+cod+" AND MiembroID="+id+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar miembro/actividad.\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean actualizarActividad(int cod){
+        try{
+            String sql = "Select * from actividades where CodigoActividad="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            rsc.next();
+            int capacidad=rsc.getInt("CapacidadMaxima");
+            rsc.close();
+
+            capacidad -= 1;
+            int disp=1;
+            if(capacidad==0) disp=0;
+
+            String sql2 = "UPDATE actividades SET ActividadDisponibilidad="+disp+", CapacidadMaxima="+capacidad+" WHERE CodigoActividad="+cod+";";
+            this.ejecutarActualizacion(sql2);
+
+        }catch (SQLException e) {
+            System.out.println("Error al actualizar actividad.\n" + e.getMessage());
+            return false;
+        }
+
+        return true;
+    }
+
     private String checkNullInt(int n){
         if(n==0) return null;
         return String.valueOf(n);

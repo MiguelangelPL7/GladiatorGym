@@ -109,7 +109,7 @@ public class TrackDAO extends ConexionBD{
             int a = pista.getCodigoPista();
             int b = pista.getPistaPID();
             String c = pista.getPistaHorario();
-            String d = checkNullDouble(pista.getMiembroID());
+            String d = checkNullInt(pista.getMiembroID());
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
             String f = checkNullDouble(pista.getPrecioPorHora());
             String sql = "UPDATE pistas SET PistaPID="+b+", PistaHorario='"+c+"', MiembroID="+d+", " +
@@ -123,6 +123,62 @@ public class TrackDAO extends ConexionBD{
         }
 
         return true;
+    }
+
+    public int validarHorario(int pid, String horario){
+        try{
+            String sql = "Select * from pistas WHERE PistaPID="+pid+" AND PistaHorario='"+horario+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                int codigo = rsc.getInt("CodigoPista");
+                int disp = rsc.getInt("PistaDisponibilidad");
+                rsc.close();
+                if(disp==0) {return 0;} else { return codigo; }
+            }else{
+                rsc.close();
+                return 0;
+            }
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar codigo de pista.\n" + e.getMessage());
+            return 0;
+        }
+    }
+
+    public int apuntarMiembroPista(int cod, int id, int duracion){
+        try{
+            String sql = "UPDATE pistas SET MiembroID="+id+" WHERE CodigoPista="+cod+";";
+            this.ejecutarActualizacion(sql);
+
+        }catch (Exception e) {
+            System.out.println("Error al apuntar miembro Pista.\n" + e.getMessage());
+            return -1;
+        }
+
+        return actualizarPista(cod,duracion);
+
+    }
+
+    public int actualizarPista(int cod, int duracion){
+        int precio;
+
+        try{
+            String sql = "Select * from pistas where CodigoPista="+cod+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            rsc.next();
+            precio=rsc.getInt("PrecioPorHora")*duracion;
+            rsc.close();
+
+            String sql2 = "UPDATE pistas SET PistaDisponibilidad=0 WHERE CodigoPista="+cod+";";
+            this.ejecutarActualizacion(sql2);
+
+        }catch (SQLException e) {
+            System.out.println("Error al actualizar pista.\n" + e.getMessage());
+            return -1;
+        }
+
+        return precio;
     }
 
     private String checkNullInt(int n){

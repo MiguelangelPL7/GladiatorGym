@@ -140,4 +140,63 @@ public class MemberDAO extends ConexionBD {
 		}
 
 	}
+
+	public boolean subirPrecio(int id, int precio){
+		try{
+			String sql = "Select * from miembros where MiembroID="+id+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			rsc.next();
+			int p=rsc.getInt("PrecioSubscripcion")+precio;
+			rsc.close();
+
+			String sql2 = "UPDATE miembros SET PrecioSubscripcion ="+p+" WHERE MiembroID = '"+id+"';";
+			this.ejecutarActualizacion(sql2);
+
+		}catch (SQLException e) {
+			System.out.println("Error al subir precio de miembro.\n" + e.getMessage());
+			return false;
+		}
+
+		return true;
+	}
+
+	public boolean validarID(int id){
+		try{
+			String sql = "Select MiembroID from miembros where MiembroID="+id+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			if(rsc.next()){
+				rsc.close();
+				return true;
+			}else{
+				rsc.close();
+				return false;
+			}
+
+		}catch (SQLException e) {
+			System.out.println("Error al comprobar ID de miembro.\n" + e.getMessage());
+			return false;
+		}
+	}
+
+	public boolean validarID_activo(int id){
+		if(!validarID(id)) return false;
+		int activo;
+		try{
+			String sql = "Select * from miembros where MiembroID="+id+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			rsc.next();
+			activo=rsc.getInt("Activo");
+			rsc.close();
+
+		}catch (SQLException e) {
+			System.out.println("Error al comprobar ID de miembro.\n" + e.getMessage());
+			return false;
+		}
+
+		if(activo==1) return true;
+		return false;
+	}
 }
