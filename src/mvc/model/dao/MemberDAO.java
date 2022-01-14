@@ -150,7 +150,7 @@ public class MemberDAO extends ConexionBD {
 			double p=rsc.getDouble("PrecioSubscripcion")+precio;
 			rsc.close();
 
-			String sql2 = "UPDATE miembros SET PrecioSubscripcion ="+p+" WHERE MiembroID = '"+id+"';";
+			String sql2 = "UPDATE miembros SET PrecioSubscripcion ="+p+" WHERE MiembroID = "+id+";";
 			this.ejecutarActualizacion(sql2);
 
 		}catch (SQLException e) {

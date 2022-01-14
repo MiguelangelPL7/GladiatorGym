@@ -24,8 +24,8 @@ public class OrderDAO extends ConexionBD {
                 Order order = new Order();
                 order.setNidOrder(rsc.getString("NID"));
                 order.setNameProviderOrder(rsc.getString("NombreProveedor"));
-                order.setWeightOrder(rsc.getBigDecimal("PesoTotal"));
-                order.setPriceOrder(rsc.getBigDecimal("PedidoPrecio"));
+                order.setWeightOrder(rsc.getDouble("PesoTotal"));
+                order.setPriceOrder(rsc.getDouble("PedidoPrecio"));
                 order.setOrderDateOrder(rsc.getString("FechaPedido"));
                 order.setDateDeliveryOrder(rsc.getString("FechaEstimadaEntrega"));
                 order.setEmployeeDniOrder(rsc.getString("EmpleadoDNI"));
@@ -50,7 +50,7 @@ public class OrderDAO extends ConexionBD {
             String sql = "";
             String NID = nid;
 
-            sql = "DELETE FROM order WHERE NID="+NID+";";
+            sql = "DELETE FROM order WHERE NID='"+NID+"';";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {
@@ -68,15 +68,15 @@ public class OrderDAO extends ConexionBD {
 
             String nid = order.getNidOrder();
             String name = order.getNameProviderOrder();
-            BigDecimal weight = order.getWeightOrder();
-            BigDecimal price = order.getPriceOrder();
+            double weight = order.getWeightOrder();
+            double price = order.getPriceOrder();
             String dateOrder = order.getOrderDateOrder();
             String dateDelivery = order.getDateDeliveryOrder();
             String empDni = order.getEmployeeDniOrder();
 
 
             sql = "INSERT INTO pedidos (NID, NombreProveedor, PesoTotal, PedidoPrecio,"+
-                    " FechaPedido, FechaEstimadaEntrega, EmpleadoDNI) VALUES('"+nid+"','"+name+"','"+weight+"',"+
+                    " FechaPedido, FechaEstimadaEntrega, EmpleadoDNI) VALUES('"+nid+"','"+name+"',"+weight+","+
                     ""+price+",'"+dateOrder+"','"+dateDelivery+"','"+empDni+"');";
 
             this.ejecutarActualizacion(sql);

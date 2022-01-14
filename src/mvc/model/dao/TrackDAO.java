@@ -82,26 +82,26 @@ public class TrackDAO extends ConexionBD{
         }
     }
 
-    public ArrayList<String> mostrarInfoAtributos(int cod){
-        ArrayList<String> info = new <String>ArrayList();
+    public Track mostrarInfoAtributos(int cod){
+        Track pista = new Track();
         try{
             String sql = "Select * from pistas where CodigoPista="+cod+";";
             ResultSet rsc = this.ejecutarSQL(sql);
             rsc.next();
 
-            info.add(rsc.getString("CodigoPista"));
-            info.add(rsc.getString("PistaPID"));
-            info.add(rsc.getString("PistaHorario"));
-            info.add(rsc.getString("MiembroID"));
-            info.add(rsc.getString("PistaDisponibilidad"));
-            info.add(rsc.getString("PrecioPorHora"));
+            pista.setCodigoPista(rsc.getInt("CodigoPista"));
+            pista.setPistaPID(rsc.getInt("PistaPid"));
+            pista.setPistaHorario(rsc.getString("PistaHorario"));
+            pista.setMiembroID(rsc.getInt("MiembroID"));
+            pista.setPistaDisponibilidad(rsc.getBoolean("PistaDisponibilidad"));
+            pista.setPrecioPorHora(rsc.getDouble("PrecioPorHora"));
 
             rsc.close();
         }catch (SQLException e) {
             System.out.println("Error al obtener info de pista.\n" + e.getMessage());
         }
 
-        return(info);
+        return(pista);
     }
 
     public boolean actualizar(Track pista){

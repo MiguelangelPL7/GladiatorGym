@@ -44,14 +44,13 @@ public class MaterialDAO extends ConexionBD {
     }
 
     ///ELIMINAR MATERIAL///
-    public void eliminateMaterial(String name)
+    public void eliminateMaterial(String mid)
     {
         try
         {
             String sql = "";
-            String Name = name;
 
-            sql = "DELETE FROM materiales WHERE NombreMaterial="+Name+";";
+            sql = "DELETE FROM materiales WHERE MID='"+mid+"';";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {
@@ -110,26 +109,47 @@ public class MaterialDAO extends ConexionBD {
 
     }
 
-    public ArrayList<String> mostrarInfoAtributos(String mid){
-        ArrayList<String> info = new <String>ArrayList();
+    private boolean cambiarUnidades(String mid, int ud, String mod){
         try{
-            String sql = "Select * from materiales where MID='"+mid+"';";
-            ResultSet rsc = this.ejecutarSQL(sql);
-            rsc.next();
+            String sql = "UPDATE materiales SET Unidades ="+ud+" WHERE MID = '"+mid+"';";
+            this.ejecutarActualizacion(sql);
 
-            info.add(rsc.getString("MID"));
-            info.add(rsc.getString("NombreMaterial"));
-            info.add(rsc.getString("Peso"));
-            info.add(rsc.getString("Unidades"));
-            info.add(rsc.getString("ActividadAsociada"));
-            info.add(rsc.getString("OtraInfo"));
-
-            rsc.close();
-        }catch (SQLException e) {
-            System.out.println("Error al obtener info de material.\n" + e.getMessage());
+        }catch (Exception e) {
+            System.out.println("Error al actualizar unidades de material.\n" + e.getMessage());
+            return false;
         }
 
-        return(info);
+        return true;
+    }
+
+    public boolean verificarModificacion(String mid, int ud, String mod){
+        if(mod!="Disminuir" && mod!="Aumentar") {return false;}
+        int uds;
+
+        try{
+            String sql = "Select * from materiales where MID='"+mid+"';";
+
+            ResultSet rsc = this.ejecutarSQL(sql);
+            rsc.next();
+            uds=rsc.getInt("Unidades");
+            rsc.close();
+
+            if(mod=="Disminuir"){
+                if(uds<=ud){
+                    return false;
+                }else{
+                    uds= uds-ud;
+                }
+            }else{
+                uds = uds+ud;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error con atributos de modificacion de material.\n" + e.getMessage());
+            return false;
+        }
+
+        return cambiarUnidades(mid,uds,mod);
     }
 
     public String generarMID(){
@@ -179,6 +199,25 @@ public class MaterialDAO extends ConexionBD {
 
         }catch (SQLException e) {
             System.out.println("Error al comprobar MID de material.\n" + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean validarMaterialEnPedido(String mid){
+        try{
+            String sql = "Select * from materialespedido where MID='"+mid+"';";
+            ResultSet rsc = this.ejecutarSQL(sql);
+
+            if(rsc.next()){
+                rsc.close();
+                return true;
+            }else{
+                rsc.close();
+                return false;
+            }
+
+        }catch (SQLException e) {
+            System.out.println("Error al comprobar MID de materialespedio.\n" + e.getMessage());
             return false;
         }
     }

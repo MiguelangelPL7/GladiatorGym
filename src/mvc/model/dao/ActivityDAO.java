@@ -81,26 +81,26 @@ public class ActivityDAO extends ConexionBD {
         }
     }
 
-    public ArrayList<String> mostrarInfoAtributos(int cod){
-        ArrayList<String> info = new <String>ArrayList();
+    public Activity mostrarInfoAtributos(int cod){
+        Activity actividad = new Activity();
         try{
             String sql = "Select * from actividades where CodigoActividad="+cod+";";
             ResultSet rsc = this.ejecutarSQL(sql);
             rsc.next();
 
-            info.add(rsc.getString("CodigoActividad"));
-            info.add(rsc.getString("ActividadPID"));
-            info.add(rsc.getString("ActividadHorario"));
-            info.add(rsc.getString("MonitorDNI"));
-            info.add(rsc.getString("ActividadDisponibilidad"));
-            info.add(rsc.getString("CapacidadMaxima"));
+            actividad.setCodigoActividad(rsc.getInt("CodigoActividad"));
+            actividad.setActividadPID(rsc.getInt("ActividadPid"));
+            actividad.setActividadHorario(rsc.getString("ActividadHorario"));
+            actividad.setMonitorDNI(rsc.getString("MonitorDNI"));
+            actividad.setActividadDisponibilidad(rsc.getBoolean("ActividadDisponibilidad"));
+            actividad.setCapacidadMaxima(rsc.getInt("CapacidadMaxima"));
 
             rsc.close();
         }catch (SQLException e) {
             System.out.println("Error al obtener info de actividad.\n" + e.getMessage());
         }
 
-        return(info);
+        return(actividad);
     }
 
     public boolean actualizar(Activity actividad){

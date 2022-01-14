@@ -9,10 +9,10 @@ public class Order {
 
     private String nidOrder;
     private String nameProviderOrder;
-    private BigDecimal priceOrder;
+    private double priceOrder;
     private String orderDateOrder;
     private String dateDeliveryOrder;
-    private BigDecimal weightOrder;
+    private double weightOrder;
     private String employeeDniOrder;
 
     ///GETTERS AND SETTERS///
@@ -40,12 +40,12 @@ public class Order {
     }
 
     ///PRICE///
-    public BigDecimal getPriceOrder()
+    public double getPriceOrder()
     {
         return priceOrder;
     }
 
-    public void setPriceOrder(BigDecimal priceOrder)
+    public void setPriceOrder(double priceOrder)
     {
         this.priceOrder = priceOrder;
     }
@@ -73,12 +73,12 @@ public class Order {
     }
 
     ///WEIGHT///
-    public BigDecimal getWeightOrder()
+    public double getWeightOrder()
     {
         return weightOrder;
     }
 
-    public void setWeightOrder(BigDecimal weightOrder)
+    public void setWeightOrder(double weightOrder)
     {
         this.weightOrder = weightOrder;
     }

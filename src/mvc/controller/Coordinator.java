@@ -168,7 +168,4 @@ public class Coordinator {
 
     //////// CLASE LOGICA ///////
 
-    public boolean validarDni(String dni) {
-        return logic.validarDNI(dni);
-    }
 }

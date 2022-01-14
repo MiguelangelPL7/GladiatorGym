@@ -140,22 +140,26 @@ public class EmployeeDAO extends ConexionBD{
 
     }
 
-    public boolean validarInicioSesion(String dni, String pass){
+    public String validarInicioSesion(String dni, String pass){
         String realPass;
+        String range;
         try{
             String sql = "Select * from empleados where EmpleadoDNI='"+dni+"';";
             ResultSet rsc = this.ejecutarSQL(sql);
 
             rsc.next();
             realPass=rsc.getString("Contraseña");
+            range=rsc.getString("Rango");
             rsc.close();
         }catch (SQLException e) {
             System.out.println("Error al comprobar DNI de empleado.\n" + e.getMessage());
-            return false;
+            return "f";
         }
 
-        if(pass.equals(realPass)){ return true; }
-        return false;
+        if(pass.equals(realPass)){
+            return range;
+        }
+        return "f";
     }
 
     public boolean validarDNI(String dni){

@@ -5,7 +5,11 @@ import mvc.model.dao.TrackDAO;
 import mvc.model.dao.EmployeeDAO;
 import mvc.model.dao.MemberDAO;
 import mvc.model.dao.MaterialDAO;
+import mvc.model.dao.OrderDAO;
 import mvc.model.vo.Material;
+import mvc.model.vo.Order;
+import mvc.model.vo.Member;
+import mvc.model.vo.Employee;
 import mvc.model.vo.Activity;
 import mvc.model.vo.Track;
 
@@ -15,47 +19,15 @@ import java.text.ParseException;
 
 public class Logic {
     private String dniEmpleadoEnSesion;
-
-    public boolean validarDNI(String dni){
-        EmployeeDAO emp = new EmployeeDAO();
-        return emp.validarDNI(dni);
-    }
-
-    public boolean validarID(int id){
-        MemberDAO emp = new MemberDAO();
-        return emp.validarID(id);
-    }
-
-    public boolean validarID_activo(int id){
-        MemberDAO emp = new MemberDAO();
-        return emp.validarID_activo(id);
-    }
-
-    public boolean validarCodigoActividad(int cod){
-        ActivityDAO act = new ActivityDAO();
-        return act.validarCodigoActividad(cod);
-    }
-
-    public boolean validarCodigoPista(int cod){
-        TrackDAO pist = new TrackDAO();
-        return pist.validarCodigoPista(cod);
-    }
-
-    public boolean validarNombreMaterial(String nom){
-        MaterialDAO ma = new MaterialDAO();
-        return ma.validarNombreMaterial(nom);
-    }
-
-    public boolean validarMID(String mid){
-        MaterialDAO ma = new MaterialDAO();
-        return ma.validarMID(mid);
-    }
+    private String rangoEmpleadoEnSesion;
 
     public int validarInicioSesion(String dni, String pass){
         if(validarDNI(dni)){
             EmployeeDAO emp = new EmployeeDAO();
-            if(emp.validarInicioSesion(dni,pass)) {
+            String r = emp.validarInicioSesion(dni,pass);
+            if(r!="f") {
                 this.dniEmpleadoEnSesion = dni;
+                this.rangoEmpleadoEnSesion = r;
                 return 1;
             }
             else { return 0;}
@@ -88,7 +60,7 @@ public class Logic {
                 double n = pist.apuntarMiembroPista(cod,id,horasDuracion);
                 if(n!=-1) {
                     MemberDAO mem = new MemberDAO();
-                    if(mem.subirPrecio(id, n)){ return 2;} else {return 1;}
+                    if(mem.subirPrecio(id, n)){ return 2;} else {return 1;} //2 = apuntar correcto
                 }else{
                     return 1;
                     //1 = apuntar fallido
@@ -100,24 +72,24 @@ public class Logic {
         return -1; //-1 = id de miembro no existe
     }
 
-    public ArrayList<String> solicitarInfoA(int CodigoActividad){
-        ArrayList<String> info = new ArrayList<String>();
+    public Activity solicitarInfoA(int CodigoActividad){
+        Activity info = new Activity();
         if(validarCodigoActividad(CodigoActividad)){
             ActivityDAO act = new ActivityDAO();
             info = act.mostrarInfoAtributos(CodigoActividad);
         }else{
-            info.add(null); // si info.get(0)==null entonces codigo de actividad inválido
+            info.setCodigoActividad(0); // si info.codigoActividad==0 entonces codigo de actividad inválido
         }
         return info;
     }
 
-    public ArrayList<String> solicitarInfoP(int CodigoPista){
-        ArrayList<String> info = new ArrayList<String>();
+    public Track solicitarInfoP(int CodigoPista){
+        Track info = new Track();
         if(validarCodigoPista(CodigoPista)){
             TrackDAO pist = new TrackDAO();
             info = pist.mostrarInfoAtributos(CodigoPista);
         }else{
-            info.add(null); // si info.get(0)==null entonces codigo de pista inválido
+            info.setCodigoPista(0); // si info.codigoPista==0 entonces codigo de pista inválido
         }
         return info;
     }
@@ -169,6 +141,8 @@ public class Logic {
     }
 
     public int validarAdicionMaterial(Material ma){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+
         ArrayList<String> atributos = new ArrayList<String>();
         String nom = ma.getNameMaterial();
         atributos.add(nom);
@@ -193,21 +167,50 @@ public class Logic {
         }
     }
 
-    public ArrayList<ArrayList<String>> solicitarListaMateriales(){
-        MaterialDAO m = new MaterialDAO();
-        ArrayList<Material> material = m.listMaterial();
-        ArrayList<ArrayList<String>> info = new ArrayList<ArrayList<String>>();
+    public int validarEliminacionMaterial(String mid){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
 
-        for(int x=0;x<material.size();x++){
-            String mid = material.get(x).getMidMaterial();
-            ArrayList<String> i = m.mostrarInfoAtributos(mid);
-            info.add(i);
+        if(validarMID(mid)){
+            MaterialDAO maD = new MaterialDAO();
+            if(!maD.validarMaterialEnPedido(mid)){
+                maD.eliminateMaterial(mid);
+                return 1;
+                // 1 = eliminacion correcta
+            }else{
+                return -1; // -1 = material esta presente en un pedido
+            }
+        }else{
+            return -2; //-2 = mid de material no existente
         }
-
-        return info;
     }
 
-    public boolean validarAtributos(String tipo, ArrayList<String> atributos){
+    public int validarModificacionMaterial(String mid, String tipo, int uds){ //tipo debe ser "Aumentar" o "Disminuir"
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+
+        if(validarMID(mid)){
+            MaterialDAO maD = new MaterialDAO();
+            if(maD.verificarModificacion(mid,uds,tipo)){
+                return 1;
+                // 1 = modificacion correcta
+            }else{
+                return -1; // -1 = atributos de modificacion incorrectos
+            }
+        }else{
+            return -2; //-2 = mid de material no existente
+        }
+    }
+
+    public ArrayList<Material> solicitarListaMateriales(){
+        MaterialDAO m = new MaterialDAO();
+        return m.listMaterial();
+    }
+
+    public ArrayList<Order> solicitarListaPedidos(){
+        OrderDAO p = new OrderDAO();
+        return p.listOrder();
+    }
+
+    private boolean validarAtributos(String tipo, ArrayList<String> atributos){
         if(tipo=="actividad" || tipo=="pista"){
             if(!validarInt(atributos.get(1))){ return false;}
             if(!validarFecha(atributos.get(2))){ return false; }
@@ -230,6 +233,41 @@ public class Logic {
         }
 
         return false;
+    }
+
+    private boolean validarDNI(String dni){
+        EmployeeDAO emp = new EmployeeDAO();
+        return emp.validarDNI(dni);
+    }
+
+    private boolean validarID(int id){
+        MemberDAO emp = new MemberDAO();
+        return emp.validarID(id);
+    }
+
+    private boolean validarID_activo(int id){
+        MemberDAO emp = new MemberDAO();
+        return emp.validarID_activo(id);
+    }
+
+    private boolean validarCodigoActividad(int cod){
+        ActivityDAO act = new ActivityDAO();
+        return act.validarCodigoActividad(cod);
+    }
+
+    private boolean validarCodigoPista(int cod){
+        TrackDAO pist = new TrackDAO();
+        return pist.validarCodigoPista(cod);
+    }
+
+    private boolean validarNombreMaterial(String nom){
+        MaterialDAO ma = new MaterialDAO();
+        return ma.validarNombreMaterial(nom);
+    }
+
+    private boolean validarMID(String mid){
+        MaterialDAO ma = new MaterialDAO();
+        return ma.validarMID(mid);
     }
 
     private static boolean validarFecha(String fecha) {
