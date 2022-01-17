@@ -15,6 +15,7 @@ public class Order {
     private double weightOrder;
     private String employeeDniOrder;
 
+
     ///GETTERS AND SETTERS///
 
     ///NID///

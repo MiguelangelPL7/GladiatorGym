@@ -47,14 +47,14 @@ public class ActivityDAO extends ConexionBD {
         try{
             int a = actividad.getCodigoActividad();
             int b = actividad.getActividadPID();
-            String c = actividad.getActividadHorario();
-            String d = actividad.getMonitorDNI();
+            String c = checkNullString(actividad.getActividadHorario());
+            String d = checkNullString(actividad.getMonitorDNI());
             int e = actividad.getActividadDisponibilidad() ? 1 : 0;
             String f = checkNullInt(actividad.getCapacidadMaxima());
 
             String sql = "INSERT INTO actividades (CodigoActividad, ActividadPID, ActividadHorario, " +
-                    "MonitorDNI, ActividadDisponibilidad, CapacidadMaxima) VALUES ("+a+","+b+",'"+
-                    c+"',"+d+","+e+","+f+");";
+                    "MonitorDNI, ActividadDisponibilidad, CapacidadMaxima) VALUES ("+a+","+b+","+
+                    c+","+d+","+e+","+f+");";
 
             this.ejecutarActualizacion(sql);
         }catch (Exception e) {
@@ -107,11 +107,11 @@ public class ActivityDAO extends ConexionBD {
         try{
             int a = actividad.getCodigoActividad();
             int b = actividad.getActividadPID();
-            String c = actividad.getActividadHorario();
-            String d = actividad.getMonitorDNI();
+            String c = checkNullString(actividad.getActividadHorario());
+            String d = checkNullString(actividad.getMonitorDNI());
             int e = actividad.getActividadDisponibilidad() ? 1 : 0;
             String f = checkNullInt(actividad.getCapacidadMaxima());
-            String sql = "UPDATE actividades SET ActividadPID="+b+", ActividadHorario='"+c+"', MonitorDNI="+d+", " +
+            String sql = "UPDATE actividades SET ActividadPID="+b+", ActividadHorario="+c+", MonitorDNI="+d+", " +
                     "ActividadDisponibilidad="+e+", CapacidadMaxima="+f+" WHERE CodigoActividad="+a+";";
 
 
@@ -203,6 +203,11 @@ public class ActivityDAO extends ConexionBD {
     private String checkNullInt(int n){
         if(n==0) return null;
         return String.valueOf(n);
+    }
+
+    private String checkNullString(String s){
+        if(s != null){ s="'"+s+"'"; }
+        return s;
     }
 
 

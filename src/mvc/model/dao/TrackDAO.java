@@ -48,14 +48,14 @@ public class TrackDAO extends ConexionBD{
         try{
             int a = pista.getCodigoPista();
             int b = pista.getPistaPID();
-            String c = pista.getPistaHorario();
+            String c = checkNullString(pista.getPistaHorario());
             String d = checkNullDouble(pista.getMiembroID());
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
             String f = checkNullDouble(pista.getPrecioPorHora());
 
             String sql = "INSERT INTO pistas (CodigoPista, PistaPID, PistaHorario, " +
-                    "MiembroID, PistaDisponibilidad, PrecioPorHora) VALUES ("+a+","+b+",'"+
-                    c+"',"+d+","+e+","+f+");";
+                    "MiembroID, PistaDisponibilidad, PrecioPorHora) VALUES ("+a+","+b+","+
+                    c+","+d+","+e+","+f+");";
 
             this.ejecutarActualizacion(sql);
         }catch (Exception e) {
@@ -108,11 +108,11 @@ public class TrackDAO extends ConexionBD{
         try{
             int a = pista.getCodigoPista();
             int b = pista.getPistaPID();
-            String c = pista.getPistaHorario();
+            String c = checkNullString(pista.getPistaHorario());
             String d = checkNullInt(pista.getMiembroID());
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
             String f = checkNullDouble(pista.getPrecioPorHora());
-            String sql = "UPDATE pistas SET PistaPID="+b+", PistaHorario='"+c+"', MiembroID="+d+", " +
+            String sql = "UPDATE pistas SET PistaPID="+b+", PistaHorario="+c+", MiembroID="+d+", " +
                     "PistaDisponibilidad="+e+", PrecioPorHora="+f+" WHERE CodigoPista="+a+";";
 
 
@@ -189,5 +189,10 @@ public class TrackDAO extends ConexionBD{
     private String checkNullDouble(double n){
         if(n==0) return null;
         return String.valueOf(n);
+    }
+
+    private String checkNullString(String s){
+        if(s != null){ s="'"+s+"'"; }
+        return s;
     }
 }

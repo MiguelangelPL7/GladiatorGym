@@ -70,14 +70,14 @@ public class MaterialDAO extends ConexionBD {
             String name = material.getNameMaterial();
             double weight = material.getWeightMaterial();
             int units = material.getUnitsMaterial();
-            String activity = material.getActivityMaterial();
-            String brand = material.getBrandMaterial();
-            String others = material.getOthersMaterial();
+            String activity = checkNullString(material.getActivityMaterial());
+            String brand = checkNullString(material.getBrandMaterial());
+            String others = checkNullString(material.getOthersMaterial());
 
 
             sql = "INSERT INTO materiales (MID, NombreMaterial, Peso, Unidades,"+
                     " ActividadAsociada, Marca, OtraInfo) VALUES('"+mid+"','"+name+"',"+weight+","+
-                    ""+units+",'"+activity+"','"+brand+"','"+others+"');";
+                    ""+units+","+activity+","+brand+","+others+");";
 
             this.ejecutarActualizacion(sql);
         }
@@ -165,25 +165,6 @@ public class MaterialDAO extends ConexionBD {
         return mid;
     }
 
-    public boolean validarNombreMaterial(String nom){
-        try{
-            String sql = "Select * from materiales where NombreMaterial='"+nom+"';";
-            ResultSet rsc = this.ejecutarSQL(sql);
-
-            if(rsc.next()){
-                rsc.close();
-                return true;
-            }else{
-                rsc.close();
-                return false;
-            }
-
-        }catch (SQLException e) {
-            System.out.println("Error al comprobar nombre de material.\n" + e.getMessage());
-            return false;
-        }
-    }
-
     public boolean validarMID(String mid){
         try{
             String sql = "Select * from materiales where MID='"+mid+"';";
@@ -220,5 +201,10 @@ public class MaterialDAO extends ConexionBD {
             System.out.println("Error al comprobar MID de materialespedio.\n" + e.getMessage());
             return false;
         }
+    }
+
+    private String checkNullString(String s){
+        if(s != null){ s="'"+s+"'"; }
+        return s;
     }
 }

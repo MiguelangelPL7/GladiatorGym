@@ -13,6 +13,8 @@ import mvc.model.vo.Employee;
 import mvc.model.vo.Activity;
 import mvc.model.vo.Track;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
@@ -140,6 +142,83 @@ public class Logic {
         }
     }
 
+    public int validarAdicionPedido(Order or, ArrayList<Material> mat){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+
+        ArrayList<String> atributos = new ArrayList<String>();
+        atributos.add(or.getNameProviderOrder());
+        atributos.add(String.valueOf(or.getWeightOrder()));
+        atributos.add(String.valueOf(or.getPriceOrder()));
+        atributos.add(or.getDateDeliveryOrder());
+
+        if(validarAtributos("pedido", atributos)){
+            DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate now = LocalDate.now();
+            or.setOrderDateOrder(dateFormat.format(now));
+            or.setEmployeeDniOrder(this.dniEmpleadoEnSesion);
+            or.setPriceOrder(0);
+
+            OrderDAO orD = new OrderDAO();
+            String nid = orD.generarNID();
+            or.setNidOrder(nid);
+            if(orD.registerOrder(or)) {
+                for (int i=0;i<mat.size();i++) {
+                    String mid = mat.get(i).getMidMaterial();
+                    String u = String.valueOf(mat.get(i).getUnitsMaterial());
+                    String p = String.valueOf(mat.get(i).getPriceOrderMaterial());
+                    if(validarMID(mat.get(i).getMidMaterial()) && validarInt(u) && (validarDouble(p) || validarInt(p))){
+                        if(!orD.addMaterial(nid,mat.get(i))) {return 0;} // 0 = adiccion fallida
+                    }else{
+                        return -2; // -2 = materiales inválidos
+                    }
+                }
+                return 1;
+            }else{
+                return 0;
+            }
+            // 1 = adicion correcta; 0= adicion fallida
+        }else{
+            return -1; // -1 = atributos inválidos
+        }
+    }
+
+    public int validarCancelacionPedido(String nid){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+
+        if(validarNID(nid)){
+            OrderDAO orD = new OrderDAO();
+            if(orD.checkCancel(nid)){
+                orD.cancelOrder(nid);
+                return 1; // 1 = eliminacion correcta
+            }else{
+                return -1; // -1 = eliminacion no posible ya, fecha muy tarde para cancelar
+            }
+
+        }else{
+            return -2; //-2 = nid de pedido no existente
+        }
+    }
+
+    public int validarCompletarPedido(String nid){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+
+        if(validarNID(nid)){
+            OrderDAO orD = new OrderDAO();
+            MaterialDAO maD = new MaterialDAO();
+            ArrayList<Material> list = orD.completarPedido(nid);
+
+            for (int i=0;i<list.size();i++) {
+                String mid = list.get(i).getMidMaterial();
+                int u = list.get(i).getUnitsMaterial();
+                maD.verificarModificacion(mid,u,"Aumentar");
+            }
+            return 1; // 1 = pedido completado con exito
+
+        }else{
+            return -2; //-2 = nid de pedido no existente
+        }
+    }
+
     public int validarAdicionMaterial(Material ma){
         if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
 
@@ -152,18 +231,14 @@ public class Logic {
         atributos.add(ma.getBrandMaterial());
         atributos.add(ma.getOthersMaterial());
 
-        if(!validarNombreMaterial(nom)){
-            if(validarAtributos("material", atributos)){
-                MaterialDAO maD = new MaterialDAO();
-                String mid = maD.generarMID();
-                ma.setMidMaterial(mid);
-                if(maD.registerMaterial(ma)) {return 1;} else { return 0;}
-                // 1 = adicion correcta; 0= adicion fallida
-            }else{
-                return -1; // -1 = atributos inválidos
-            }
+        if(validarAtributos("material", atributos)){
+            MaterialDAO maD = new MaterialDAO();
+            String mid = maD.generarMID();
+            ma.setMidMaterial(mid);
+            if(maD.registerMaterial(ma)) {return 1;} else { return 0;}
+            // 1 = adicion correcta; 0= adicion fallida
         }else{
-            return -2; //-2 = nombre de material ya existente
+            return -1; // -1 = atributos inválidos
         }
     }
 
@@ -232,6 +307,13 @@ public class Logic {
             return true;
         }
 
+        if(tipo=="pedido"){
+            if(!validarDouble(atributos.get(1)) && !validarInt(atributos.get(1))){ return false; }
+            if(!validarDouble(atributos.get(2)) && !validarInt(atributos.get(2))){ return false; }
+            if(!validarFechaSimple(atributos.get(3))){ return false; }
+            return true;
+        }
+
         return false;
     }
 
@@ -260,18 +342,29 @@ public class Logic {
         return pist.validarCodigoPista(cod);
     }
 
-    private boolean validarNombreMaterial(String nom){
-        MaterialDAO ma = new MaterialDAO();
-        return ma.validarNombreMaterial(nom);
-    }
-
     private boolean validarMID(String mid){
         MaterialDAO ma = new MaterialDAO();
         return ma.validarMID(mid);
     }
 
+    private boolean validarNID(String nid){
+        OrderDAO or = new OrderDAO();
+        return or.validarNID(nid);
+    }
+
     private static boolean validarFecha(String fecha) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        dateFormat.setLenient(false);
+        try {
+            dateFormat.parse(fecha.trim());
+        } catch (ParseException pe) {
+            return false;
+        }
+        return true;
+    }
+
+    private static boolean validarFechaSimple(String fecha) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateFormat.setLenient(false);
         try {
             dateFormat.parse(fecha.trim());

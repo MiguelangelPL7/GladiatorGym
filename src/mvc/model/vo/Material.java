@@ -11,6 +11,7 @@ public class Material {
     private String activityMaterial;
     private String brandMaterial;
     private String othersMaterial;
+    private double priceForOrder; //ESTE PRECIO SOLO SE USA AL AÑADIR UN MATERIAL A UN PEDIDO
 
     ///GETTERS AND SETTERS///
     ///MID///
@@ -88,6 +89,17 @@ public class Material {
     public void setOthersMaterial(String othersMaterial)
     {
         this.othersMaterial = othersMaterial;
+    }
+
+    ///PRICE FOR ORDER/// ESTE PRECIO SOLO SE USA AL AÑADIR UN MATERIAL A UN PEDIDO
+    public double getPriceOrderMaterial()
+    {
+        return priceForOrder;
+    }
+
+    public void setPriceOrderMaterial(double priceForOrder)
+    {
+        this.priceForOrder = priceForOrder;
     }
 
 }
