@@ -287,6 +287,7 @@ public class Logic {
 
     private boolean validarAtributos(String tipo, ArrayList<String> atributos){
         if(tipo=="actividad" || tipo=="pista"){
+            if(atributos.get(0)==null) {return false;}
             if(!validarInt(atributos.get(1))){ return false;}
             if(!validarFecha(atributos.get(2))){ return false; }
             if(!atributos.get(4).equals("0") && !atributos.get(4).equals("1")) { return false; }
@@ -302,12 +303,14 @@ public class Logic {
         }
 
         if(tipo=="material"){
+            if(atributos.get(0)==null) {return false;}
             if(!validarInt(atributos.get(2))){ return false; }
             if(!validarDouble(atributos.get(1)) && !validarInt(atributos.get(1))){ return false; }
             return true;
         }
 
         if(tipo=="pedido"){
+            if(atributos.get(0)==null) {return false;}
             if(!validarDouble(atributos.get(1)) && !validarInt(atributos.get(1))){ return false; }
             if(!validarDouble(atributos.get(2)) && !validarInt(atributos.get(2))){ return false; }
             if(!validarFechaSimple(atributos.get(3))){ return false; }
