@@ -71,7 +71,7 @@ public class EmployeeDAO extends ConexionBD{
     }
 
     ///AGREGAR EMPLEADO///
-    public void registerEmployee(Employee employee)
+    public boolean registerEmployee(Employee employee)
     {
         try{
 
@@ -108,8 +108,44 @@ public class EmployeeDAO extends ConexionBD{
         {
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
         }
+        
+        return true;
     }
 
+    public Employee mostrarInfoAtributos(String DNI){
+        Employee employee = new Employee();
+        try{
+            String sql = "Select * from empleados where EmpleadoDNI="+DNI+";";
+            ResultSet rsc = this.ejecutarSQL(sql);
+            rsc.next();
+
+            employee.setDniEmployee(rsc.getString("EmpleadoDNI"));
+            employee.setNameEmployee(rsc.getString("EmpleadoNombre"));
+            employee.setFirstSurnameEmployee(rsc.getString("EmpleadoPrimerApellido"));
+            employee.setSecondSurnameEmployee(rsc.getString("EmpleadoSegundoApellido"));
+            employee.setDateOfBirthdayEmployee(rsc.getString("EmpleadoFechaNacimiento"));
+            employee.setMailEmployee(rsc.getString("EmpleadoCorreo"));
+            employee.setPhoneEmployee(rsc.getInt("EmpleadoTelefono"));
+            employee.setStreetEmployee(rsc.getString("EmpleadoCalle"));
+            employee.setCityEmployee(rsc.getString("EmpleadoCiudad"));
+            employee.setPostalCodeEmployee(rsc.getInt("EmpleadoCodigoPostal"));
+            employee.setPaymentMethodEmployee(rsc.getString("EmpleadoMetodoPago"));
+            employee.setPaymentNumberEmployee(rsc.getString("EmpleadoNumeroPago"));
+            employee.setDateAdmissionEmployee(rsc.getString("EmpleadoFechaIngreso"));
+            employee.setSalaryEmployee(rsc.getBigDecimal("SalarioMensual"));
+            employee.setUserEmployee(rsc.getString("Usuario"));
+            employee.setPasswordEmployee(rsc.getString("Contraseña"));
+            employee.setGradeEmployee(rsc.getString("Rango"));
+
+            rsc.close();
+        }catch (SQLException e) {
+            System.out.println("Error al obtener info del empleado.\n" + e.getMessage());
+        }
+
+        return(employee);
+    }
+
+    
     ///MODIFICAR EMPLEADO///
     public void modifyEmployee(Employee employee)
     {
