@@ -38,6 +38,130 @@ public class Logic {
         return -1; //-1 = dni no existe
     }
 
+     ///nuevoEmpleado///
+    public int validarNuevoEmpleado(Employee em){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        ArrayList<String> atributos = new ArrayList<String>();
+        String DNI = em.getDniEmployee();
+        atributos.add(DNI);
+        atributos.add(em.getNameEmployee());
+        atributos.add(em.getFirstSurnameEmployee());
+        atributos.add(em.getSecondSurnameEmployee());
+        atributos.add(em.getDateAdmissionEmployee());
+        atributos.add(em.getDateOfBirthdayEmployee());
+        atributos.add(em.getPaymentMethodEmployee());
+        atributos.add(em.getPaymentNumberEmployee());
+        atributos.add(String.valueOf(em.getPhoneEmployee()));
+        atributos.add(em.getMailEmployee());
+        atributos.add(em.getStreetEmployee());
+        atributos.add(em.getCityEmployee());
+        atributos.add(String.valueOf(em.getPostalCodeEmployee()));
+        atributos.add(String.valueOf(em.getSalaryEmployee()));
+        atributos.add(em.getUserEmployee());
+        atributos.add(em.getPasswordEmployee());
+        atributos.add(em.getGradeEmployee());
+
+        if(!validarDNI(DNI)){
+            if(validarAtributos("empleado", atributos)){
+                EmployeeDAO emD = new EmployeeDAO();
+                if(emD.registerEmployee(em)) {return 1;} else { return 0;}
+                // 1 = adicion correcta; 0= adicion fallida
+            }else{
+                return -1; // -1 = atributos inválidos
+            }
+        }else{
+            return -2; //-2 = DNI ya existente
+        }
+    }
+
+    ///efectuarEliminacion///
+    public int validarEliminacionEmpleado(String  DNI){
+        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        if(validarDNI(DNI)){
+            EmployeeDAO emD = new EmployeeDAO();
+            emD.eliminateEmployee(DNI);
+            return 1;
+        }else{
+            return -2; //-2 = mid de material no existente
+        }
+    }
+
+    ///solicitarInfoEmpleado///
+    public Employee solicitarInfoEmpleado(String DNI){
+        Employee em = new Employee();
+        if(validarDNI(DNI)){
+            EmployeeDAO emD = new EmployeeDAO();
+            em = emD.mostrarInfoAtributos(DNI);
+        }else{
+            em.setDniEmployee("0"); // si em.DniEmployee=="0" entonces DNI inválido
+        }
+        return em;
+    }
+
+    ///añadirMiembro///
+    public int validarNuevoMiembro(Member me){
+        if(this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        ArrayList<String> atributos = new ArrayList<String>();
+        String DNI = me.getDniMember();
+        atributos.add(DNI);
+        atributos.add(me.getNameMember());
+        atributos.add(me.getFirstsurnameMember());
+        atributos.add(me.getSecondsurnameMember());
+        atributos.add(me.getDateSubscriptionMember());
+        atributos.add(String.valueOf(me.getPriceSubscriptionMember()));
+        atributos.add(me.getDateOfBirthdayMember());
+        atributos.add(me.getPaymentMethodMember());
+        atributos.add(me.getPaymentNumberMember());
+        atributos.add(String.valueOf(me.getPhoneMember()));
+        atributos.add(me.getMailMember());
+        atributos.add(me.getStreetMember());
+        atributos.add(me.getCityMember());
+        atributos.add(String.valueOf(me.getPostalCodeMember()));
+        atributos.add(String.valueOf(me.getActiveMember() ? 1 : 0));
+
+        if(!validarDNImiembro(DNI)){
+            if(validarAtributos("miembro", atributos)){
+                MemberDAO meD = new MemberDAO();
+                int id = meD.generarID();
+                me.setIdMember(id);
+                if(meD.registerMember(me)) {return 1;} else { return 0;}
+                // 1 = adicion correcta; 0= adicion fallida
+            }else{
+                return -1; // -1 = atributos inválidos
+            }
+        }else{
+            return -2; //-2 = DNI ya existente
+        }
+    }
+
+    ///eliminarMiembro///
+    public int validarEliminacionMiembro(int id){
+        if(this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        if(validarID_activo(id)){
+            MemberDAO meD = new MemberDAO();
+            meD.eliminateMember(id);
+            return 1;// 1 = eliminacion correcta
+        }else{
+            return -2; //-2 = id de miembro no existente
+        }
+    }
+
+    ///solicitarInfoMiembro///
+    public Member solicitarInfoMiembro(String DNI){
+        Member me = new Member();
+        if(validarDNI(DNI)){
+            MemberDAO meD = new MemberDAO();
+            me = meD.mostrarInfoAtributos(DNI);
+        }else{
+            me.setIdMember(0); // si me.IdMember==0 entonces id inválido
+        }
+        return me;
+    }
+    
     public int validarApuntarMiembroA(int id, int pid, String horario){
         if(validarID_activo(id)){
             ActivityDAO act = new ActivityDAO();
@@ -317,6 +441,35 @@ public class Logic {
             return true;
         }
 
+                
+        if(tipo=="empleado"){
+            if(!validarFormatoDNI(atributos.get(0))) { return false;}
+            if(atributos.get(1)==null) {return false;}
+            if(atributos.get(3)==null) {return false;}
+            if(!validarFecha(atributos.get(4))){ return false; }
+            if(!validarFecha(atributos.get(5))){ return false; }
+            if(!atributos.get(6).equals("Tarjeta") && !atributos.get(6).equals("Cuenta") && !atributos.get(6).equals("Paypal")){ return false; }
+            if(!validarInt(atributos.get(8))){ return false; }
+            if(!validarInt(atributos.get(12))){ return false; }
+            if(!validarDouble(atributos.get(13)) && !validarInt(atributos.get(13))){ return false; }
+            if(!atributos.get(16).equals("Manager") && !atributos.get(16).equals("Recepcionista") && atributos.get(16).equals("Monitor")){ return false; }
+            return true;
+        }
+
+        if(tipo=="miembro"){
+            if(!validarFormatoDNI(atributos.get(0))) { return false;}
+            if(atributos.get(1)==null) {return false;}
+            if(atributos.get(3)==null) {return false;}
+            if(!validarFecha(atributos.get(4))){ return false; }
+            if(!validarDouble(atributos.get(5)) && !validarInt(atributos.get(5))){ return false; }
+            if(!validarFecha(atributos.get(6))){ return false; }
+            if(!atributos.get(7).equals("Tarjeta") && !atributos.get(8).equals("Cuenta") && !atributos.get(8).equals("Paypal")){ return false; }
+            if(!validarInt(atributos.get(9))){ return false; }
+            if(!validarInt(atributos.get(13))){ return false; }
+            if(!atributos.get(14).equals("0") && !atributos.get(4).equals("1")) { return false; }
+            return true;
+        }
+
         return false;
     }
 
@@ -324,7 +477,12 @@ public class Logic {
         EmployeeDAO emp = new EmployeeDAO();
         return emp.validarDNI(dni);
     }
-
+ 
+    private boolean validarDNImiembro(String dni){
+        MemberDAO me = new MemberDAO();
+        return me.validarDNI(dni);
+    }
+    
     private boolean validarID(int id){
         MemberDAO emp = new MemberDAO();
         return emp.validarID(id);
