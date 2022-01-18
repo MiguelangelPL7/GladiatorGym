@@ -54,12 +54,12 @@ public class MemberDAO extends ConexionBD {
 	}
 
 	///ELIMINAR MIEMBRO///
-	public void eliminateMember(Member id)
+	public void eliminateMember(int id)
 	{
 		try
 		{
 			String sql ="";
-			int ID = id.getIdMember();
+			int ID = id;
 			int activo = 0;
 
 			sql = "UPDATE miembros SET Activo="+activo+" WHERE MiembroID="+ID+";";
@@ -72,7 +72,7 @@ public class MemberDAO extends ConexionBD {
 	}
 
 	///AGREGAR MIEMBRO///
-	public void registerMember(Member member)
+	public boolean registerMember(Member member)
 	{
 		try{
 
@@ -94,7 +94,7 @@ public class MemberDAO extends ConexionBD {
 			BigDecimal price = member.getPriceSubscriptionMember();
 			String rate = member.getRateMember();
 			String mail = member.getMailMember();
-			boolean active = member.getActiveMember();
+			int active = member.getActiveMember() ? 1 : 0;
 			sql = "INSERT INTO miembros (MiembroID, MiembroDNI, MiembroNombre, MiembroPrimerApellido,"+
 					" MiembroSegundoApellido, MiembroFechaNacimiento, MiembroTelefono, MiembroCalle, MiembroCiudad, "+
 					"MiembroCodigoPostal, MiembroMetodoPago, MiembroNumeroPago, MiembroFechaIngreso, "+
@@ -108,8 +108,42 @@ public class MemberDAO extends ConexionBD {
 		{
 			System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
 		}
+		return true;
 	}
 
+	public Member mostrarInfoAtributos(String ID){
+		Member member = new Member();
+		try{
+			String sql = "Select * from miembros where MiembroID="+ID+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+			rsc.next();
+
+			member.setIdMember(rsc.getInt("MiembroDNI"));
+			member.setDniMember(rsc.getString("MiembroDNI"));
+			member.setNameMember(rsc.getString("MiembrpNombre"));
+			member.setFirstsurnameMember(rsc.getString("MiembroPrimerApellido"));
+			member.setSecondsurnameMember(rsc.getString("MiembroSegundoApellido"));
+			member.setDateOfBirthdayMember(rsc.getString("MiembroFechaNacimiento"));
+			member.setPhoneMember(rsc.getInt("MiembroTelefono"));
+			member.setStreetMember(rsc.getString("MiembroCalle"));
+			member.setCityMember(rsc.getString("MiembroCiudad"));
+			member.setPostalCodeMember(rsc.getInt("MiembroCodigoPostal"));
+			member.setPaymentMethodMember(rsc.getString("MiembroMetodoPago"));
+			member.setPaymentNumberMember(rsc.getString("MiembroNumeroPago"));
+			member.setDateSubscriptionMember(rsc.getString("MiembroFechaIngreso"));
+			member.setPriceSubscriptionMember(rsc.getBigDecimal("PrecioSubscripcion"));
+			member.setRateMember(rsc.getString("Tarifa"));
+			member.setMailMember(rsc.getString("MiembroCorreo"));
+			member.setActiveMember(rsc.getBoolean("Activo"));
+
+			rsc.close();
+		}catch (SQLException e) {
+			System.out.println("Error al obtener info del empleado.\n" + e.getMessage());
+		}
+
+		return(member);
+	}
+	
 	///MODIFICAR MIEMBRO///
 	//tarifa, precio, cuenta, telefono, mail, direccion
 	public void modifyMember(Member member)
@@ -139,6 +173,17 @@ public class MemberDAO extends ConexionBD {
 			System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
 		}
 
+	}
+
+	public int generarID(){
+		int id = 0;
+
+		while(id == 0 || validarID(id)){
+			double n = 10000+ Math.random()*90000;
+			id = (int)n;
+		}
+
+		return id;
 	}
 
 	public boolean subirPrecio(int id, double precio){
@@ -198,5 +243,25 @@ public class MemberDAO extends ConexionBD {
 
 		if(activo==1) return true;
 		return false;
+	}
+	
+
+	public boolean validarDNI(String dni){
+		try{
+			String sql = "Select MiembroDNI from miembros where MiembroDNI='"+dni+"';";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			if(rsc.next()){
+				rsc.close();
+				return true;
+			}else{
+				rsc.close();
+				return false;
+			}
+
+		}catch (SQLException e) {
+			System.out.println("Error al comprobar DNI de miembro.\n" + e.getMessage());
+			return false;
+		}
 	}
 }
