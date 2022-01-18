@@ -288,7 +288,7 @@ public class Logic {
     private boolean validarAtributos(String tipo, ArrayList<String> atributos){
         if(tipo=="actividad" || tipo=="pista"){
             if(atributos.get(0)==null) {return false;}
-            if(!validarInt(atributos.get(1))){ return false;}
+            if(atributos.get(1).equals("0") || !validarInt(atributos.get(1))){ return false;}
             if(!validarFecha(atributos.get(2))){ return false; }
             if(!atributos.get(4).equals("0") && !atributos.get(4).equals("1")) { return false; }
             if(tipo=="actividad"){
