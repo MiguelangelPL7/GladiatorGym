@@ -147,7 +147,7 @@ public class EmployeeDAO extends ConexionBD{
 
     
     ///MODIFICAR EMPLEADO///
-    public void modifyEmployee(Employee employee)
+    public boolean modifyEmployee(Employee employee)
     {
         try
         {
@@ -174,6 +174,7 @@ public class EmployeeDAO extends ConexionBD{
             System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
         }
 
+        return true;
     }
 
     public String validarInicioSesion(String dni, String pass){

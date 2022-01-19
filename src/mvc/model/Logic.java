@@ -100,6 +100,36 @@ public class Logic {
         return em;
     }
 
+    ///modificarEmpleado///
+    public int validarModificacionEmpleado(Employee em){ //tipo debe ser "Aumentar" o "Disminuir"
+        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion == "Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        ArrayList<String> atributos = new ArrayList<String>();
+        String DNI = em.getDniEmployee();
+        atributos.add(DNI);
+        atributos.add(em.getGradeEmployee());
+        atributos.add(String.valueOf(em.getSalaryEmployee()));
+        atributos.add(em.getPaymentMethodEmployee());
+        atributos.add(em.getPaymentNumberEmployee());
+        atributos.add(String.valueOf(em.getPhoneEmployee()));
+        atributos.add(em.getMailEmployee());
+        atributos.add(em.getStreetEmployee());
+        atributos.add(em.getCityEmployee());
+        atributos.add(String.valueOf(em.getPostalCodeEmployee()));
+
+        if(validarDNI(DNI)){
+            EmployeeDAO emD = new EmployeeDAO();
+            if(emD.modifyEmployee(em)){
+                return 1;
+                // 1 = modificacion correcta
+            }else{
+                return -1; // -1 = atributos de modificacion incorrectos
+            }
+        }else{
+            return -2; //-2 = mid de material no existente
+        }
+    }
+
     ///añadirMiembro///
     public int validarNuevoMiembro(Member me){
         if(this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
@@ -121,6 +151,7 @@ public class Logic {
         atributos.add(me.getCityMember());
         atributos.add(String.valueOf(me.getPostalCodeMember()));
         atributos.add(String.valueOf(me.getActiveMember() ? 1 : 0));
+        atributos.add(me.getRateMember());
 
         if(!validarDNImiembro(DNI)){
             if(validarAtributos("miembro", atributos)){
@@ -161,7 +192,37 @@ public class Logic {
         }
         return me;
     }
-    
+
+    ///modificarMiembro
+    public int validarModificacionMiembro(Member me){ //tipo debe ser "Aumentar" o "Disminuir"
+        if(this.rangoEmpleadoEnSesion == "Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+
+        ArrayList<String> atributos = new ArrayList<String>();
+        int ID = me.getIdMember();
+        atributos.add(String.valueOf(ID));
+        atributos.add((me.getRateMember()));
+        atributos.add(String.valueOf(me.getPriceSubscriptionMember()));
+        atributos.add(me.getPaymentMethodMember());
+        atributos.add(me.getPaymentNumberMember());
+        atributos.add(String.valueOf(me.getPhoneMember()));
+        atributos.add(me.getMailMember());
+        atributos.add(me.getStreetMember());
+        atributos.add(me.getCityMember());
+        atributos.add(String.valueOf(me.getPostalCodeMember()));
+
+        if(validarID_activo(ID)){
+            MemberDAO meD = new MemberDAO();
+            if(meD.modifyMember(me)){
+                return 1;
+                // 1 = modificacion correcta
+            }else{
+                return -1; // -1 = atributos de modificacion incorrectos
+            }
+        }else{
+            return -2; //-2 = mid de material no existente
+        }
+    }
+
     public int validarApuntarMiembroA(int id, int pid, String horario){
         if(validarID_activo(id)){
             ActivityDAO act = new ActivityDAO();

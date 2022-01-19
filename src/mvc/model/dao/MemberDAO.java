@@ -146,7 +146,7 @@ public class MemberDAO extends ConexionBD {
 	
 	///MODIFICAR MIEMBRO///
 	//tarifa, precio, cuenta, telefono, mail, direccion
-	public void modifyMember(Member member)
+	public boolean modifyMember(Member member)
 	{
 		try
 		{
@@ -173,6 +173,7 @@ public class MemberDAO extends ConexionBD {
 			System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
 		}
 
+		return true;
 	}
 
 	public int generarID(){
