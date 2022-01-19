@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.sql.*;
 import java.util.ArrayList;
 
+import mvc.model.vo.Activity;
 import mvc.model.vo.Member;
 
 
@@ -58,6 +59,9 @@ public class MemberDAO extends ConexionBD {
 	{
 		try
 		{
+			eliminateMemberA(id);
+			eliminateMemberT(id);
+
 			String sql ="";
 			int ID = id;
 			int activo = 0;
@@ -69,6 +73,44 @@ public class MemberDAO extends ConexionBD {
 			System.out.println("Error conexión con el Servidor MySQL.\n" + e.getMessage());
 		}
 
+	}
+
+	private void eliminateMemberA(int id){ //para eliminar el miembro asignado a una actividad en esa actividad
+		try{
+			String sql = "Select * from miembrosactividad where MiembroID="+id+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			if(rsc.next()){
+				try{
+					String sql2 = "DELETE FROM miembrosactividad WHERE MiembroID="+id+";";
+					this.ejecutarActualizacion(sql2);
+				}catch (Exception e) {
+					System.out.println("Error al eliminar Miembro/Actividad\n" + e.getMessage());
+				}
+			}
+			rsc.close();
+		}catch (SQLException e) {
+			System.out.println("Error al eliminar Miembro/Actividad.\n" + e.getMessage());
+		}
+	}
+
+	private void eliminateMemberT(int id){ //para eliminar el miembro asignado a una pista en esa pista
+		try{
+			String sql = "Select * from pistas where MiembroID="+id+";";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			if(rsc.next()){
+				try{
+					String sql2 = "UPDATE pistas SET PistaDisponibilidad=1, MiembroID=null WHERE MiembroID="+id+";";
+					this.ejecutarActualizacion(sql2);
+				}catch (Exception e) {
+					System.out.println("Error al modificar pistas\n" + e.getMessage());
+				}
+			}
+			rsc.close();
+		}catch (SQLException e) {
+			System.out.println("Error al modificar pistas\n" + e.getMessage());
+		}
 	}
 
 	///AGREGAR MIEMBRO///
@@ -90,7 +132,7 @@ public class MemberDAO extends ConexionBD {
 			String postal = checkNullInt(member.getPostalCodeMember());
 			String method = member.getPaymentMethodMember();
 			String number = checkNullString(member.getPaymentNumberMember());
-			String admission = member.getDateSubscriptionMember();
+			String admission = checkNullString(member.getDateSubscriptionMember());
 			String price = checkNullDouble(member.getPriceSubscriptionMember());
 			String rate = checkNullString(member.getRateMember());
 			String mail = checkNullString(member.getMailMember());
@@ -98,9 +140,9 @@ public class MemberDAO extends ConexionBD {
 			sql = "INSERT INTO miembros (MiembroID, MiembroDNI, MiembroNombre, MiembroPrimerApellido,"+
 					" MiembroSegundoApellido, MiembroFechaNacimiento, MiembroTelefono, MiembroCalle, MiembroCiudad, "+
 					"MiembroCodigoPostal, MiembroMetodoPago, MiembroNumeroPago, MiembroFechaIngreso, "+
-					"PrecioSubscripcion, Tarifa, EmpleadoCorreo, Activo) VALUES("+id+","+dni+","+name+""+
-					","+surname1+","+surname2+","+birthday+","+phone+","+street+","+city+","+postal+""+
-					","+method+","+number+","+admission+","+price+","+rate+","+mail+","+active+");";
+					"PrecioSubscripcion, Tarifa, MiembroCorreo, Activo) VALUES("+id+",'"+dni+"','"+name+"'"+
+					","+surname1+",'"+surname2+"','"+birthday+"',"+phone+","+street+","+city+","+postal+""+
+					",'"+method+"',"+number+","+admission+","+price+","+rate+","+mail+","+active+");";
 
 			this.ejecutarActualizacion(sql);
 		}
@@ -111,16 +153,16 @@ public class MemberDAO extends ConexionBD {
 		return true;
 	}
 
-	public Member mostrarInfoAtributos(String ID){
+	public Member mostrarInfoAtributos(int ID){
 		Member member = new Member();
 		try{
 			String sql = "Select * from miembros where MiembroID="+ID+";";
 			ResultSet rsc = this.ejecutarSQL(sql);
 			rsc.next();
 
-			member.setIdMember(rsc.getInt("MiembroDNI"));
+			member.setIdMember(ID);
 			member.setDniMember(rsc.getString("MiembroDNI"));
-			member.setNameMember(rsc.getString("MiembrpNombre"));
+			member.setNameMember(rsc.getString("MiembroNombre"));
 			member.setFirstsurnameMember(rsc.getString("MiembroPrimerApellido"));
 			member.setSecondsurnameMember(rsc.getString("MiembroSegundoApellido"));
 			member.setDateOfBirthdayMember(rsc.getString("MiembroFechaNacimiento"));
@@ -138,7 +180,7 @@ public class MemberDAO extends ConexionBD {
 
 			rsc.close();
 		}catch (SQLException e) {
-			System.out.println("Error al obtener info del empleado.\n" + e.getMessage());
+			System.out.println("Error al obtener info del miembro.\n" + e.getMessage());
 		}
 
 		return(member);
@@ -164,9 +206,10 @@ public class MemberDAO extends ConexionBD {
 			String postal = checkNullInt(member.getPostalCodeMember());
 
 			sql = "UPDATE miembros SET Tarifa = "+rate+", PrecioSubscripcion = "+price+", MiembroMetodoPago = "+
-					""+method+", MiembroNumeroPago = "+number+", MiembroTelefono = "+phone+", MiembroCorreo = "+
-					""+mail+" MiembroCalle = "+street+", MiembroCiudad ="+city+", MiembroCodigoPostal = "+postal+" "+
+					"'"+method+"', MiembroNumeroPago = "+number+", MiembroTelefono = "+phone+", MiembroCorreo = "+
+					""+mail+", MiembroCalle = "+street+", MiembroCiudad ="+city+", MiembroCodigoPostal ="+postal+" "+
 					"WHERE MiembroID = "+id+";";
+
 			this.ejecutarActualizacion(sql);
 		}
 		catch (Exception e) {
@@ -264,6 +307,38 @@ public class MemberDAO extends ConexionBD {
 			System.out.println("Error al comprobar DNI de miembro.\n" + e.getMessage());
 			return false;
 		}
+	}
+
+	public boolean validarDNIActivo(String dni){
+		try{
+			String sql = "Select * from miembros where MiembroDNI='"+dni+"';";
+			ResultSet rsc = this.ejecutarSQL(sql);
+
+			rsc.next();
+			boolean activo = rsc.getBoolean("Activo");
+			rsc.close();
+
+			if(activo) return true;
+
+		}catch (SQLException e) {
+			System.out.println("Error al comprobar DNI de miembro.\n" + e.getMessage());
+			return false;
+		}
+
+		return false;
+	}
+
+	public boolean reactivar(String dni){
+		try{
+			String sql = "UPDATE miembros SET Activo=1 where MiembroDNI='"+dni+"';";
+			this.ejecutarActualizacion(sql);
+
+		}catch (Exception e) {
+			System.out.println("Error al actualizar miembro.\n" + e.getMessage());
+			return false;
+		}
+
+		return true;
 	}
 
 	private String checkNullInt(int n){

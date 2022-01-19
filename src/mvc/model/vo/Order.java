@@ -15,6 +15,10 @@ public class Order {
     private double weightOrder;
     private String employeeDniOrder;
 
+    public Order(){
+        setPriceOrder(0);
+        setWeightOrder(0);
+    }
 
     ///GETTERS AND SETTERS///
 

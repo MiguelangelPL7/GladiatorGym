@@ -8,6 +8,10 @@ public class Activity {
     private boolean ActividadDisponibilidad;
     private int CapacidadMaxima;
 
+    public Activity(){
+        setCapacidadMaxima(0);
+    }
+
     ///GETTERS AND SETTERS///
 
     ///CodigoActividad///

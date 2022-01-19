@@ -40,7 +40,7 @@ public class Logic {
 
      ///nuevoEmpleado///
     public int validarNuevoEmpleado(Employee em){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista") || this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         String DNI = em.getDniEmployee();
@@ -77,7 +77,8 @@ public class Logic {
 
     ///efectuarEliminacion///
     public int validarEliminacionEmpleado(String  DNI){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista") || this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.dniEmpleadoEnSesion.equals(DNI)){ return -20; } //-20 = no te puedes eliminar a ti mismo
 
         if(validarDNI(DNI)){
             EmployeeDAO emD = new EmployeeDAO();
@@ -102,13 +103,16 @@ public class Logic {
 
     ///modificarEmpleado///
     public int validarModificacionEmpleado(Employee em){ //tipo debe ser "Aumentar" o "Disminuir"
-        if(this.rangoEmpleadoEnSesion=="Recepcionista" || this.rangoEmpleadoEnSesion == "Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista") || this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         String DNI = em.getDniEmployee();
         atributos.add(DNI);
-        atributos.add(em.getGradeEmployee());
-        atributos.add(String.valueOf(em.getSalaryEmployee()));
+        atributos.add(em.getNameEmployee());
+        atributos.add(em.getFirstSurnameEmployee());
+        atributos.add(em.getSecondSurnameEmployee());
+        atributos.add(em.getDateAdmissionEmployee());
+        atributos.add(em.getDateOfBirthdayEmployee());
         atributos.add(em.getPaymentMethodEmployee());
         atributos.add(em.getPaymentNumberEmployee());
         atributos.add(String.valueOf(em.getPhoneEmployee()));
@@ -116,23 +120,26 @@ public class Logic {
         atributos.add(em.getStreetEmployee());
         atributos.add(em.getCityEmployee());
         atributos.add(String.valueOf(em.getPostalCodeEmployee()));
+        atributos.add(String.valueOf(em.getSalaryEmployee()));
+        atributos.add(em.getUserEmployee());
+        atributos.add(em.getPasswordEmployee());
+        atributos.add(em.getGradeEmployee());
 
         if(validarDNI(DNI)){
-            EmployeeDAO emD = new EmployeeDAO();
-            if(emD.modifyEmployee(em)){
-                return 1;
-                // 1 = modificacion correcta
+            if(validarAtributos("empleado", atributos)){
+                EmployeeDAO emD = new EmployeeDAO();
+                if(emD.modifyEmployee(em)){ return 1; } else{ return 0; } // 1 = modificacion correcta, 0 = mod fallida
             }else{
                 return -1; // -1 = atributos de modificacion incorrectos
             }
         }else{
-            return -2; //-2 = mid de material no existente
+            return -2; //-2 = dni de empleado no existente
         }
     }
 
     ///añadirMiembro///
     public int validarNuevoMiembro(Member me){
-        if(this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         String DNI = me.getDniMember();
@@ -164,29 +171,34 @@ public class Logic {
                 return -1; // -1 = atributos inválidos
             }
         }else{
-            return -2; //-2 = DNI ya existente
+            if(!validarDNIactivoM(DNI)){
+                MemberDAO meD = new MemberDAO();
+                if(meD.reactivar(DNI)) {return 1;} else { return 0;}
+                // 1 = adicion correcta; 0= adicion fallida
+            }
+            return -2; //-2 = miembro ya ingresado y activo
         }
     }
 
     ///eliminarMiembro///
     public int validarEliminacionMiembro(int id){
-        if(this.rangoEmpleadoEnSesion=="Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarID_activo(id)){
             MemberDAO meD = new MemberDAO();
             meD.eliminateMember(id);
             return 1;// 1 = eliminacion correcta
         }else{
-            return -2; //-2 = id de miembro no existente
+            return -2; //-2 = id de miembro no existente o ya activo
         }
     }
 
     ///solicitarInfoMiembro///
-    public Member solicitarInfoMiembro(String DNI){
+    public Member solicitarInfoMiembro(int ID){
         Member me = new Member();
-        if(validarDNI(DNI)){
+        if(validarID(ID)){
             MemberDAO meD = new MemberDAO();
-            me = meD.mostrarInfoAtributos(DNI);
+            me = meD.mostrarInfoAtributos(ID);
         }else{
             me.setIdMember(0); // si me.IdMember==0 entonces id inválido
         }
@@ -195,13 +207,17 @@ public class Logic {
 
     ///modificarMiembro
     public int validarModificacionMiembro(Member me){ //tipo debe ser "Aumentar" o "Disminuir"
-        if(this.rangoEmpleadoEnSesion == "Monitor"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Monitor")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         int ID = me.getIdMember();
-        atributos.add(String.valueOf(ID));
-        atributos.add((me.getRateMember()));
+        atributos.add(me.getDniMember());
+        atributos.add(me.getNameMember());
+        atributos.add(me.getFirstsurnameMember());
+        atributos.add(me.getSecondsurnameMember());
+        atributos.add(me.getDateSubscriptionMember());
         atributos.add(String.valueOf(me.getPriceSubscriptionMember()));
+        atributos.add(me.getDateOfBirthdayMember());
         atributos.add(me.getPaymentMethodMember());
         atributos.add(me.getPaymentNumberMember());
         atributos.add(String.valueOf(me.getPhoneMember()));
@@ -209,17 +225,17 @@ public class Logic {
         atributos.add(me.getStreetMember());
         atributos.add(me.getCityMember());
         atributos.add(String.valueOf(me.getPostalCodeMember()));
+        atributos.add(String.valueOf(me.getActiveMember() ? 1 : 0));
 
-        if(validarID_activo(ID)){
-            MemberDAO meD = new MemberDAO();
-            if(meD.modifyMember(me)){
-                return 1;
-                // 1 = modificacion correcta
+        if(validarID(ID)){
+            if(validarAtributos("miembro", atributos)){
+                MemberDAO meD = new MemberDAO();
+                if(meD.modifyMember(me)){ return 1; } else{ return 0; } // 1 = modificacion correcta, 0 = mod fallida
             }else{
                 return -1; // -1 = atributos de modificacion incorrectos
             }
         }else{
-            return -2; //-2 = mid de material no existente
+            return -2; //-2 = id de miembro no existente
         }
     }
 
@@ -328,7 +344,7 @@ public class Logic {
     }
 
     public int validarAdicionPedido(Order or, ArrayList<Material> mat){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         atributos.add(or.getNameProviderOrder());
@@ -368,7 +384,7 @@ public class Logic {
     }
 
     public int validarCancelacionPedido(String nid){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarNID(nid)){
             OrderDAO orD = new OrderDAO();
@@ -385,7 +401,7 @@ public class Logic {
     }
 
     public int validarCompletarPedido(String nid){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarNID(nid)){
             OrderDAO orD = new OrderDAO();
@@ -405,7 +421,7 @@ public class Logic {
     }
 
     public int validarAdicionMaterial(Material ma){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         ArrayList<String> atributos = new ArrayList<String>();
         String nom = ma.getNameMaterial();
@@ -428,7 +444,7 @@ public class Logic {
     }
 
     public int validarEliminacionMaterial(String mid){
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarMID(mid)){
             MaterialDAO maD = new MaterialDAO();
@@ -445,7 +461,7 @@ public class Logic {
     }
 
     public int validarModificacionMaterial(String mid, String tipo, int uds){ //tipo debe ser "Aumentar" o "Disminuir"
-        if(this.rangoEmpleadoEnSesion=="Recepcionista"){ return -10; } //-10 = rango inválido para realizar accion
+        if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarMID(mid)){
             MaterialDAO maD = new MaterialDAO();
@@ -474,7 +490,7 @@ public class Logic {
         if(tipo=="actividad" || tipo=="pista"){
             if(atributos.get(0)==null) {return false;}
             if(atributos.get(1).equals("0") || !validarInt(atributos.get(1))){ return false;}
-            if(!validarFecha(atributos.get(2))){ return false; }
+            if(atributos.get(2)==null || !validarFecha(atributos.get(2))){ return false; }
             if(!atributos.get(4).equals("0") && !atributos.get(4).equals("1")) { return false; }
             if(tipo=="actividad"){
                 if(atributos.get(3)!=null && !validarFormatoDNI(atributos.get(3))){ return false; }
@@ -498,7 +514,7 @@ public class Logic {
             if(atributos.get(0)==null) {return false;}
             if(!validarDouble(atributos.get(1)) && !validarInt(atributos.get(1))){ return false; }
             if(!validarDouble(atributos.get(2)) && !validarInt(atributos.get(2))){ return false; }
-            if(!validarFechaSimple(atributos.get(3))){ return false; }
+            if(atributos.get(3)!=null && !validarFechaSimple(atributos.get(3))){ return false; }
             return true;
         }
 
@@ -507,13 +523,14 @@ public class Logic {
             if(!validarFormatoDNI(atributos.get(0))) { return false;}
             if(atributos.get(1)==null) {return false;}
             if(atributos.get(3)==null) {return false;}
-            if(!validarFecha(atributos.get(4))){ return false; }
-            if(!validarFecha(atributos.get(5))){ return false; }
-            if(!atributos.get(6).equals("Tarjeta") && !atributos.get(6).equals("Cuenta") && !atributos.get(6).equals("Paypal")){ return false; }
+            if(atributos.get(4)!=null && !validarFechaSimple(atributos.get(4))){ return false; }
+            if(atributos.get(5)==null || !validarFechaSimple(atributos.get(5))){ return false; }
+            if(!atributos.get(6).equals("Tarjeta") && !atributos.get(6).equals("Cuenta") && !atributos.get(6).equals("PayPal")){ return false; }
             if(!validarInt(atributos.get(8))){ return false; }
             if(!validarInt(atributos.get(12))){ return false; }
             if(!validarDouble(atributos.get(13)) && !validarInt(atributos.get(13))){ return false; }
-            if(!atributos.get(16).equals("Manager") && !atributos.get(16).equals("Recepcionista") && atributos.get(16).equals("Monitor")){ return false; }
+            if(atributos.get(15)==null) {return false;}
+            if(!atributos.get(16).equals("Manager") && !atributos.get(16).equals("Recepcionista") && !atributos.get(16).equals("Monitor")){ return false; }
             return true;
         }
 
@@ -521,13 +538,13 @@ public class Logic {
             if(!validarFormatoDNI(atributos.get(0))) { return false;}
             if(atributos.get(1)==null) {return false;}
             if(atributos.get(3)==null) {return false;}
-            if(!validarFecha(atributos.get(4))){ return false; }
+            if(atributos.get(4)!=null && !validarFechaSimple(atributos.get(4))){ return false; }
             if(!validarDouble(atributos.get(5)) && !validarInt(atributos.get(5))){ return false; }
-            if(!validarFecha(atributos.get(6))){ return false; }
-            if(!atributos.get(7).equals("Tarjeta") && !atributos.get(8).equals("Cuenta") && !atributos.get(8).equals("Paypal")){ return false; }
+            if(atributos.get(6)==null || !validarFechaSimple(atributos.get(6))){ return false; }
+            if(!atributos.get(7).equals("Tarjeta") && !atributos.get(7).equals("Cuenta") && !atributos.get(7).equals("PayPal")){ return false; }
             if(!validarInt(atributos.get(9))){ return false; }
             if(!validarInt(atributos.get(13))){ return false; }
-            if(!atributos.get(14).equals("0") && !atributos.get(4).equals("1")) { return false; }
+            if(!atributos.get(14).equals("0") && !atributos.get(14).equals("1")) { return false; }
             return true;
         }
 
@@ -542,6 +559,11 @@ public class Logic {
     private boolean validarDNImiembro(String dni){
         MemberDAO me = new MemberDAO();
         return me.validarDNI(dni);
+    }
+
+    private boolean validarDNIactivoM(String dni){
+        MemberDAO me = new MemberDAO();
+        return me.validarDNIActivo(dni);
     }
     
     private boolean validarID(int id){

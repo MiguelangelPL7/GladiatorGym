@@ -20,10 +20,16 @@ public class Employee {
     private String streetEmployee;
     private String cityEmployee;
     private int postalCodeEmployee;
-    private Double salaryEmployee;
+    private double salaryEmployee;
     private String userEmployee;
     private String passwordEmployee;
     private String gradeEmployee;
+
+    public Employee(){
+        setPhoneEmployee(0);
+        setPostalCodeEmployee(0);
+        setSalaryEmployee(0);
+    }
 
     ///GETTERS AND SETTERS///
 
@@ -174,12 +180,12 @@ public class Employee {
 
 
     ///SALARY///
-    public Double getSalaryEmployee()
+    public double getSalaryEmployee()
     {
         return salaryEmployee;
     }
 
-    public void setSalaryEmployee(Double salaryEmployee)
+    public void setSalaryEmployee(double salaryEmployee)
     {
         this.salaryEmployee = salaryEmployee;
     }

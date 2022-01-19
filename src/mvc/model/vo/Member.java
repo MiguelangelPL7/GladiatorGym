@@ -10,7 +10,7 @@ public class Member {
     private String secondsurnameMember;
     private String rateMember;
     private String dateSubscriptionMember;
-    private Double priceSubscriptionMember;
+    private double priceSubscriptionMember;
     private String dateOfBirthdayMember;
     private String paymentMethodMember;
     private String paymentNumberMember;
@@ -21,6 +21,12 @@ public class Member {
     private int postalCodeMember;
     private boolean activeMember;
     private int idMember;
+
+    public Member(){
+        setPriceSubscriptionMember(0);
+        setPhoneMember(0);
+        setPostalCodeMember(0);
+    }
 
     ///GETTERS AND SETTERS///
 
@@ -91,12 +97,12 @@ public class Member {
     }
 
     ///PRICE OF SUBSCRIPTION///
-    public Double getPriceSubscriptionMember()
+    public double getPriceSubscriptionMember()
     {
         return priceSubscriptionMember;
     }
 
-    public void setPriceSubscriptionMember(Double  priceSubscriptionMember)
+    public void setPriceSubscriptionMember(double  priceSubscriptionMember)
     {
         this.priceSubscriptionMember = priceSubscriptionMember;
     }

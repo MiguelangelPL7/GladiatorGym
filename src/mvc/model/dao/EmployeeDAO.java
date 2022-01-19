@@ -61,7 +61,7 @@ public class EmployeeDAO extends ConexionBD{
             String sql = "";
             String DNI = dni;
 
-            sql = "DELETE FROM empleados WHERE EmpleadoDNI="+DNI+";";
+            sql = "DELETE FROM empleados WHERE EmpleadoDNI='"+DNI+"';";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {
@@ -89,18 +89,18 @@ public class EmployeeDAO extends ConexionBD{
             String postal = checkNullInt(employee.getPostalCodeEmployee());
             String method = employee.getPaymentMethodEmployee();
             String number = checkNullString(employee.getPaymentNumberEmployee());
-            String admission = employee.getDateAdmissionEmployee();
+            String admission = checkNullString(employee.getDateAdmissionEmployee());
             String salary = checkNullDouble(employee.getSalaryEmployee());
             String user = checkNullString(employee.getUserEmployee());
-            String password = checkNullString(employee.getPasswordEmployee());
+            String password = employee.getPasswordEmployee();
             String grade = employee.getGradeEmployee();
 
             sql = "INSERT INTO empleados (EmpleadoDNI, EmpleadoNombre, EmpleadoPrimerApellido, EmpleadoSegundoApellido,"+
                     " EmpleadoFechaNacimiento, EmpleadoCorreo, EmpleadoTelefono, EmpleadoCalle, EmpleadoCiudad, "+
                     "EmpleadoCodigoPostal, EmpleadoMetodoPago, EmpleadoNumeroPago, EmpleadoFechaIngreso, "+
-                    "SalarioMensual, Usuario, Cotraseña, Rango) VALUES("+dni+","+name+","+surname1+","+
-                    ""+ surname2+","+birthday+","+mail+","+phone+","+street+","+city+","+postal+","+
-                    ""+method+ ","+number+","+admission+","+salary+","+user+","+password+","+grade+");";
+                    "SalarioMensual, Usuario, Contraseña, Rango) VALUES('"+dni+"','"+name+"',"+surname1+",'"+
+                    ""+ surname2+"','"+birthday+"',"+mail+","+phone+","+street+","+city+","+postal+","+
+                    "'"+method+"',"+number+","+admission+","+salary+","+user+",'"+password+"','"+grade+"');";
 
             this.ejecutarActualizacion(sql);
         }
@@ -115,7 +115,7 @@ public class EmployeeDAO extends ConexionBD{
     public Employee mostrarInfoAtributos(String DNI){
         Employee employee = new Employee();
         try{
-            String sql = "Select * from empleados where EmpleadoDNI="+DNI+";";
+            String sql = "Select * from empleados where EmpleadoDNI='"+DNI+"';";
             ResultSet rsc = this.ejecutarSQL(sql);
             rsc.next();
 
@@ -164,10 +164,10 @@ public class EmployeeDAO extends ConexionBD{
             String city = checkNullString(employee.getCityEmployee());
             String postal = checkNullInt(employee.getPostalCodeEmployee());
 
-            sql = "UPDATE empleados SET Rango = "+grade+", SalarioMensual = "+salary+", EmpleadoMetodoPago = "+
-                    ""+method+", EmpleadoNumeroPago = "+number+", EmpleadoTelefono = "+phone+", EmpleadoCorreo = "+
+            sql = "UPDATE empleados SET Rango = '"+grade+"', SalarioMensual = "+salary+", EmpleadoMetodoPago = "+
+                    "'"+method+"', EmpleadoNumeroPago = "+number+", EmpleadoTelefono = "+phone+", EmpleadoCorreo = "+
                     ""+mail+", EmpleadoCalle = "+street+", EmpleadoCiudad ="+city+", EmpleadoCodigoPostal = "+
-                    ""+postal+" WHERE EmpleadoDNI = "+dni+";";
+                    ""+postal+" WHERE EmpleadoDNI = '"+dni+"';";
             this.ejecutarActualizacion(sql);
         }
         catch (Exception e) {

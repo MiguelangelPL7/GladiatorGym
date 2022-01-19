@@ -8,6 +8,11 @@ public class Track {
     private boolean PistaDisponibilidad;
     private double PrecioPorHora;
 
+    public Track(){
+        setPrecioPorHora(0);
+        setMiembroID(0);
+    }
+
     ///GETTERS AND SETTERS///
 
     ///CodigoPista///

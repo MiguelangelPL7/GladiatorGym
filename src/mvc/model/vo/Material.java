@@ -13,6 +13,12 @@ public class Material {
     private String othersMaterial;
     private double priceForOrder; //ESTE PRECIO SOLO SE USA AL AÑADIR UN MATERIAL A UN PEDIDO
 
+    public Material(){
+        setWeightMaterial(0);
+        setUnitsMaterial(0);
+        setPriceOrderMaterial(0);
+    }
+
     ///GETTERS AND SETTERS///
     ///MID///
     public String getMidMaterial()
