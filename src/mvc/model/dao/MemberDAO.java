@@ -36,7 +36,7 @@ public class MemberDAO extends ConexionBD {
 				member.setPaymentMethodMember(rsc.getString("MiembroMetodoPago"));
 				member.setPaymentNumberMember(rsc.getString("MiembroNumeroPago"));
 				member.setDateSubscriptionMember(rsc.getString("MiembroFechaIngreso"));
-				member.setPriceSubscriptionMember(rsc.getBigDecimal("PrecioSubscripcion"));
+				member.setPriceSubscriptionMember(rsc.getDouble("PrecioSubscripcion"));
 				member.setRateMember(rsc.getString("Tarifa"));
 				member.setMailMember(rsc.getString("MiembroCorreo"));
 				member.setActiveMember(rsc.getBoolean("Activo"));
@@ -81,26 +81,26 @@ public class MemberDAO extends ConexionBD {
 			int id = member.getIdMember();
 			String dni = member.getDniMember();
 			String name = member.getNameMember();
-			String surname1 = member.getFirstsurnameMember();
+			String surname1 = checkNullString(member.getFirstsurnameMember());
 			String surname2 = member.getSecondsurnameMember();
 			String birthday = member.getDateOfBirthdayMember();
-			int phone = member.getPhoneMember();
-			String street = member.getStreetMember();
-			String city = member.getCityMember();
-			int postal = member.getPostalCodeMember();
+			String phone = checkNullInt(member.getPhoneMember());
+			String street = checkNullString(member.getStreetMember());
+			String city = checkNullString(member.getCityMember());
+			String postal = checkNullInt(member.getPostalCodeMember());
 			String method = member.getPaymentMethodMember();
-			String number = member.getPaymentNumberMember();
+			String number = checkNullString(member.getPaymentNumberMember());
 			String admission = member.getDateSubscriptionMember();
-			BigDecimal price = member.getPriceSubscriptionMember();
-			String rate = member.getRateMember();
-			String mail = member.getMailMember();
+			String price = checkNullDouble(member.getPriceSubscriptionMember());
+			String rate = checkNullString(member.getRateMember());
+			String mail = checkNullString(member.getMailMember());
 			int active = member.getActiveMember() ? 1 : 0;
 			sql = "INSERT INTO miembros (MiembroID, MiembroDNI, MiembroNombre, MiembroPrimerApellido,"+
 					" MiembroSegundoApellido, MiembroFechaNacimiento, MiembroTelefono, MiembroCalle, MiembroCiudad, "+
 					"MiembroCodigoPostal, MiembroMetodoPago, MiembroNumeroPago, MiembroFechaIngreso, "+
-					"PrecioSubscripcion, Tarifa, EmpleadoCorreo, Activo) VALUES('"+id+"','"+dni+"','"+name+"'"+
-					",'"+surname1+"','"+surname2+"','"+birthday+"',"+phone+",'"+street+"','"+city+"',"+postal+""+
-					",'"+method+"','"+number+"','"+admission+"',"+price+",'"+rate+"','"+mail+"',"+active+");";
+					"PrecioSubscripcion, Tarifa, EmpleadoCorreo, Activo) VALUES("+id+","+dni+","+name+""+
+					","+surname1+","+surname2+","+birthday+","+phone+","+street+","+city+","+postal+""+
+					","+method+","+number+","+admission+","+price+","+rate+","+mail+","+active+");";
 
 			this.ejecutarActualizacion(sql);
 		}
@@ -131,7 +131,7 @@ public class MemberDAO extends ConexionBD {
 			member.setPaymentMethodMember(rsc.getString("MiembroMetodoPago"));
 			member.setPaymentNumberMember(rsc.getString("MiembroNumeroPago"));
 			member.setDateSubscriptionMember(rsc.getString("MiembroFechaIngreso"));
-			member.setPriceSubscriptionMember(rsc.getBigDecimal("PrecioSubscripcion"));
+			member.setPriceSubscriptionMember(rsc.getDouble("PrecioSubscripcion"));
 			member.setRateMember(rsc.getString("Tarifa"));
 			member.setMailMember(rsc.getString("MiembroCorreo"));
 			member.setActiveMember(rsc.getBoolean("Activo"));
@@ -153,20 +153,20 @@ public class MemberDAO extends ConexionBD {
 			String sql = "";
 
 			int id = member.getIdMember();
-			String rate = member.getRateMember();
-			BigDecimal price = member.getPriceSubscriptionMember();
+			String rate = checkNullString(member.getRateMember());
+			String price = checkNullDouble(member.getPriceSubscriptionMember());
 			String method = member.getPaymentMethodMember();
-			String number = member.getPaymentNumberMember();
-			int phone = member.getPhoneMember();
-			String mail = member.getMailMember();
-			String street = member.getStreetMember();
-			String city = member.getCityMember();
-			int postal = member.getPostalCodeMember();
+			String number = checkNullString(member.getPaymentNumberMember());
+			String phone = checkNullInt(member.getPhoneMember());
+			String mail = checkNullString(member.getMailMember());
+			String street = checkNullString(member.getStreetMember());
+			String city = checkNullString(member.getCityMember());
+			String postal = checkNullInt(member.getPostalCodeMember());
 
-			sql = "UPDATE miembros SET Tarifa = '"+rate+"', PrecioSubscripcion = '"+price+"', MiembroMetodoPago = "+
-					"'"+method+"', MiembroNumeroPago = '"+number+"', MiembroTelefono = "+phone+", MiembroCorreo = "+
-					"'"+mail+" MiembroCalle = '"+street+"', MiembroCiudad ='"+city+"', MiembroCodigoPostal = "+postal+" "+
-					"WHERE MiembroID = '"+id+"';";
+			sql = "UPDATE miembros SET Tarifa = "+rate+", PrecioSubscripcion = "+price+", MiembroMetodoPago = "+
+					""+method+", MiembroNumeroPago = "+number+", MiembroTelefono = "+phone+", MiembroCorreo = "+
+					""+mail+" MiembroCalle = "+street+", MiembroCiudad ="+city+", MiembroCodigoPostal = "+postal+" "+
+					"WHERE MiembroID = "+id+";";
 			this.ejecutarActualizacion(sql);
 		}
 		catch (Exception e) {
@@ -264,5 +264,20 @@ public class MemberDAO extends ConexionBD {
 			System.out.println("Error al comprobar DNI de miembro.\n" + e.getMessage());
 			return false;
 		}
+	}
+
+	private String checkNullInt(int n){
+		if(n==0) return null;
+		return String.valueOf(n);
+	}
+
+	private String checkNullDouble(double n){
+		if(n==0) return null;
+		return String.valueOf(n);
+	}
+
+	private String checkNullString(String s){
+		if(s != null){ s="'"+s+"'"; }
+		return s;
 	}
 }

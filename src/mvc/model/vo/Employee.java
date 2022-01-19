@@ -20,7 +20,7 @@ public class Employee {
     private String streetEmployee;
     private String cityEmployee;
     private int postalCodeEmployee;
-    private BigDecimal salaryEmployee;
+    private Double salaryEmployee;
     private String userEmployee;
     private String passwordEmployee;
     private String gradeEmployee;
@@ -174,12 +174,12 @@ public class Employee {
 
 
     ///SALARY///
-    public BigDecimal getSalaryEmployee()
+    public Double getSalaryEmployee()
     {
         return salaryEmployee;
     }
 
-    public void setSalaryEmployee(BigDecimal salaryEmployee)
+    public void setSalaryEmployee(Double salaryEmployee)
     {
         this.salaryEmployee = salaryEmployee;
     }

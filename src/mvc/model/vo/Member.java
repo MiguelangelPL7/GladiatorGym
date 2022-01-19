@@ -10,7 +10,7 @@ public class Member {
     private String secondsurnameMember;
     private String rateMember;
     private String dateSubscriptionMember;
-    private BigDecimal priceSubscriptionMember;
+    private Double priceSubscriptionMember;
     private String dateOfBirthdayMember;
     private String paymentMethodMember;
     private String paymentNumberMember;
@@ -91,12 +91,12 @@ public class Member {
     }
 
     ///PRICE OF SUBSCRIPTION///
-    public BigDecimal getPriceSubscriptionMember()
+    public Double getPriceSubscriptionMember()
     {
         return priceSubscriptionMember;
     }
 
-    public void setPriceSubscriptionMember(BigDecimal  priceSubscriptionMember)
+    public void setPriceSubscriptionMember(Double  priceSubscriptionMember)
     {
         this.priceSubscriptionMember = priceSubscriptionMember;
     }
