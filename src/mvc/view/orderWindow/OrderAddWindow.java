@@ -217,21 +217,21 @@ public class OrderAddWindow extends JPanel implements ActionListener {
     private ArrayList<Material> createMaterials() {
         ArrayList<Material> materials = new ArrayList<>();
         Material m1 = new Material();
-        if(!l11.equals("") && !l12.equals("") && !l13.equals("")) {
+        if(!l11.getText().equals("") && !l12.getText().equals("") && !l13.getText().equals("")) {
             m1.setMidMaterial(l11.getText());
             m1.setUnitsMaterial(Integer.parseInt(l12.getText()));
             m1.setPriceOrderMaterial(Double.parseDouble(l13.getText()));
             materials.add(m1);
         }
         Material m2 = new Material();
-        if(!l21.equals("") && !l22.equals("") && !l23.equals("")) {
+        if(!l21.getText().equals("") && !l22.getText().equals("") && !l23.getText().equals("")) {
             m2.setMidMaterial(l21.getText());
             m2.setUnitsMaterial(Integer.parseInt(l22.getText()));
             m2.setPriceOrderMaterial(Double.parseDouble(l23.getText()));
             materials.add(m2);
         }
         Material m3 = new Material();
-        if(!l31.equals("") && !l32.equals("") && !l33.equals("")) {
+        if(!l31.getText().equals("") && !l32.getText().equals("") && !l33.getText().equals("")) {
             m3.setMidMaterial(l31.getText());
             m3.setUnitsMaterial(Integer.parseInt(l32.getText()));
             m3.setPriceOrderMaterial(Double.parseDouble(l33.getText()));
