@@ -217,24 +217,24 @@ public class OrderAddWindow extends JPanel implements ActionListener {
     private ArrayList<Material> createMaterials() {
         ArrayList<Material> materials = new ArrayList<>();
         Material m1 = new Material();
-        if(!l11.getText().equals("") && !l12.getText().equals("") && !l13.getText().equals("")) {
-            m1.setMidMaterial(l11.getText());
-            m1.setUnitsMaterial(Integer.parseInt(l12.getText()));
-            m1.setPriceOrderMaterial(Double.parseDouble(l13.getText()));
+        if(!t11.getText().equals("") && !t12.getText().equals("") && !t13.getText().equals("")) {
+            m1.setMidMaterial(t11.getText());
+            m1.setUnitsMaterial(Integer.parseInt(t12.getText()));
+            m1.setPriceOrderMaterial(Double.parseDouble(t13.getText()));
             materials.add(m1);
         }
         Material m2 = new Material();
-        if(!l21.getText().equals("") && !l22.getText().equals("") && !l23.getText().equals("")) {
-            m2.setMidMaterial(l21.getText());
-            m2.setUnitsMaterial(Integer.parseInt(l22.getText()));
-            m2.setPriceOrderMaterial(Double.parseDouble(l23.getText()));
+        if(!t21.getText().equals("") && t22.getText().equals("") && t23.getText().equals("")) {
+            m2.setMidMaterial(t21.getText());
+            m2.setUnitsMaterial(Integer.parseInt(t22.getText()));
+            m2.setPriceOrderMaterial(Double.parseDouble(t23.getText()));
             materials.add(m2);
         }
         Material m3 = new Material();
-        if(!l31.getText().equals("") && !l32.getText().equals("") && !l33.getText().equals("")) {
-            m3.setMidMaterial(l31.getText());
-            m3.setUnitsMaterial(Integer.parseInt(l32.getText()));
-            m3.setPriceOrderMaterial(Double.parseDouble(l33.getText()));
+        if(!t31.getText().equals("") && !t32.getText().equals("") && !t33.getText().equals("")) {
+            m3.setMidMaterial(t31.getText());
+            m3.setUnitsMaterial(Integer.parseInt(t32.getText()));
+            m3.setPriceOrderMaterial(Double.parseDouble(t33.getText()));
             materials.add(m3);
         }
         return materials;
