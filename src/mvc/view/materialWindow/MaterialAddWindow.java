@@ -33,12 +33,6 @@ public class MaterialAddWindow extends JPanel implements ActionListener {
         title.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(title);
 
-        lblMid = new JLabel("MID");
-        contentPane.add(lblMid);
-
-        textMid = new JTextField(20);
-        contentPane.add(textMid);
-
         lblName = new JLabel("Nombre");
         contentPane.add(lblName);
 
@@ -119,7 +113,6 @@ public class MaterialAddWindow extends JPanel implements ActionListener {
             }
         }
         Material material = new Material();
-        material.setMidMaterial(textMid.getText());
         material.setNameMaterial(textName.getText());
         material.setWeightMaterial(weight);
         material.setUnitsMaterial(units);

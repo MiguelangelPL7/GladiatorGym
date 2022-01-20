@@ -204,11 +204,12 @@ public class MemberDAO extends ConexionBD {
 			String street = checkNullString(member.getStreetMember());
 			String city = checkNullString(member.getCityMember());
 			String postal = checkNullInt(member.getPostalCodeMember());
+			int active = member.getActiveMember() ? 1 : 0;
 
 			sql = "UPDATE miembros SET Tarifa = "+rate+", PrecioSubscripcion = "+price+", MiembroMetodoPago = "+
 					"'"+method+"', MiembroNumeroPago = "+number+", MiembroTelefono = "+phone+", MiembroCorreo = "+
-					""+mail+", MiembroCalle = "+street+", MiembroCiudad ="+city+", MiembroCodigoPostal ="+postal+" "+
-					"WHERE MiembroID = "+id+";";
+					""+mail+", MiembroCalle = "+street+", MiembroCiudad ="+city+", MiembroCodigoPostal ="+postal+", "+
+					"Activo="+active+" WHERE MiembroID = "+id+";";
 
 			this.ejecutarActualizacion(sql);
 		}
