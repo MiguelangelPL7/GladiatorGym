@@ -123,7 +123,7 @@ public class MaterialDAO extends ConexionBD {
     }
 
     public boolean verificarModificacion(String mid, int ud, String mod){
-        if(mod!="Disminuir" && mod!="Aumentar") {return false;}
+        if(!mod.equals("Disminuir") && !mod.equals("Aumentar")) {return false;}
         int uds;
 
         try{
@@ -134,7 +134,7 @@ public class MaterialDAO extends ConexionBD {
             uds=rsc.getInt("Unidades");
             rsc.close();
 
-            if(mod=="Disminuir"){
+            if(mod.equals("Disminuir")){
                 if(uds<=ud){
                     return false;
                 }else{

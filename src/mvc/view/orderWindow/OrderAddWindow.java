@@ -39,12 +39,6 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(lblTitle);
 
-        lblNid = new JLabel("NID");
-        contentPane.add(lblNid);
-
-        textNid = new JTextField(20);
-        contentPane.add(textNid);
-
         lblName = new JLabel("Nombre proveedor");
         contentPane.add(lblName);
 
@@ -184,7 +178,6 @@ public class OrderAddWindow extends JPanel implements ActionListener {
             }
         }
         Order order = new Order();
-        order.setNidOrder(textNid.getText());
         order.setNameProviderOrder(textName.getText());
         order.setPriceOrder(price);
         order.setDateDeliveryOrder(textDateDelivery.getText());

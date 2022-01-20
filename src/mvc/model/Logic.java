@@ -236,6 +236,7 @@ public class Logic {
         atributos.add(me.getCityMember());
         atributos.add(String.valueOf(me.getPostalCodeMember()));
         atributos.add(String.valueOf(me.getActiveMember() ? 1 : 0));
+        System.out.println(me.getActiveMember());
 
         if(validarID(ID)){
             if(validarAtributos("miembro", atributos)){
@@ -471,6 +472,7 @@ public class Logic {
     }
 
     public int validarModificacionMaterial(String mid, String tipo, int uds){ //tipo debe ser "Aumentar" o "Disminuir"
+        System.out.println("-"+tipo+"-");
         if(this.rangoEmpleadoEnSesion.equals("Recepcionista")){ return -10; } //-10 = rango inválido para realizar accion
 
         if(validarMID(mid)){
