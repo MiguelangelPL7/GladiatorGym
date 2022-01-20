@@ -15,9 +15,9 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
 
     private JPanel contentPane;
 
-    private JLabel lblId, lblPid, lblSchedule, lblMemberID, lblPrice;
+    private JLabel lblId, lblPid, lblSchedule, lblPrice;
 
-    private JTextField textIDTrack, textPID, textSchedule, textMemberID, textPrice;
+    private JTextField textIDTrack, textPID, textSchedule, textPrice;
 
     private JButton btnModifyPista;
 
@@ -49,12 +49,6 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
 
         textSchedule = new JTextField(20);
         contentPane.add(textSchedule);
-
-        lblMemberID = new JLabel("Id miembro");
-        contentPane.add(lblMemberID);
-
-        textMemberID = new JTextField(20);
-        contentPane.add(textMemberID);
 
         checkBoxAvailability = new JCheckBox("Disponibilidad");
         contentPane.add(checkBoxAvailability);
@@ -125,13 +119,6 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
                 pid = 0;
             }
         }
-        if(!textMemberID.getText().equals("")) {
-            try {
-                memberId = Integer.parseInt(textMemberID.getText());
-            } catch (Exception e) {
-                memberId = 0;
-            }
-        }
         if(!textPrice.getText().equals("")) {
             try {
                 price = Integer.parseInt(textPrice.getText());
@@ -163,7 +150,6 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
         textIDTrack.setText(idTrack);
         textPID.setText(pid);
         textSchedule.setText(track.getPistaHorario());
-        textMemberID.setText(idMember);
         if(track.getPistaDisponibilidad()) {
             checkBoxAvailability.setSelected(true);
         } else {

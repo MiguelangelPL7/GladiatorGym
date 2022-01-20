@@ -158,12 +158,6 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         contentPane.add(btnModifyEmployee);
         btnModifyEmployee.setVisible(false);
 
-        btnCancel = new JButton();
-        btnCancel.setBounds(250, 360, 120, 25);
-        btnCancel.setText("Cancelar");
-        btnCancel.addActionListener(this);
-        contentPane.add(btnCancel);
-
         btnDeleteAll = new JButton();
         btnDeleteAll.setBounds(390, 360, 120, 25);
         btnDeleteAll.setText("Borrar todo");
@@ -327,6 +321,7 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         if(employee != null) {
             fillFields();
             btnModifyEmployee.setVisible(true);
+            btnCreateEmployee.setVisible(false);
         }
         return contentPane;
     }

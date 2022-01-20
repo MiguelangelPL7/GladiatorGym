@@ -36,7 +36,7 @@ public class OrderListWindow extends JPanel {
             for(int i = 0; i < orders.size(); i++) {
                 contentPane.add(new JLabel(i+1+""));
                 contentPane.add(new JLabel(orders.get(i).getNidOrder()));
-                contentPane.add(new JLabel(orders.get(i).getNidOrder()));
+                contentPane.add(new JLabel(orders.get(i).getNameProviderOrder()));
                 contentPane.add(new JLabel(orders.get(i).getPriceOrder()+""));
                 contentPane.add(new JLabel(orders.get(i).getOrderDateOrder()));
                 contentPane.add(new JLabel(orders.get(i).getDateDeliveryOrder()));

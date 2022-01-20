@@ -20,7 +20,13 @@ public class OrderAddWindow extends JPanel implements ActionListener {
 
     private JTextField textNid, textName, textPrice, textDateDelivery, textWeight;
 
-    private JButton btnMakeOrder, btnCancel, btnDeleteAll;
+    private JButton btnMakeOrder, btnDeleteAll;
+
+    private JPanel panel1, panel2, panel3;
+
+    private JLabel l1, l2, l3, l11, l12, l13, l21, l22, l23, l31, l32, l33;
+
+    private JTextField t11, t12, t13, t21, t22, t23, t31, t32, t33;
 
     public OrderAddWindow() {
         initComponents();
@@ -28,8 +34,6 @@ public class OrderAddWindow extends JPanel implements ActionListener {
 
     private void initComponents() {
         contentPane = new JPanel();
-
-        //contentPane.setLayout(null);
 
         lblTitle = new JLabel("CREAR PEDIDO");
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
@@ -65,23 +69,80 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         textWeight = new JTextField(20);
         contentPane.add(textWeight);
 
-        /*d = new JLabel("MID Material");
-        contentPane.add(s);
+        panel1 = new JPanel();
 
-        s = new JTextField(20);
-        contentPane.add(s);
+        l1 = new JLabel("Material 1:");
+        panel1.add(l1);
 
-        d = new JLabel("Unidades");
-        contentPane.add(s);
+        l11 = new JLabel("MID");
+        panel1.add(l11);
 
-        s = new JTextField(20);
-        contentPane.add(s);
+        t11 = new JTextField(20);
+        panel1.add(t11);
 
-        d = new JLabel("Precio");
-        contentPane.add(s);
+        l12 = new JLabel("Unidades");
+        panel1.add(l12);
 
-        s = new JTextField(20);
-        contentPane.add(s);*/
+        t12 = new JTextField(20);
+        panel1.add(t12);
+
+        l13 = new JLabel("Precio");
+        panel1.add(l13);
+
+        t13 = new JTextField(20);
+        panel1.add(t13);
+
+        //
+        panel2 = new JPanel();
+
+        l2 = new JLabel("Material 2:");
+        panel2.add(l2);
+
+        l21 = new JLabel("MID");
+        panel2.add(l21);
+
+        t21 = new JTextField(20);
+        panel2.add(t21);
+
+        l22 = new JLabel("Unidades");
+        panel2.add(l22);
+
+        t22 = new JTextField(20);
+        panel2.add(t22);
+
+        l23 = new JLabel("Precio");
+        panel2.add(l23);
+
+        t23 = new JTextField(20);
+        panel2.add(t23);
+
+        //
+        panel3 = new JPanel();
+
+        l3 = new JLabel("Material 3:");
+        panel3.add(l3);
+
+        l31 = new JLabel("MID");
+        panel3.add(l31);
+
+        t31 = new JTextField(20);
+        panel3.add(t31);
+
+        l32 = new JLabel("Unidades");
+        panel3.add(l32);
+
+        t32 = new JTextField(20);
+        panel3.add(t32);
+
+        l33 = new JLabel("Precio");
+        panel3.add(l33);
+
+        t33 = new JTextField(20);
+        panel3.add(t33);
+
+        contentPane.add(panel1);
+        contentPane.add(panel2);
+        contentPane.add(panel3);
 
         // Botones
 
@@ -89,9 +150,6 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         contentPane.add(btnMakeOrder);
         btnMakeOrder.addActionListener(this);
 
-        btnCancel = new JButton("Cancelar");
-        contentPane.add(btnCancel);
-        btnCancel.addActionListener(this);
 
         btnDeleteAll = new JButton("Borrar todo");
         contentPane.add(btnDeleteAll);
@@ -102,9 +160,6 @@ public class OrderAddWindow extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnMakeOrder) {
             onBtnMakeOrder();
-        }
-        if (e.getSource() == btnCancel) {
-
         }
         if (e.getSource() == btnDeleteAll) {
 
@@ -135,7 +190,7 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         order.setDateDeliveryOrder(textDateDelivery.getText());
         order.setWeightOrder(weight);
 
-        ArrayList<Material> materials = new ArrayList<>();
+        ArrayList<Material> materials = createMaterials();
 
         int result = coordinator.validarAdicionPedido(order, materials);
 
@@ -166,8 +221,30 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         }
     }
 
-    public void getDatos() {
-        //REcoge todos los datos
+    private ArrayList<Material> createMaterials() {
+        ArrayList<Material> materials = new ArrayList<>();
+        Material m1 = new Material();
+        if(!l11.equals("") && !l12.equals("") && !l13.equals("")) {
+            m1.setMidMaterial(l11.getText());
+            m1.setUnitsMaterial(Integer.parseInt(l12.getText()));
+            m1.setPriceOrderMaterial(Integer.parseInt(l13.getText()));
+            materials.add(m1);
+        }
+        Material m2 = new Material();
+        if(!l21.equals("") && !l22.equals("") && !l23.equals("")) {
+            m2.setMidMaterial(l21.getText());
+            m2.setUnitsMaterial(Integer.parseInt(l22.getText()));
+            m2.setPriceOrderMaterial(Integer.parseInt(l23.getText()));
+            materials.add(m2);
+        }
+        Material m3 = new Material();
+        if(!l31.equals("") && !l32.equals("") && !l33.equals("")) {
+            m3.setMidMaterial(l31.getText());
+            m3.setUnitsMaterial(Integer.parseInt(l32.getText()));
+            m3.setPriceOrderMaterial(Integer.parseInt(l33.getText()));
+            materials.add(m3);
+        }
+        return materials;
     }
 
     public Coordinator getCoordinator() {

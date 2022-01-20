@@ -24,7 +24,7 @@ public class MemberAddWindow extends JPanel implements ActionListener {
             textPriceSubscription, textDateOfBirth, textPaymentMethod, textPaymentNumber, textPhone, textMail,
             textStreet, textCity, textPostalCode, textId;
 
-    private JButton btnMemberAdd, btnModifyMember, btnCancel, btnDeleteAll;
+    private JButton btnMemberAdd, btnModifyMember, btnDeleteAll;
 
     private JCheckBox checkBoxActive;
 
@@ -41,91 +41,91 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(lblTitle);
 
-        lblDni = new JLabel("");
+        lblDni = new JLabel("DNI");
         contentPane.add(lblDni);
 
         textDni = new JTextField(20);
         contentPane.add(textDni);
 
-        lblName = new JLabel("");
+        lblName = new JLabel("Nombre");
         contentPane.add(lblName);
 
         textName = new JTextField(20);
         contentPane.add(textName);
 
-        lblFirstSurname = new JLabel("");
+        lblFirstSurname = new JLabel("Primer apellido");
         contentPane.add(lblFirstSurname);
 
         textFirstSurname = new JTextField(20);
         contentPane.add(textFirstSurname);
 
-        lblSecondSurname = new JLabel("");
+        lblSecondSurname = new JLabel("Segundo apellido");
         contentPane.add(lblSecondSurname);
 
         textSecondSurname = new JTextField(20);
         contentPane.add(textSecondSurname);
 
-        lblRate = new JLabel("");
+        lblRate = new JLabel("Rol");
         contentPane.add(lblRate);
 
         textRate = new JTextField(20);
         contentPane.add(textRate);
 
-        lblDateSubscription = new JLabel("");
+        lblDateSubscription = new JLabel("Fecha de suscripcion");
         contentPane.add(lblDateSubscription);
 
         textDateSubscription = new JTextField(20);
         contentPane.add(textDateSubscription);
 
-        lblPriceSubscription = new JLabel("");
+        lblPriceSubscription = new JLabel("Precio de subscripcion");
         contentPane.add(lblPriceSubscription);
 
         textPriceSubscription = new JTextField(20);
         contentPane.add(textPriceSubscription);
 
-        lblDateOfBirth = new JLabel("");
+        lblDateOfBirth = new JLabel("Fecha de nacimiento");
         contentPane.add(lblDateOfBirth);
 
         textDateOfBirth = new JTextField(20);
         contentPane.add(textDateOfBirth);
 
-        lblPaymentMethod = new JLabel("");
+        lblPaymentMethod = new JLabel("Metodo de pago");
         contentPane.add(lblPaymentMethod);
 
         textPaymentMethod = new JTextField(20);
         contentPane.add(textPaymentMethod);
 
-        lblPaymentNumber = new JLabel("");
+        lblPaymentNumber = new JLabel("Numero de pago");
         contentPane.add(lblPaymentNumber);
 
         textPaymentNumber = new JTextField(20);
         contentPane.add(textPaymentNumber);
 
-        lblPhone = new JLabel("");
+        lblPhone = new JLabel("Telefono");
         contentPane.add(lblPhone);
 
         textPhone = new JTextField(20);
         contentPane.add(textPhone);
 
-        lblMail = new JLabel("");
+        lblMail = new JLabel("Correo electronico");
         contentPane.add(lblMail);
 
         textMail = new JTextField(20);
         contentPane.add(textMail);
 
-        lblStreet = new JLabel("");
+        lblStreet = new JLabel("Calle");
         contentPane.add(lblStreet);
 
         textStreet = new JTextField(20);
         contentPane.add(textStreet);
 
-        lblCity = new JLabel("");
+        lblCity = new JLabel("Ciudad");
         contentPane.add(lblCity);
 
         textCity = new JTextField(20);
         contentPane.add(textCity);
 
-        lblPostalCode = new JLabel("");
+        lblPostalCode = new JLabel("Codigo postal");
         contentPane.add(lblPostalCode);
 
         textPostalCode = new JTextField(20);
@@ -134,7 +134,7 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         checkBoxActive = new JCheckBox("Activo");
         contentPane.add(checkBoxActive);
 
-        lblId = new JLabel("");
+        lblId = new JLabel("ID");
         contentPane.add(lblId);
 
         textId = new JTextField(20);
@@ -150,16 +150,10 @@ public class MemberAddWindow extends JPanel implements ActionListener {
 
         btnModifyMember = new JButton();
         btnModifyMember.setBounds(110, 360, 120, 25);
-        btnModifyMember.setText("Modificar empleado");
+        btnModifyMember.setText("Modificar miembro");
         btnModifyMember.addActionListener(this);
         contentPane.add(btnModifyMember);
         btnModifyMember.setVisible(false);
-
-        btnCancel = new JButton();
-        btnCancel.setBounds(250, 360, 120, 25);
-        btnCancel.setText("Cancelar");
-        contentPane.add(btnCancel);
-        btnCancel.addActionListener(this);
 
         btnDeleteAll = new JButton();
         btnDeleteAll.setBounds(390, 360, 120, 25);
@@ -175,9 +169,6 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         }
         if (e.getSource() == btnModifyMember) {
             onBtnModifyMember();
-        }
-        if (e.getSource() == btnCancel) {
-
         }
         if (e.getSource() == btnDeleteAll) {
 
@@ -340,6 +331,8 @@ public class MemberAddWindow extends JPanel implements ActionListener {
     public JPanel getContentPane() {
         if(member != null) {
             fillFields();
+            btnModifyMember.setVisible(true);
+            btnMemberAdd.setVisible(false);
         }
         return contentPane;
     }

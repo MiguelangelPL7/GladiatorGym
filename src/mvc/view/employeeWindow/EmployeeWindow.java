@@ -63,7 +63,7 @@ public class EmployeeWindow extends JPanel implements ActionListener {
             coordinator.setEmployee(employee);
             coordinator.loadPanel(12);
         } else {
-            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe poner un ID", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 
