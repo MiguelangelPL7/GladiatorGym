@@ -60,8 +60,13 @@ public class EmployeeWindow extends JPanel implements ActionListener {
     private void onBtnSearchEmployee() {
         if (!textDni.getText().equals("")) {
             Employee employee = coordinator.solicitarInfoEmpleado(textDni.getText());
-            coordinator.setEmployee(employee);
-            coordinator.loadPanel(12);
+            if(employee.getDniEmployee().equals("0")){
+                String message = "El DNI no es correcto";
+                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            }else{
+                coordinator.setEmployee(employee);
+                coordinator.loadPanel(12);
+            }
         } else {
             JOptionPane.showMessageDialog(null, "Debe poner un ID", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }

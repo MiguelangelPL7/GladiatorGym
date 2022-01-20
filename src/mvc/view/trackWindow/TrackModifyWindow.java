@@ -32,7 +32,7 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        lblId = new JLabel("Id pista");
+        lblId = new JLabel("Codigo de Pista");
         contentPane.add(lblId);
 
         textIDTrack = new JTextField(20);
@@ -143,9 +143,13 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
 
     private void fillFields() {
         String idTrack = String.valueOf(track.getCodigoPista());
+        if(idTrack.equals("0")){idTrack="";}
         String idMember = String.valueOf(track.getMiembroID());
+        if(idMember.equals("0")){idMember="";}
         String price = String.valueOf(track.getPrecioPorHora());
+        if(price.equals("0.0")){price="";}
         String pid = String.valueOf(track.getPistaPID());
+        if(pid.equals("0")){pid="";}
 
         textIDTrack.setText(idTrack);
         textPID.setText(pid);

@@ -66,13 +66,19 @@ public class ActivityWindow extends JPanel implements ActionListener {
             try {
                 int id = Integer.parseInt(textId.getText());
                 Activity activity = coordinator.solicitarInfoA(id);
-                coordinator.setActivity(activity);
-                coordinator.loadPanel(3);
+                if(activity.getCodigoActividad()==0){
+                    String message = "El Codigo de Actividad no es correcto";
+                    JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+                }else{
+                    coordinator.setActivity(activity);
+                    coordinator.loadPanel(3);
+                }
+
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dato numerico", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe poner un Codigo de Actividad", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

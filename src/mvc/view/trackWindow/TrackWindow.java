@@ -66,13 +66,18 @@ public class TrackWindow extends JPanel implements ActionListener {
             try {
                 int id = Integer.parseInt(textIDTrack.getText());
                 Track track = coordinator.solicitarInfoP(id);
-                coordinator.setTrack(track);
-                coordinator.loadPanel(53);
+                if(track.getCodigoPista()==0){
+                    String message = "El Codigo de Pista no es correcto";
+                    JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+                }else{
+                    coordinator.setTrack(track);
+                    coordinator.loadPanel(53);
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Debe ingresar un dato numerico", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe poner un Codigo de Pista", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

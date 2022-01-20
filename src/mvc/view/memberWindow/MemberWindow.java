@@ -66,8 +66,13 @@ public class MemberWindow extends JPanel implements ActionListener {
             try {
                 int id = Integer.parseInt(textDni.getText());
                 Member member = coordinator.solicitarInfoMiembro(id);
-                coordinator.setMember(member);
-                coordinator.loadPanel(32);
+                if(member.getIdMember()==0){
+                    String message = "El ID no es correcto";
+                    JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+                }else{
+                    coordinator.setMember(member);
+                    coordinator.loadPanel(32);
+                }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
             }

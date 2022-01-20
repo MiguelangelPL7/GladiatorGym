@@ -31,7 +31,7 @@ public class ActivityModifyWindow extends JPanel implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        lblId = new JLabel("Id pista");
+        lblId = new JLabel("Codigo de Actividad");
         contentPane.add(lblId);
 
         textId = new JTextField(20);
@@ -49,7 +49,7 @@ public class ActivityModifyWindow extends JPanel implements ActionListener {
         textSchedule = new JTextField(20);
         contentPane.add(textSchedule);
 
-        lblMonitorDNI = new JLabel("Id monitor");
+        lblMonitorDNI = new JLabel("DNI Monitor");
         contentPane.add(lblMonitorDNI);
 
         textMonitorDNI = new JTextField(20);
@@ -144,8 +144,11 @@ public class ActivityModifyWindow extends JPanel implements ActionListener {
 
     private void fillFields() {
         String idActivity = String.valueOf(activity.getCodigoActividad());
+        if(idActivity.equals("0")){idActivity="";}
         String pid = String.valueOf(activity.getActividadPID());
+        if(pid.equals("0")){pid="";}
         String maxCapacity = String.valueOf(activity.getCapacidadMaxima());
+        if(maxCapacity.equals("0")){maxCapacity="";}
 
         textId.setText(idActivity);
         textPID.setText(pid);
