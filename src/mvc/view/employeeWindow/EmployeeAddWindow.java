@@ -1,222 +1,183 @@
 package mvc.view.employeeWindow;
 
 import mvc.controller.Coordinator;
+import mvc.model.vo.Employee;
+import mvc.model.vo.Order;
 import mvc.view.memberWindow.MemberAddWindow;
+import utils.PropertyNames;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
-public class EmployeeAddWindow  extends JDialog implements ActionListener {
+public class EmployeeAddWindow extends JPanel implements ActionListener {
 
     private Coordinator coordinator;
 
     private JPanel contentPane;
 
-    private JLabel title;
-    private JLabel name;
-    private JLabel surname;
-    private JLabel dateInit;
-    private JLabel dni;
-    private JLabel age;
-    private JLabel dateOfBirth;
-    private JLabel paymentMethod;
-    private JLabel numberPhone;
-    private JLabel mail;
-    private JLabel direction;
-    private JLabel salary;
-    private JLabel user;
-    private JLabel pass;
-    private JLabel range;
+    private JLabel lblTitle, lblDni, lblName, lblFirstSurname, lblSecondSurname, lblDateInit, lblDateOfBirtht,
+            lblPaymentMethod, lblPaymentNumber, lblNumberPhone, lblMail, lblStreet, lblCity, lblPostalCode,
+            lblSalary, lblUser, lblPass, lblRange;
 
-    private JTextField textName, textSurname, textDateInit, textDni, textAge, textDateOfBirth, textPaymentMethod,
-        textNumberPhone, textMail, textDirection, textSalary, textUser, textPass, textRange;
+    private JTextField textDni, textName, textFirstSurname, textSecondSurname, textDateInit, textDateOfBirtht,
+            textPaymentMethod, textPaymentNumber, textNumberPhone, textMail, textStreet, textCity, textPostalCode,
+            textSalary, textUser, textPass, textRange;
 
-    private JButton btnCreateEmployee;
-    private JButton btnCancel;
-    private JButton btnDeleteAll;
+    private JButton btnCreateEmployee, btnCancel, btnDeleteAll, btnModifyEmployee;
+
+    private Employee employee;
 
     public EmployeeAddWindow() {
-        contentPane = new JPanel();
+        initComponents();
     }
 
     private void initComponents() {
         contentPane = new JPanel();
 
-        setContentPane(contentPane);
-        setModal(true);
-        setBounds(100, 100,800,600);
-        setTitle("Crear nuevo miembro");
-        setLocationRelativeTo(null);
-        setLayout(null);
+        lblTitle= new JLabel("CREAR UN EMPLEADO");
+        lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
+        contentPane.add(lblTitle);
 
-        title = new JLabel();
-        title.setText("CREAR UN MIEMBRO");
-        title.setBounds(120, 20, 380, 30);
-        title.setFont(new java.awt.Font("Verdana", 1, 18));
-        contentPane.add(title);
+        lblDni = new JLabel("DNI");
+        contentPane.add(lblDni);
 
-        name = new JLabel();
-        name.setText("Nombre");
-        name.setBounds(20, 120, 80, 25);
-        contentPane.add(name);
-
-        surname = new JLabel();
-        surname.setText("Apellidos");
-        surname.setBounds(290, 120, 80, 25);
-        contentPane.add(surname);
-
-        dateInit = new JLabel();
-        dateInit.setText("Fecha de inicio");
-        dateInit.setBounds(20, 160, 80, 25);
-        contentPane.add(dateInit);
-
-        dni = new JLabel();
-        dni.setText("DNI");
-        dni.setBounds(290, 160, 80, 25);
-        contentPane.add(dni);
-
-        age = new JLabel();
-        age.setText("Edad");
-        age.setBounds(20, 200, 80, 25);
-        contentPane.add(age);
-
-        dateOfBirth = new JLabel();
-        dateOfBirth.setText("Fecha de nacimiento");
-        dateOfBirth.setBounds(290, 200, 120, 25);
-        contentPane.add(dateOfBirth);
-
-        paymentMethod = new JLabel();
-        paymentMethod.setText("Metodo de pago");
-        paymentMethod.setBounds(20, 240, 80, 25);
-        contentPane.add(paymentMethod);
-
-        numberPhone = new JLabel();
-        numberPhone.setText("Telefono");
-        numberPhone.setBounds(290, 240, 120, 25);
-        numberPhone.add(numberPhone);
-
-        mail = new JLabel();
-        mail.setText("Correo electronico");
-        mail.setBounds(20, 280, 80, 25);
-        contentPane.add(mail);
-
-        direction = new JLabel();
-        direction.setText("Direccion");
-        direction.setBounds(290, 280, 80, 25);
-        contentPane.add(direction);
-
-        salary = new JLabel();
-        salary.setText("Salario");
-        salary.setBounds(20, 320, 80, 25);
-        contentPane.add(salary);
-
-        range = new JLabel();
-        range.setText("Rango");
-        range.setBounds(290, 320, 80, 25);
-        contentPane.add(range);
-
-        user = new JLabel();
-        user.setText("Usuario");
-        user.setBounds(20, 360, 80, 25);
-        contentPane.add(user);
-
-        pass = new JLabel();
-        pass.setText("Contraseña");
-        user.setBounds(290, 360, 80, 25);
-        contentPane.add(pass);
-
-
-
-
-        textName = new JTextField();
-        textName.setBounds(80, 120, 190, 25);
-        contentPane.add(textName);
-
-        textSurname = new JTextField();
-        textSurname.setBounds(340, 120, 190, 25);
-        contentPane.add(textSurname);
-
-        textDateInit = new JTextField();
-        textDateInit.setBounds(80, 160, 80, 25);
-        contentPane.add(textDateInit);
-
-        textDni = new JTextField();
-        textDni.setBounds(340, 160, 80, 25);
+        textDni = new JTextField(20);
         contentPane.add(textDni);
 
-        textAge = new JTextField();
-        textAge.setBounds(80, 200, 190, 25);
-        contentPane.add(textAge);
+        lblName = new JLabel("Nombre");
+        contentPane.add(lblName);
 
-        textDateOfBirth = new JTextField();
-        textDateOfBirth.setBounds(340, 200, 120, 25);
-        contentPane.add(textDateOfBirth);
+        textName = new JTextField(20);
+        contentPane.add(textName);
 
-        textPaymentMethod = new JTextField();
-        textPaymentMethod.setBounds(80, 240, 80, 25);
+        lblFirstSurname = new JLabel("Primer apellido");
+        contentPane.add(lblFirstSurname);
+
+        textFirstSurname = new JTextField(20);
+        contentPane.add(textFirstSurname);
+
+        lblSecondSurname = new JLabel("Segundo apellido");
+        contentPane.add(lblSecondSurname);
+
+        textSecondSurname = new JTextField(20);
+        contentPane.add(textSecondSurname);
+
+        lblDateInit = new JLabel("Fecha de incio");
+        contentPane.add(lblDateInit);
+
+        textDateInit = new JTextField(20);
+        contentPane.add(textDateInit);
+
+        lblDateOfBirtht = new JLabel("Fecha de nacimiento");
+        contentPane.add(lblDateOfBirtht);
+
+        textDateOfBirtht = new JTextField(20);
+        contentPane.add(textDateOfBirtht);
+
+        lblPaymentMethod = new JLabel("Metodo de pago");
+        contentPane.add(lblPaymentMethod);
+
+        textPaymentMethod = new JTextField(20);
         contentPane.add(textPaymentMethod);
 
-        textNumberPhone = new JTextField();
-        textNumberPhone.setBounds(340, 240, 120, 25);
+        lblPaymentNumber = new JLabel("Numero de pago");
+        contentPane.add(lblPaymentNumber);
+
+        textPaymentNumber = new JTextField(20);
+        contentPane.add(textPaymentNumber);
+
+        lblNumberPhone = new JLabel("Telefono");
+        contentPane.add(lblNumberPhone);
+
+        textNumberPhone = new JTextField(20);
         contentPane.add(textNumberPhone);
 
-        textMail = new JTextField();
-        textMail.setBounds(80, 280, 80, 25);
+        lblMail = new JLabel("Correo electrónico");
+        contentPane.add(lblMail);
+
+        textMail = new JTextField(20);
         contentPane.add(textMail);
 
-        textDirection = new JTextField();
-        textDirection.setBounds(340, 280, 80, 25);
-        contentPane.add(textDirection);
+        lblStreet = new JLabel("Calle");
+        contentPane.add(lblStreet);
 
-        textDirection = new JTextField();
-        textDirection.setBounds(80, 320, 80, 25);
-        contentPane.add(textDirection);
+        textStreet = new JTextField(20);
+        contentPane.add(textStreet);
 
+        lblCity = new JLabel("Ciudad");
+        contentPane.add(lblCity);
 
-        textSalary = new JTextField();
-        textSalary.setBounds(340, 320, 80, 25);
+        textCity = new JTextField(20);
+        contentPane.add(textCity);
+
+        lblPostalCode = new JLabel("Codigo postal");
+        contentPane.add(lblPostalCode);
+
+        textPostalCode = new JTextField(20);
+        contentPane.add(textPostalCode);
+
+        lblSalary = new JLabel("Salario");
+        contentPane.add(lblSalary);
+
+        textSalary = new JTextField(20);
         contentPane.add(textSalary);
 
-        textUser = new JTextField();
-        textUser.setBounds(80, 360, 80, 25);
+        lblUser = new JLabel("Usuario");
+        contentPane.add(lblUser);
+
+        textUser = new JTextField(20);
         contentPane.add(textUser);
 
+        lblPass = new JLabel("Contraseña");
+        contentPane.add(lblPass);
 
-        textPass = new JTextField();
-        textPass.setBounds(340, 360, 80, 25);
+        textPass = new JTextField(20);
         contentPane.add(textPass);
 
-        textRange = new JTextField();
-        textRange.setBounds(80, 400, 80, 25);
-        contentPane.add(textRange);
+        lblRange = new JLabel("Rol");
+        contentPane.add(lblRange);
 
+        textRange = new JTextField(20);
+        contentPane.add(textRange);
 
         // Botones
 
         btnCreateEmployee = new JButton();
         btnCreateEmployee.setBounds(110, 360, 120, 25);
         btnCreateEmployee.setText("Crear empleado");
-        contentPane.add(btnCreateEmployee);
         btnCreateEmployee.addActionListener(this);
+        contentPane.add(btnCreateEmployee);
+
+        btnModifyEmployee = new JButton();
+        btnModifyEmployee.setBounds(110, 360, 120, 25);
+        btnModifyEmployee.setText("Modificar empleado");
+        btnModifyEmployee.addActionListener(this);
+        contentPane.add(btnModifyEmployee);
+        btnModifyEmployee.setVisible(false);
 
         btnCancel = new JButton();
         btnCancel.setBounds(250, 360, 120, 25);
         btnCancel.setText("Cancelar");
-        contentPane.add(btnCancel);
         btnCancel.addActionListener(this);
+        contentPane.add(btnCancel);
 
         btnDeleteAll = new JButton();
         btnDeleteAll.setBounds(390, 360, 120, 25);
         btnDeleteAll.setText("Borrar todo");
-        contentPane.add(btnDeleteAll);
         btnDeleteAll.addActionListener(this);
+        contentPane.add(btnDeleteAll);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnCreateEmployee) {
-
+            onBtnCreateEmployee();
+        }
+        if (e.getSource() == btnModifyEmployee) {
+            onBtnModifyEmployee();
         }
         if (e.getSource() == btnCancel) {
 
@@ -226,7 +187,143 @@ public class EmployeeAddWindow  extends JDialog implements ActionListener {
         }
     }
 
-    public void getDatos() {
-        //REcoge todos los datos
+    private void onBtnCreateEmployee() {
+        int result = coordinator.validarNuevoEmpleado(getEmployeeData());
+        //-10 = rango inválido para realizar accion
+        // 1 = adicion correcta;
+        // //0= adicion fallida
+        // -1 = atributos inválidos
+        //-2 = DNI ya existente
+        if(result == 1) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case -10:
+                    message = "Rango invalido para realizar la accion";
+                    break;
+                case -2:
+                    message = "El DNI ya existe";
+                    break;
+                case -1:
+                    message = "Atributos invalidos";
+                    break;
+                case 0:
+                    message = "No se ha podido añadir";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void onBtnModifyEmployee() {
+        int result = coordinator.validarModificacionEmpleado(getEmployeeData());
+        //-10 = rango inválido para realizar accion
+        // 1 = adicion correcta;
+        //0= adicion fallida
+        // -1 = atributos inválidos
+        //-2 = id de empleado no existente
+        if(result == 1) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case -10:
+                    message = "Rango invalido para realizar la accion";
+                    break;
+                case -2:
+                    message = "El DNI no es correcto";
+                    break;
+                case -1:
+                    message = "Atributos invalidos";
+                    break;
+                case 0:
+                    message = "No se ha podido modificar";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void fillFields() {
+        String phone = String.valueOf(employee.getPhoneEmployee());
+        String postalCode = String.valueOf(employee.getPostalCodeEmployee());
+        String salary = String.valueOf(employee.getSalaryEmployee());
+
+        textDni.setText(employee.getDniEmployee());
+        textName.setText(employee.getNameEmployee());
+        textFirstSurname.setText(employee.getFirstSurnameEmployee());
+        textSecondSurname.setText(employee.getSecondSurnameEmployee());
+        textDateInit.setText(employee.getDateAdmissionEmployee());
+        textDateOfBirtht.setText(employee.getDateOfBirthdayEmployee());
+        textPaymentMethod.setText(employee.getPaymentMethodEmployee());
+        textPaymentNumber.setText(employee.getPaymentNumberEmployee());
+        textNumberPhone.setText(phone);
+        textMail.setText(employee.getMailEmployee());
+        textStreet.setText(employee.getStreetEmployee());
+        textCity.setText(employee.getCityEmployee());
+        textPostalCode.setText(postalCode);
+        textSalary.setText(salary);
+        textUser.setText(employee.getUserEmployee());
+        textPass.setText(employee.getPasswordEmployee());
+        textRange.setText(employee.getGradeEmployee());
+    }
+
+    private Employee getEmployeeData() {
+        Employee employee = new Employee();
+        try {
+            int phone = Integer.parseInt(textNumberPhone.getText());
+            int postalCode = Integer.parseInt(textPostalCode.getText());
+            double salaryEmployee = Double.parseDouble(textSalary.getText());
+
+            employee.setDniEmployee(textDni.getText());
+            employee.setNameEmployee(textName.getText());
+            employee.setFirstSurnameEmployee(textFirstSurname.getText());
+            employee.setSecondSurnameEmployee(textSecondSurname.getText());
+            employee.setDateAdmissionEmployee(textDateInit.getText());
+            employee.setDateOfBirthdayEmployee(textDateOfBirtht.getText());
+            employee.setPaymentMethodEmployee(textPaymentMethod.getText());
+            employee.setPaymentNumberEmployee(textPaymentNumber.getText());
+            employee.setPhoneEmployee(phone);
+            employee.setMailEmployee(textMail.getText());
+            employee.setStreetEmployee(textStreet.getText());
+            employee.setCityEmployee(textCity.getText());
+            employee.setPostalCodeEmployee(postalCode);
+            employee.setSalaryEmployee(salaryEmployee);
+            employee.setUserEmployee(textUser.getText());
+            employee.setPasswordEmployee(textPass.getText());
+            employee.setGradeEmployee(textRange.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        return employee;
+    }
+
+    public Coordinator getCoordinator() {
+        return coordinator;
+    }
+
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
+
+    public JPanel getContentPane() {
+        if(employee != null) {
+            fillFields();
+            btnModifyEmployee.setVisible(true);
+        }
+        return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 }

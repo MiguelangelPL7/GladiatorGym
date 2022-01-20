@@ -1,6 +1,8 @@
 package mvc.view.memberWindow;
 
 import mvc.controller.Coordinator;
+import mvc.model.vo.Member;
+import utils.PropertyNames;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,66 +15,95 @@ public class MemberWindow extends JPanel implements ActionListener {
 
     private JPanel contentPane;
 
-    private JLabel name;
-    private JLabel surname;
-    private JLabel dni;
-    private JLabel rate;
-    private JLabel age;
-    private JLabel dateOfBirth;
-    private JLabel price;
-    private JLabel paymentMethod;
-    private JLabel numberPhone;
-    private JLabel mail;
-    private JLabel direction;
+    private JButton btnNewMember, btnSearchMember, btnDeleteMember;
 
-    private JButton btnNewMember;
+    private JTextField textDni;
 
     public MemberWindow() {
-        contentPane = new JPanel();
-        //contentPane.setLayout(new BorderLayout(1, 1));
+        initComponents();
+    }
 
-        name = new JLabel();
-        surname = new JLabel();
-        dni = new JLabel();
-        rate = new JLabel();
-        age = new JLabel();
-        dateOfBirth = new JLabel();
-        price = new JLabel();
-        paymentMethod = new JLabel();
-        numberPhone = new JLabel();
-        mail = new JLabel();
-        direction = new JLabel();
+    private void initComponents() {
+        contentPane = new JPanel();
+
+        contentPane.setLayout(new GridLayout(4, 1));
+
 
         btnNewMember = new JButton("Nuevo miembro");
-
-        contentPane.add(name);
-        contentPane.add(surname);
-        contentPane.add(dni);
-        contentPane.add(rate);
-        contentPane.add(age);
-        contentPane.add(dateOfBirth);
-        contentPane.add(price);
-        contentPane.add(paymentMethod);
-        contentPane.add(numberPhone);
-        contentPane.add(mail);
-        contentPane.add(direction);
+        btnNewMember.setBounds(20, 100, 30, 30);
+        btnNewMember.addActionListener(this);
         contentPane.add(btnNewMember);
 
-        btnNewMember.addActionListener(this);
+        textDni = new JTextField(20);
+        contentPane.add(textDni);
+
+        btnSearchMember = new JButton("Buscar miembro");
+        btnSearchMember.setBounds(20, 100, 30, 30);
+        btnSearchMember.addActionListener(this);
+        contentPane.add(btnSearchMember);
+
+        btnDeleteMember = new JButton("Eliminar miembro");
+        btnDeleteMember.setBounds(20, 100, 30, 30);
+        btnDeleteMember.addActionListener(this);
+        contentPane.add(btnDeleteMember);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnNewMember) {
-            MemberAddWindow memberAddWindow = new MemberAddWindow();
-            memberAddWindow.pack();
-            memberAddWindow.setVisible(true);
+            coordinator.loadPanel(32);
         }
-        // modificar
-        if (e.getSource() == btnNewMember) {
-            MemberAddWindow memberAddWindow = new MemberAddWindow();
-            memberAddWindow.pack();
-            memberAddWindow.setVisible(true);
+        if (e.getSource() == btnSearchMember) {
+            onBtnSearchEmployee();
+        }
+        if (e.getSource() == btnDeleteMember) {
+            onBtnDeleteMember();
+        }
+    }
+
+    private void onBtnSearchEmployee() {
+        if (!textDni.getText().equals("")) {
+            try {
+                int id = Integer.parseInt(textDni.getText());
+                Member member = coordinator.solicitarInfoMiembro(id);
+                coordinator.setMember(member);
+                coordinator.loadPanel(32);
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+            }
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void onBtnDeleteMember() {
+        if (!textDni.getText().equals("")) {
+            try {
+                int id = Integer.parseInt(textDni.getText());
+                int result = coordinator.validarEliminacionMiembro(id);
+                //-10 = rango inválido para realizar accion
+                // 1 = eliminacion correcta
+                //-2 = id de miembro no existente o ya activo
+
+                if(result == 1) {
+
+                } else {
+                    String message = "";
+                    switch (result) {
+                        case -10:
+                            message = "Rango invalido para realizar la accion";
+                            break;
+                        case -2:
+                            message = "El DNI no es correcto";
+                    }
+                    JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+                }
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

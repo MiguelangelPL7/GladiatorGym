@@ -1,62 +1,98 @@
 package mvc.view.employeeWindow;
 
 import mvc.controller.Coordinator;
+import mvc.model.vo.Employee;
+import utils.PropertyNames;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class EmployeeWindow extends JPanel {
+public class EmployeeWindow extends JPanel implements ActionListener {
 
     private Coordinator coordinator;
 
     private JPanel contentPane;
 
-    private JLabel name;
-    private JLabel surname;
-    private JLabel dateInit;
-    private JLabel dni;
-    private JLabel age;
-    private JLabel dateOfBirth;
-    private JLabel paymentMethod;
-    private JLabel numberPhone;
-    private JLabel email;
-    private JLabel direction;
-    private JLabel salary;
-    private JLabel user;
-    private JLabel pass;
-    private JLabel range;
+    private JButton btnCreateEmployee, btnSearchEmployee, btnDeleteEmployee;
+
+    private JTextField textDni;
 
     public EmployeeWindow() {
+        initComponents();
+    }
+
+    private void initComponents() {
         contentPane = new JPanel();
 
-        name = new JLabel();
-        surname = new JLabel();
-        dateInit = new JLabel();
-        dni = new JLabel();
-        age = new JLabel();
-        dateOfBirth = new JLabel();
-        paymentMethod = new JLabel();
-        numberPhone = new JLabel();
-        email = new JLabel();
-        direction = new JLabel();
-        salary = new JLabel();
-        user = new JLabel();
-        pass = new JLabel();
-        range = new JLabel();
+        contentPane.setLayout(new GridLayout(4, 1));
 
-        contentPane.add(name);
-        contentPane.add(surname);
-        contentPane.add(dateInit);
-        contentPane.add(dni);
-        contentPane.add(age);
-        contentPane.add(dateOfBirth);
-        contentPane.add(paymentMethod);
-        contentPane.add(numberPhone);
-        contentPane.add(email);
-        contentPane.add(direction);
-        contentPane.add(salary);
-        contentPane.add(user);
-        contentPane.add(pass);
-        contentPane.add(range);
+        btnCreateEmployee = new JButton("Nuevo empleado");
+        btnCreateEmployee.addActionListener(this);
+        contentPane.add(btnCreateEmployee);
+
+        textDni = new JTextField(20);
+        contentPane.add(textDni);
+
+        btnSearchEmployee = new JButton("Buscar empleado");
+        btnSearchEmployee.addActionListener(this);
+        contentPane.add(btnSearchEmployee);
+
+        btnDeleteEmployee = new JButton("Eliminar empleado");
+        btnDeleteEmployee.addActionListener(this);
+        contentPane.add(btnDeleteEmployee);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == btnCreateEmployee) {
+            coordinator.loadPanel(12);
+        }
+        if (e.getSource() == btnSearchEmployee) {
+            onBtnSearchEmployee();
+        }
+        if (e.getSource() == btnDeleteEmployee) {
+            onBtnDeleteEmployee();
+        }
+    }
+
+    private void onBtnSearchEmployee() {
+        if (!textDni.getText().equals("")) {
+            Employee employee = coordinator.solicitarInfoEmpleado(textDni.getText());
+            coordinator.setEmployee(employee);
+            coordinator.loadPanel(12);
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
+    }
+
+    private void onBtnDeleteEmployee() {
+        if (!textDni.getText().equals("")) {
+            //-10 = rango inválido para realizar accion
+            //-20 = no te puedes eliminar a ti mismo
+            //-2 = mid de material no existente
+            int result = coordinator.validarEliminacionEmpleado(textDni.getText());
+            if(result == 1) {
+
+            } else {
+                String message = "";
+                switch (result) {
+                    case -10:
+                        message = "Rango invalido para realizar la accion";
+                        break;
+                    case -2:
+                        message = "El DNI no es correcto";
+                        break;
+                    case -20:
+                        message = "No te puedes eliminar a ti mismo";
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
     }
 
     public Coordinator getCoordinator() {

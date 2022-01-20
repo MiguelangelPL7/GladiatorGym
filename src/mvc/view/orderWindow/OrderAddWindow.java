@@ -1,26 +1,26 @@
 package mvc.view.orderWindow;
 
+import mvc.controller.Coordinator;
+import mvc.model.vo.Material;
+import mvc.model.vo.Order;
+import utils.PropertyNames;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
-public class OrderAddWindow extends JDialog implements ActionListener {
+public class OrderAddWindow extends JPanel implements ActionListener {
+
+    private Coordinator coordinator;
 
     private JPanel contentPane;
 
-    private JLabel title;
-    private JLabel name;
-    private JLabel price;
-    private JLabel dateOrder;
-    private JLabel dateDelivery;
-    private JLabel weight;
-    private JLabel listOrder;
+    private JLabel lblTitle, lblNid, lblName,  lblPrice, lblDateDelivery, lblWeight;
 
-    private JTextField textName, textPrice, textDateOrder, textDateDelivery, textWeight, textListOrder;
+    private JTextField textNid, textName, textPrice, textDateDelivery, textWeight;
 
-    private JButton btnMakeOrder;
-    private JButton btnCancel;
-    private JButton btnDeleteAll;
+    private JButton btnMakeOrder, btnCancel, btnDeleteAll;
 
     public OrderAddWindow() {
         initComponents();
@@ -29,94 +29,76 @@ public class OrderAddWindow extends JDialog implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        setContentPane(contentPane);
-        setModal(true);
+        contentPane.setLayout(null);
 
-        setBounds(100, 100,800,600);
+        lblTitle = new JLabel("CREAR PEDIDO");
+        lblTitle.setBounds(250, 20, 1000, 100);
+        lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
+        contentPane.add(lblTitle);
 
-        setTitle("Crear nuevo pedido");
-        setLocationRelativeTo(null);
-        setLayout(null);
+        lblNid = new JLabel("NID");
+        lblNid.setBounds(150, 100, 80, 25);
+        contentPane.add(lblNid);
 
-        title = new JLabel();
-        title.setText("CREAR PEDIDO");
-        title.setBounds(120, 20, 380, 30);
-        title.setFont(new java.awt.Font("Verdana", 1, 18));
-        contentPane.add(title);
+        textNid = new JTextField(20);
+        textNid.setBounds(200, 100, 80, 25);
+        contentPane.add(textNid);
 
-        name = new JLabel();
-        name.setText("Nombre");
-        name.setBounds(20, 120, 80, 25);
-        contentPane.add(name);
+        lblName = new JLabel("Nombre proveedor");
+        lblName.setBounds(50, 150, 120, 25);
+        contentPane.add(lblName);
 
-        price = new JLabel();
-        price.setText("Precio");
-        price.setBounds(290, 120, 80, 25);
-        contentPane.add(price);
-
-        dateOrder = new JLabel();
-        dateOrder.setText("Fecha de pedido");
-        dateOrder.setBounds(20, 160, 80, 25);
-        contentPane.add(dateOrder);
-
-        dateDelivery = new JLabel();
-        dateDelivery.setText("Fecha prevista");
-        dateDelivery.setBounds(290, 160, 80, 25);
-        contentPane.add(dateDelivery);
-
-        weight = new JLabel();
-        weight.setText("Peso");
-        weight.setBounds(20, 200, 80, 25);
-        contentPane.add(weight);
-
-        listOrder = new JLabel();
-        listOrder.setText("Lista de materiales");
-        listOrder.setBounds(290, 200, 120, 25);
-        contentPane.add(listOrder);
-
-
-        textName = new JTextField();
-        textName.setBounds(80, 120, 190, 25);
+        textName = new JTextField(20);
+        textName.setBounds(200, 150, 80, 25);
         contentPane.add(textName);
 
-        textPrice = new JTextField();
-        textPrice.setBounds(340, 120, 190, 25);
+        lblPrice = new JLabel("Precio");
+        contentPane.add(lblPrice);
+
+        textPrice = new JTextField(20);
         contentPane.add(textPrice);
 
-        textDateOrder = new JTextField();
-        textDateOrder.setBounds(80, 160, 80, 25);
-        contentPane.add(textDateOrder);
+        lblDateDelivery = new JLabel("Fecha de entrega");
+        contentPane.add(lblDateDelivery);
 
-        textDateDelivery = new JTextField();
-        textDateDelivery.setBounds(340, 160, 80, 25);
+        textDateDelivery = new JTextField(20);
         contentPane.add(textDateDelivery);
 
-        textWeight = new JTextField();
-        textWeight.setBounds(80, 200, 190, 25);
+        lblWeight = new JLabel("Peso");
+        contentPane.add(lblWeight);
+
+        textWeight = new JTextField(20);
         contentPane.add(textWeight);
 
-        textListOrder = new JTextField();
-        textListOrder.setBounds(340, 200, 120, 25);
-        contentPane.add(textListOrder);
+        /*d = new JLabel("MID Material");
+        contentPane.add(s);
 
+        s = new JTextField(20);
+        contentPane.add(s);
+
+        d = new JLabel("Unidades");
+        contentPane.add(s);
+
+        s = new JTextField(20);
+        contentPane.add(s);
+
+        d = new JLabel("Precio");
+        contentPane.add(s);
+
+        s = new JTextField(20);
+        contentPane.add(s);*/
 
         // Botones
 
-        btnMakeOrder = new JButton();
-        btnMakeOrder.setBounds(110, 360, 120, 25);
-        btnMakeOrder.setText("Realizar pedido");
+        btnMakeOrder = new JButton("Realizar pedido");
         contentPane.add(btnMakeOrder);
         btnMakeOrder.addActionListener(this);
 
-        btnCancel = new JButton();
-        btnCancel.setBounds(250, 360, 120, 25);
-        btnCancel.setText("Cancelar");
+        btnCancel = new JButton("Cancelar");
         contentPane.add(btnCancel);
         btnCancel.addActionListener(this);
 
-        btnDeleteAll = new JButton();
-        btnDeleteAll.setBounds(390, 360, 120, 25);
-        btnDeleteAll.setText("Borrar todo");
+        btnDeleteAll = new JButton("Borrar todo");
         contentPane.add(btnDeleteAll);
         btnDeleteAll.addActionListener(this);
     }
@@ -124,7 +106,7 @@ public class OrderAddWindow extends JDialog implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnMakeOrder) {
-
+            onBtnMakeOrder();
         }
         if (e.getSource() == btnCancel) {
 
@@ -134,7 +116,69 @@ public class OrderAddWindow extends JDialog implements ActionListener {
         }
     }
 
+    private void onBtnMakeOrder() {
+        try{
+            double price = Double.parseDouble(textPrice.getText());
+            double weight = Double.parseDouble(textWeight.getText());
+
+            Order order = new Order();
+            order.setNidOrder(textNid.getText());
+            order.setNameProviderOrder(textName.getText());
+            order.setPriceOrder(price);
+            order.setDateDeliveryOrder(textDateDelivery.getText());
+            order.setWeightOrder(weight);
+
+            ArrayList<Material> materials = new ArrayList<>();
+
+            int result = coordinator.validarAdicionPedido(order, materials);
+
+            //-10 = rango inválido para realizar accion
+            // 1 = adicion correcta;
+            // 0= adicion fallida
+            // -1 = atributos inválidos
+            // -2 = materiales inválidos
+            if(result == 1) {
+
+            } else {
+                String message = "";
+                switch (result) {
+                    case -10:
+                        message = "Rango invalido para realizar la accion";
+                        break;
+                    case -2:
+                        message = "Materiales invalido";
+                        break;
+                    case -1:
+                        message = "Atributos invalidos";
+                        break;
+                    case 0:
+                        message = "No se ha podido añadir";
+                        break;
+                }
+                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            }
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     public void getDatos() {
         //REcoge todos los datos
+    }
+
+    public Coordinator getCoordinator() {
+        return coordinator;
+    }
+
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
+
+    public JPanel getContentPane() {
+        return contentPane;
+    }
+
+    public void setContentPane(JPanel contentPane) {
+        this.contentPane = contentPane;
     }
 }
