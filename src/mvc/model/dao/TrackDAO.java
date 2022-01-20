@@ -113,7 +113,7 @@ public class TrackDAO extends ConexionBD{
             int e = pista.getPistaDisponibilidad() ? 1 : 0;
             String f = checkNullDouble(pista.getPrecioPorHora());
             String sql = "UPDATE pistas SET PistaPID="+b+", PistaHorario="+c+", MiembroID="+d+", " +
-                    "PistaDisponibilidad="+e+", PrecioPorHora="+f+" WHERE CodigoPista="+a+";";
+                    "PistaDisponibilidad="+e+", PrecioPorHora="+f+", MiembroID=null WHERE CodigoPista="+a+";";
 
 
             this.ejecutarActualizacion(sql);
