@@ -26,7 +26,7 @@ public class MemberDAO extends ConexionBD {
 				Member member = new Member();
 				member.setIdMember(rsc.getInt("MiembroDNI"));
 				member.setDniMember(rsc.getString("MiembroDNI"));
-				member.setNameMember(rsc.getString("MiembrpNombre"));
+				member.setNameMember(rsc.getString("MiembroNombre"));
 				member.setFirstsurnameMember(rsc.getString("MiembroPrimerApellido"));
 				member.setSecondsurnameMember(rsc.getString("MiembroSegundoApellido"));
 				member.setDateOfBirthdayMember(rsc.getString("MiembroFechaNacimiento"));

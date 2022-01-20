@@ -12,9 +12,11 @@ public class MaterialModifyWindow extends JPanel implements ActionListener {
 
     private JLabel lblMid, lblType, lblUnits;
 
-    private JTextField textMid, jComboBox, textUnits;
+    private JTextField textMid, textUnits;
 
     private JButton btnModifyMaterial, btnCancel, btnDeleteAll;
+
+    private JComboBox jComboBox;
 
     private Coordinator coordinator;
 
@@ -43,8 +45,8 @@ public class MaterialModifyWindow extends JPanel implements ActionListener {
         lblType = new JLabel("Tipo");
         contentPane.add(lblType);
 
-        String[] optionsToChoose = {"Aumentar", "Disminuir"};
-        JComboBox<String> jComboBox = new JComboBox<>(optionsToChoose);
+        String optionsToChoose[] = {"Aumentar", "Disminuir"};
+        jComboBox = new JComboBox(optionsToChoose);
         contentPane.add(jComboBox);
 
         lblUnits = new JLabel("Unidades");
@@ -89,7 +91,7 @@ public class MaterialModifyWindow extends JPanel implements ActionListener {
                 units = 0;
             }
         }
-        int result = coordinator.validarModificacionMaterial(textMid.getText(), jComboBox.getText(), units);
+        int result = coordinator.validarModificacionMaterial(textMid.getText(), jComboBox.getSelectedItem().toString(), units);
 
         // 1 = modificacion correcta
         // -1 = atributos de modificacion incorrectos

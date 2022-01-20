@@ -308,6 +308,11 @@ public class Logic {
         return info;
     }
 
+    public ArrayList<Track> solicitarListaPistas(){
+        TrackDAO m = new TrackDAO();
+        return m.listar();
+    }
+
     public int validarModificarAtributosA(Activity act){
         int cod = act.getCodigoActividad();
         ArrayList<String> atributos = new ArrayList<String>();
