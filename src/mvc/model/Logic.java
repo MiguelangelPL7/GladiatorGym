@@ -1,5 +1,6 @@
 package mvc.model;
 
+import mvc.controller.Coordinator;
 import mvc.model.dao.ActivityDAO;
 import mvc.model.dao.TrackDAO;
 import mvc.model.dao.EmployeeDAO;
@@ -22,6 +23,15 @@ import java.text.ParseException;
 public class Logic {
     private String dniEmpleadoEnSesion;
     private String rangoEmpleadoEnSesion;
+    private Coordinator coordinator;
+
+    public Coordinator getCoordinator() {
+        return coordinator;
+    }
+
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
 
     public int validarInicioSesion(String dni, String pass){
         if(validarDNI(dni)){

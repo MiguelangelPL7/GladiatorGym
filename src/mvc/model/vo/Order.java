@@ -30,7 +30,7 @@ public class Order {
 
     public void setNidOrder(String nidOrder)
     {
-        this.nidOrder = nidOrder;
+        this.nidOrder = checkEmpty(nidOrder);
     }
 
     ///NAME PROVIDER///
@@ -41,7 +41,7 @@ public class Order {
 
     public void setNameProviderOrder(String nameProviderOrder)
     {
-        this.nameProviderOrder = nameProviderOrder;
+        this.nameProviderOrder = checkEmpty(nameProviderOrder);
     }
 
     ///PRICE///
@@ -63,7 +63,7 @@ public class Order {
 
     public void setOrderDateOrder(String orderDateOrder)
     {
-        this.orderDateOrder = orderDateOrder;
+        this.orderDateOrder = checkEmpty(orderDateOrder);
     }
 
     ///DATE OF THE DELIVERY///
@@ -74,7 +74,7 @@ public class Order {
 
     public void setDateDeliveryOrder(String dateDeliveryOrder)
     {
-        this.dateDeliveryOrder = dateDeliveryOrder;
+        this.dateDeliveryOrder = checkEmpty(dateDeliveryOrder);
     }
 
     ///WEIGHT///
@@ -96,7 +96,15 @@ public class Order {
 
     public void setEmployeeDniOrder(String employeeDniOrder)
     {
-        this.employeeDniOrder = employeeDniOrder;
+        this.employeeDniOrder = checkEmpty(employeeDniOrder);
+    }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+        return s;
+
     }
 
 }

@@ -28,7 +28,7 @@ public class Material {
 
     public void setMidMaterial(String midMaterial)
     {
-        this.midMaterial = midMaterial;
+        this.midMaterial = checkEmpty(midMaterial);
     }
 
     ///NAME///
@@ -39,7 +39,7 @@ public class Material {
 
     public void setNameMaterial(String nameMaterial)
     {
-        this.nameMaterial = nameMaterial;
+        this.nameMaterial = checkEmpty(nameMaterial);
     }
 
     ///WEIGHT///
@@ -72,7 +72,7 @@ public class Material {
 
     public void  setBrandMaterial(String brandMaterial)
     {
-        this.brandMaterial = brandMaterial;
+        this.brandMaterial = checkEmpty(brandMaterial);
     }
 
     ///BRAND///
@@ -83,7 +83,7 @@ public class Material {
 
     public void  setActivityMaterial(String activityMaterial)
     {
-        this.activityMaterial = activityMaterial;
+        this.activityMaterial = checkEmpty(activityMaterial);
     }
 
     ///OTHERS///
@@ -94,7 +94,7 @@ public class Material {
 
     public void setOthersMaterial(String othersMaterial)
     {
-        this.othersMaterial = othersMaterial;
+        this.othersMaterial = checkEmpty(othersMaterial);
     }
 
     ///PRICE FOR ORDER/// ESTE PRECIO SOLO SE USA AL AÑADIR UN MATERIAL A UN PEDIDO
@@ -106,6 +106,14 @@ public class Material {
     public void setPriceOrderMaterial(double priceForOrder)
     {
         this.priceForOrder = priceForOrder;
+    }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+        return s;
+
     }
 
 }

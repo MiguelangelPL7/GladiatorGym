@@ -244,8 +244,11 @@ public class MemberAddWindow extends JPanel implements ActionListener {
 
     private void fillFields() {
         String price = String.valueOf(member.getPriceSubscriptionMember());
+        if(price.equals("0.0")){price="";}
         String phone = String.valueOf(member.getPhoneMember());
+        if(phone.equals("0")){phone="";}
         String postalCode = String.valueOf(member.getPostalCodeMember());
+        if(postalCode.equals("0")){postalCode="";}
         String id = String.valueOf(member.getIdMember());
         textDni.setText(member.getDniMember());
         textName.setText(member.getNameMember());

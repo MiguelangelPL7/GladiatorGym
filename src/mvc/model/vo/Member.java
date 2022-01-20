@@ -38,7 +38,7 @@ public class Member {
 
     public void setDniMember(String dniMember)
     {
-        this.dniMember = dniMember;
+        this.dniMember = checkEmpty(dniMember);
     }
 
     ///NAME///
@@ -49,7 +49,7 @@ public class Member {
 
     public void setNameMember(String nameMember)
     {
-        this.nameMember = nameMember;
+        this.nameMember = checkEmpty(nameMember);
     }
 
     ///FIRST SURNAME///
@@ -60,7 +60,7 @@ public class Member {
 
     public void setFirstsurnameMember(String firstsurnameMember)
     {
-        this.firstsurnameMember = firstsurnameMember;
+        this.firstsurnameMember = checkEmpty(firstsurnameMember);
     }
 
     ///SECOND SURNAME///
@@ -71,7 +71,7 @@ public class Member {
 
     public void setSecondsurnameMember(String secondsurnameMember)
     {
-        this.secondsurnameMember = secondsurnameMember;
+        this.secondsurnameMember = checkEmpty(secondsurnameMember);
     }
 
     ///RATE///
@@ -82,7 +82,7 @@ public class Member {
 
     public void setRateMember(String rateMember)
     {
-        this.rateMember = rateMember;
+        this.rateMember = checkEmpty(rateMember);
     }
 
     ///DATE OF SUBSCRIPTION///
@@ -93,7 +93,7 @@ public class Member {
 
     public void setDateSubscriptionMember(String dateSubscriptionMember)
     {
-        this.dateSubscriptionMember =  dateSubscriptionMember;
+        this.dateSubscriptionMember =  checkEmpty(dateSubscriptionMember);
     }
 
     ///PRICE OF SUBSCRIPTION///
@@ -115,7 +115,7 @@ public class Member {
 
     public void setDateOfBirthdayMember(String dateOfBirthdayMember)
     {
-        this.dateOfBirthdayMember = dateOfBirthdayMember;
+        this.dateOfBirthdayMember = checkEmpty(dateOfBirthdayMember);
     }
 
     ///PAYMENT METHOD///
@@ -126,7 +126,7 @@ public class Member {
 
     public void setPaymentMethodMember(String paymentMethodMember)
     {
-        this.paymentMethodMember = paymentMethodMember;
+        this.paymentMethodMember = checkEmpty(paymentMethodMember);
     }
 
     ///NUMBER METHOD///
@@ -137,7 +137,7 @@ public class Member {
 
     public void setPaymentNumberMember(String paymentNumberMember)
     {
-        this.paymentNumberMember = paymentNumberMember;
+        this.paymentNumberMember = checkEmpty(paymentNumberMember);
     }
 
 
@@ -160,7 +160,7 @@ public class Member {
 
     public void setMailMember(String mailMember)
     {
-        this.mailMember = mailMember;
+        this.mailMember = checkEmpty(mailMember);
     }
 
     ///STREET///
@@ -171,7 +171,7 @@ public class Member {
 
     public void setStreetMember(String  streetMember)
     {
-        this.streetMember = streetMember;
+        this.streetMember = checkEmpty(streetMember);
     }
 
     ///CITY///
@@ -182,7 +182,7 @@ public class Member {
 
     public void setCityMember(String cityMember)
     {
-        this.cityMember = cityMember;
+        this.cityMember = checkEmpty(cityMember);
     }
 
     ///POSTAL CODE///
@@ -216,6 +216,15 @@ public class Member {
     public void setIdMember(int  idMember)
     {
         this.idMember = idMember;
+    }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+
+        return s;
+
     }
 
 }

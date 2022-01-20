@@ -38,7 +38,7 @@ public class Activity {
 
     public void setActividadHorario(String ActividadHorario)
     {
-        this.ActividadHorario = ActividadHorario;
+        this.ActividadHorario = checkEmpty(ActividadHorario);
     }
 
     ///MonitorDNI///
@@ -49,7 +49,7 @@ public class Activity {
 
     public void setMonitorDNI(String MonitorDNI)
     {
-        this.MonitorDNI = MonitorDNI;
+        this.MonitorDNI = checkEmpty(MonitorDNI);
     }
 
     ///ActividadDisponibilidad///
@@ -72,5 +72,13 @@ public class Activity {
     public void setCapacidadMaxima(int CapacidadMaxima)
     {
         this.CapacidadMaxima = CapacidadMaxima;
+    }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+        return s;
+
     }
 }
