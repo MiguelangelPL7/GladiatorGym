@@ -113,9 +113,11 @@ public class ActivityDAO extends ConexionBD {
             String f = checkNullInt(actividad.getCapacidadMaxima());
             String sql = "UPDATE actividades SET ActividadPID="+b+", ActividadHorario="+c+", MonitorDNI="+d+", " +
                     "ActividadDisponibilidad="+e+", CapacidadMaxima="+f+" WHERE CodigoActividad="+a+";";
+            String sql2 = "DELETE FROM miembrosactividad WHERE CodigoActividad="+a+";";
 
 
             this.ejecutarActualizacion(sql);
+            this.ejecutarActualizacion(sql2);
         }catch (Exception e) {
             System.out.println("Error al actualizar Actividad.\n" + e.getMessage());
             return false;
