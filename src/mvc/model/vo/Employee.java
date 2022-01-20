@@ -41,7 +41,7 @@ public class Employee {
 
     public void setDniEmployee(String dniEmployee)
     {
-        this.dniEmployee = dniEmployee;
+        this.dniEmployee = checkEmpty(dniEmployee);
     }
 
     ///NAME///
@@ -52,7 +52,7 @@ public class Employee {
 
     public void setNameEmployee(String nameEmployee)
     {
-        this.nameEmployee = nameEmployee;
+        this.nameEmployee = checkEmpty(nameEmployee);
     }
 
     ///SURNAME///
@@ -64,7 +64,7 @@ public class Employee {
 
     public void setFirstSurnameEmployee(String firstSurnameEmployee)
     {
-        this.firstSurnameEmployee = firstSurnameEmployee;
+        this.firstSurnameEmployee = checkEmpty(firstSurnameEmployee);
     }
 
     ///SECOND///
@@ -75,7 +75,7 @@ public class Employee {
 
     public void setSecondSurnameEmployee(String secondSurnameEmployee)
     {
-        this.secondSurnameEmployee = secondSurnameEmployee;
+        this.secondSurnameEmployee = checkEmpty(secondSurnameEmployee);
     }
 
     ///DATE OF ADMISSION///
@@ -86,7 +86,7 @@ public class Employee {
 
     public void setDateAdmissionEmployee(String dateAdmissionEmployee)
     {
-        this.dateAdmissionEmployee = dateAdmissionEmployee;
+        this.dateAdmissionEmployee = checkEmpty(dateAdmissionEmployee);
     }
 
     ///DATE OF BIRTHDAY///
@@ -97,7 +97,7 @@ public class Employee {
 
     public void setDateOfBirthdayEmployee(String dateOfBirthdayEmployee)
     {
-        this.dateOfBirthdayEmployee = dateOfBirthdayEmployee;
+        this.dateOfBirthdayEmployee = checkEmpty(dateOfBirthdayEmployee);
     }
 
     ///PAYMENT METHOD///
@@ -108,7 +108,7 @@ public class Employee {
 
     public void setPaymentMethodEmployee(String paymentMethodEmployee)
     {
-        this.paymentMethodEmployee = paymentMethodEmployee;
+        this.paymentMethodEmployee = checkEmpty(paymentMethodEmployee);
     }
 
     ///PAYMENT NUMBER///
@@ -119,7 +119,7 @@ public class Employee {
 
     public void setPaymentNumberEmployee(String paymentNumberEmployee)
     {
-        this.paymentNumberEmployee = paymentNumberEmployee;
+        this.paymentNumberEmployee = checkEmpty(paymentNumberEmployee);
     }
 
     ///PHONE NUMBER///
@@ -141,7 +141,7 @@ public class Employee {
 
     public void setMailEmployee(String mailEmployee)
     {
-        this.mailEmployee = mailEmployee;
+        this.mailEmployee = checkEmpty(mailEmployee);
     }
 
     ///ADDRESS///
@@ -153,7 +153,7 @@ public class Employee {
 
     public void setStreetEmployee(String  streetEmployee)
     {
-        this.streetEmployee = streetEmployee;
+        this.streetEmployee = checkEmpty(streetEmployee);
     }
 
     ///CITY
@@ -164,7 +164,7 @@ public class Employee {
 
     public void setCityEmployee(String cityEmployee)
     {
-        this.cityEmployee = cityEmployee;
+        this.cityEmployee = checkEmpty(cityEmployee);
     }
 
     ///POSTAL CODE///
@@ -198,7 +198,7 @@ public class Employee {
 
     public void setUserEmployee(String userEmployee)
     {
-        this.userEmployee = userEmployee;
+        this.userEmployee = checkEmpty(userEmployee);
     }
 
     ///PASSWORD///
@@ -209,7 +209,7 @@ public class Employee {
 
     public void setPasswordEmployee(String passwordEmployee)
     {
-        this.passwordEmployee = passwordEmployee;
+        this.passwordEmployee = checkEmpty(passwordEmployee);
     }
 
     ///GRADE///
@@ -220,7 +220,15 @@ public class Employee {
 
     public void setGradeEmployee(String gradeEmployee)
     {
-        this.gradeEmployee = gradeEmployee;
+        this.gradeEmployee = checkEmpty(gradeEmployee);
+    }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+        return s;
+
     }
 
 }

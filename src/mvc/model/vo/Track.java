@@ -45,7 +45,7 @@ public class Track {
 
     public void setPistaHorario(String PistaHorario)
     {
-        this.PistaHorario = PistaHorario;
+        this.PistaHorario = checkEmpty(PistaHorario);
     }
 
     ///PrecioPorHora///
@@ -77,4 +77,12 @@ public class Track {
     }
 
     public void setMiembroID(int MiembroID) { this.MiembroID = MiembroID; }
+
+    private String checkEmpty(String s){
+        if(s==null || s.equals("")) {
+            s = null;
+        }
+        return s;
+
+    }
 }

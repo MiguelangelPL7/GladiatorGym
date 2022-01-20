@@ -241,8 +241,11 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
 
     private void fillFields() {
         String phone = String.valueOf(employee.getPhoneEmployee());
+        if(phone.equals("0")){phone="";}
         String postalCode = String.valueOf(employee.getPostalCodeEmployee());
+        if(postalCode.equals("0")){postalCode="";}
         String salary = String.valueOf(employee.getSalaryEmployee());
+        if(salary.equals("0.0")){salary="";}
 
         textDni.setText(employee.getDniEmployee());
         textName.setText(employee.getNameEmployee());
