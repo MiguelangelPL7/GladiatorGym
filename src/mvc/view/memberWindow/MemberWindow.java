@@ -84,7 +84,7 @@ public class MemberWindow extends JPanel implements ActionListener {
             }
 
         } else {
-            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe poner un ID", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -106,7 +106,7 @@ public class MemberWindow extends JPanel implements ActionListener {
                             message = "Rango invalido para realizar la accion";
                             break;
                         case -2:
-                            message = "El DNI no es correcto";
+                            message = "El ID no es correcto o ya está activo";
                     }
                     JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
                 }
@@ -114,7 +114,7 @@ public class MemberWindow extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
             }
         } else {
-            JOptionPane.showMessageDialog(null, "Debe poner un DNI", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe poner un ID", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

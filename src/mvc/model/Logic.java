@@ -175,7 +175,7 @@ public class Logic {
                 MemberDAO meD = new MemberDAO();
                 int id = meD.generarID();
                 me.setIdMember(id);
-                if(meD.registerMember(me)) {return 1;} else { return 0;}
+                if(meD.registerMember(me)) {return id;} else { return 0;}
                 // 1 = adicion correcta; 0= adicion fallida
             }else{
                 return -1; // -1 = atributos inválidos

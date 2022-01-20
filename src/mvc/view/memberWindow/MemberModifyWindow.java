@@ -18,8 +18,10 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
             lblPriceSubscription, lblDateOfBirth, lblPaymentMethod, lblPaymentNumber, lblPhone, lblMail, lblStreet,
             lblCity, lblPostalCode, lblId;
 
+    private JComboBox textPaymentMethod;
+
     private JTextField textDni, textName, textFirstSurname, textSecondSurname, textRate, textDateSubscription,
-            textPriceSubscription, textDateOfBirth, textPaymentMethod, textPaymentNumber, textPhone, textMail,
+            textPriceSubscription, textDateOfBirth, textPaymentNumber, textPhone, textMail,
             textStreet, textCity, textPostalCode, textId;
 
     private JButton btnModifyMember, btnDeleteAll;
@@ -90,7 +92,8 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
         lblPaymentMethod = new JLabel("Metodo de pago");
         contentPane.add(lblPaymentMethod);
 
-        textPaymentMethod = new JTextField(20);
+        String optionsToChoose1[] = {"Tarjeta", "PayPal", "Cuenta"};
+        textPaymentMethod= new JComboBox(optionsToChoose1);
         contentPane.add(textPaymentMethod);
 
         lblPaymentNumber = new JLabel("Numero de pago");
@@ -174,7 +177,6 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
         textDateSubscription.setText("");
         textPriceSubscription.setText("");
         textDateOfBirth.setText("");
-        textPaymentMethod.setText("");
         textPaymentNumber.setText("");
         textPhone.setText("");
         textMail.setText("");
@@ -228,7 +230,19 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
         textDateSubscription.setText(member.getDateSubscriptionMember());
         textPriceSubscription.setText(price);
         textDateOfBirth.setText(member.getDateOfBirthdayMember());
-        textPaymentMethod.setText(member.getPaymentMethodMember());
+        int pos=0;
+        switch (member.getPaymentMethodMember()){
+            case "Tarjeta":
+                pos=0;
+                break;
+            case "PayPal":
+                pos=1;
+                break;
+            case "Cuenta":
+                pos=2;
+                break;
+        }
+        textPaymentMethod.setSelectedIndex(pos);
         textPaymentNumber.setText(member.getPaymentNumberMember());
         textPhone.setText(phone);
         textMail.setText(member.getMailMember());
@@ -285,7 +299,7 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
         member.setDateSubscriptionMember(textDateSubscription.getText());
         member.setPriceSubscriptionMember(price);
         member.setDateOfBirthdayMember(textDateOfBirth.getText());
-        member.setPaymentMethodMember(textPaymentMethod.getText());
+        member.setPaymentMethodMember(textPaymentMethod.getSelectedItem().toString());
         member.setPaymentNumberMember(textPaymentNumber.getText());
         member.setPhoneMember(phone);
         member.setMailMember(textMail.getText());

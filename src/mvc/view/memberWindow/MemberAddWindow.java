@@ -20,8 +20,10 @@ public class MemberAddWindow extends JPanel implements ActionListener {
             lblPriceSubscription, lblDateOfBirth, lblPaymentMethod, lblPaymentNumber, lblPhone, lblMail, lblStreet,
             lblCity, lblPostalCode, lblId;
 
+    private JComboBox textPaymentMethod;
+
     private JTextField textDni, textName, textFirstSurname, textSecondSurname, textRate, textDateSubscription,
-            textPriceSubscription, textDateOfBirth, textPaymentMethod, textPaymentNumber, textPhone, textMail,
+            textPriceSubscription, textDateOfBirth, textPaymentNumber, textPhone, textMail,
             textStreet, textCity, textPostalCode, textId;
 
     private JButton btnMemberAdd, btnDeleteAll;
@@ -90,7 +92,8 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         lblPaymentMethod = new JLabel("Metodo de pago");
         contentPane.add(lblPaymentMethod);
 
-        textPaymentMethod = new JTextField(20);
+        String optionsToChoose1[] = {"Tarjeta", "PayPal", "Cuenta"};
+        textPaymentMethod= new JComboBox(optionsToChoose1);
         contentPane.add(textPaymentMethod);
 
         lblPaymentNumber = new JLabel("Numero de pago");
@@ -174,7 +177,6 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         textDateSubscription.setText("");
         textPriceSubscription.setText("");
         textDateOfBirth.setText("");
-        textPaymentMethod.setText("");
         textPaymentNumber.setText("");
         textPhone.setText("");
         textMail.setText("");
@@ -206,6 +208,10 @@ public class MemberAddWindow extends JPanel implements ActionListener {
                     break;
                 case 0:
                     message = "No se ha podido añadir";
+                    break;
+
+                default:
+                    message = "El ID del nuevo miembro es: " +result;
                     break;
             }
             JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
@@ -254,7 +260,7 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         member.setDateSubscriptionMember(textDateSubscription.getText());
         member.setPriceSubscriptionMember(price);
         member.setDateOfBirthdayMember(textDateOfBirth.getText());
-        member.setPaymentMethodMember(textPaymentMethod.getText());
+        member.setPaymentMethodMember(textPaymentMethod.getSelectedItem().toString());
         member.setPaymentNumberMember(textPaymentNumber.getText());
         member.setPhoneMember(phone);
         member.setMailMember(textMail.getText());

@@ -19,8 +19,10 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
             lblSalary, lblUser, lblPass, lblRange;
 
     private JTextField textDni, textName, textFirstSurname, textSecondSurname, textDateInit, textDateOfBirtht,
-            textPaymentMethod, textPaymentNumber, textNumberPhone, textMail, textStreet, textCity, textPostalCode,
-            textSalary, textUser, textPass, textRange;
+            textPaymentNumber, textNumberPhone, textMail, textStreet, textCity, textPostalCode,
+            textSalary, textUser, textPass;
+
+    private JComboBox textRange, textPaymentMethod;
 
     private JButton btnCreateEmployee, btnDeleteAll;
 
@@ -76,7 +78,8 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         lblPaymentMethod = new JLabel("Metodo de pago");
         contentPane.add(lblPaymentMethod);
 
-        textPaymentMethod = new JTextField(20);
+        String optionsToChoose1[] = {"Tarjeta", "PayPal", "Cuenta"};
+        textPaymentMethod= new JComboBox(optionsToChoose1);
         contentPane.add(textPaymentMethod);
 
         lblPaymentNumber = new JLabel("Numero de pago");
@@ -136,7 +139,8 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         lblRange = new JLabel("Rol");
         contentPane.add(lblRange);
 
-        textRange = new JTextField(20);
+        String optionsToChoose2[] = {"Recepcionista", "Manager", "Monitor"};
+        textRange = new JComboBox(optionsToChoose2);
         contentPane.add(textRange);
 
         // Botones
@@ -200,7 +204,6 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         textSecondSurname.setText("");
         textDateInit.setText("");
         textDateOfBirtht.setText("");
-        textPaymentMethod.setText("");
         textPaymentNumber.setText("");
         textNumberPhone.setText("");
         textMail.setText("");
@@ -210,7 +213,6 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         textSalary.setText("");
         textUser.setText("");
         textPass.setText("");
-        textRange.setText("");
     }
 
     private Employee getEmployeeData() {
@@ -245,7 +247,7 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         employee.setSecondSurnameEmployee(textSecondSurname.getText());
         employee.setDateAdmissionEmployee(textDateInit.getText());
         employee.setDateOfBirthdayEmployee(textDateOfBirtht.getText());
-        employee.setPaymentMethodEmployee(textPaymentMethod.getText());
+        employee.setPaymentMethodEmployee(textPaymentMethod.getSelectedItem().toString());
         employee.setPaymentNumberEmployee(textPaymentNumber.getText());
         employee.setPhoneEmployee(phone);
         employee.setMailEmployee(textMail.getText());
@@ -255,7 +257,7 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         employee.setSalaryEmployee(salaryEmployee);
         employee.setUserEmployee(textUser.getText());
         employee.setPasswordEmployee(textPass.getText());
-        employee.setGradeEmployee(textRange.getText());
+        employee.setGradeEmployee(textRange.getSelectedItem().toString());
         return employee;
     }
 
