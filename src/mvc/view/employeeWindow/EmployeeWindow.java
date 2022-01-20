@@ -64,8 +64,9 @@ public class EmployeeWindow extends JPanel implements ActionListener {
                 String message = "El DNI no es correcto";
                 JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
             }else{
+                textDni.setText("");
                 coordinator.setEmployee(employee);
-                coordinator.loadPanel(12);
+                coordinator.loadPanel(13);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Debe poner un ID", PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);

@@ -71,7 +71,8 @@ public class MemberWindow extends JPanel implements ActionListener {
                     JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
                 }else{
                     coordinator.setMember(member);
-                    coordinator.loadPanel(32);
+                    coordinator.loadPanel(33);
+                    textDni.setText("");
                 }
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);

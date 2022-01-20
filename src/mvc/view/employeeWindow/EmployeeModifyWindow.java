@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class EmployeeAddWindow extends JPanel implements ActionListener {
+public class EmployeeModifyWindow extends JPanel implements ActionListener {
 
     private Coordinator coordinator;
 
@@ -22,18 +22,18 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
             textPaymentMethod, textPaymentNumber, textNumberPhone, textMail, textStreet, textCity, textPostalCode,
             textSalary, textUser, textPass, textRange;
 
-    private JButton btnCreateEmployee, btnDeleteAll;
+    private JButton btnDeleteAll, btnModifyEmployee;
 
     private Employee employee;
 
-    public EmployeeAddWindow() {
+    public EmployeeModifyWindow() {
         initComponents();
     }
 
     private void initComponents() {
         contentPane = new JPanel();
 
-        lblTitle= new JLabel("CREAR UN EMPLEADO");
+        lblTitle = new JLabel("CREAR UN EMPLEADO");
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(lblTitle);
 
@@ -141,11 +141,11 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
 
         // Botones
 
-        btnCreateEmployee = new JButton();
-        btnCreateEmployee.setBounds(110, 360, 120, 25);
-        btnCreateEmployee.setText("Crear empleado");
-        btnCreateEmployee.addActionListener(this);
-        contentPane.add(btnCreateEmployee);
+        btnModifyEmployee = new JButton();
+        btnModifyEmployee.setBounds(110, 360, 120, 25);
+        btnModifyEmployee.setText("Modificar empleado");
+        btnModifyEmployee.addActionListener(this);
+        contentPane.add(btnModifyEmployee);
 
         btnDeleteAll = new JButton();
         btnDeleteAll.setBounds(390, 360, 120, 25);
@@ -156,22 +156,22 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnCreateEmployee) {
-            onBtnCreateEmployee();
+        if (e.getSource() == btnModifyEmployee) {
+            onBtnModifyEmployee();
         }
         if (e.getSource() == btnDeleteAll) {
             deleteAllFields();
         }
     }
 
-    private void onBtnCreateEmployee() {
-        int result = coordinator.validarNuevoEmpleado(getEmployeeData());
+    private void onBtnModifyEmployee() {
+        int result = coordinator.validarModificacionEmpleado(getEmployeeData());
         //-10 = rango inválido para realizar accion
         // 1 = adicion correcta;
-        // //0= adicion fallida
+        //0= adicion fallida
         // -1 = atributos inválidos
-        //-2 = DNI ya existente
-        if(result == 1) {
+        //-2 = id de empleado no existente
+        if (result == 1) {
 
         } else {
             String message = "";
@@ -180,13 +180,13 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
                     message = "Rango invalido para realizar la accion";
                     break;
                 case -2:
-                    message = "El DNI ya existe";
+                    message = "El DNI no es correcto";
                     break;
                 case -1:
                     message = "Atributos invalidos";
                     break;
                 case 0:
-                    message = "No se ha podido añadir";
+                    message = "No se ha podido modificar";
                     break;
             }
             JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
@@ -213,25 +213,58 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         textRange.setText("");
     }
 
+    private void fillFields() {
+        String phone = String.valueOf(employee.getPhoneEmployee());
+        if (phone.equals("0")) {
+            phone = "";
+        }
+        String postalCode = String.valueOf(employee.getPostalCodeEmployee());
+        if (postalCode.equals("0")) {
+            postalCode = "";
+        }
+        String salary = String.valueOf(employee.getSalaryEmployee());
+        if (salary.equals("0.0")) {
+            salary = "";
+        }
+
+        textDni.setText(employee.getDniEmployee());
+        textName.setText(employee.getNameEmployee());
+        textFirstSurname.setText(employee.getFirstSurnameEmployee());
+        textSecondSurname.setText(employee.getSecondSurnameEmployee());
+        textDateInit.setText(employee.getDateAdmissionEmployee());
+        textDateOfBirtht.setText(employee.getDateOfBirthdayEmployee());
+        textPaymentMethod.setText(employee.getPaymentMethodEmployee());
+        textPaymentNumber.setText(employee.getPaymentNumberEmployee());
+        textNumberPhone.setText(phone);
+        textMail.setText(employee.getMailEmployee());
+        textStreet.setText(employee.getStreetEmployee());
+        textCity.setText(employee.getCityEmployee());
+        textPostalCode.setText(postalCode);
+        textSalary.setText(salary);
+        textUser.setText(employee.getUserEmployee());
+        textPass.setText(employee.getPasswordEmployee());
+        textRange.setText(employee.getGradeEmployee());
+    }
+
     private Employee getEmployeeData() {
         int phone = 0;
         int postalCode = 0;
         double salaryEmployee = 0;
-        if(!textNumberPhone.getText().equals("")) {
+        if (!textNumberPhone.getText().equals("")) {
             try {
                 phone = Integer.parseInt(textNumberPhone.getText());
             } catch (Exception e) {
                 phone = 0;
             }
         }
-        if(!textPostalCode.getText().equals("")) {
+        if (!textPostalCode.getText().equals("")) {
             try {
                 postalCode = Integer.parseInt(textPostalCode.getText());
             } catch (Exception e) {
                 postalCode = 0;
             }
         }
-        if(!textSalary.getText().equals("")) {
+        if (!textSalary.getText().equals("")) {
             try {
                 salaryEmployee = Double.parseDouble(textSalary.getText());
             } catch (Exception e) {
@@ -268,6 +301,9 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
     }
 
     public JPanel getContentPane() {
+        if (employee != null) {
+            fillFields();
+        }
         return contentPane;
     }
 
@@ -275,4 +311,11 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         this.contentPane = contentPane;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
 }

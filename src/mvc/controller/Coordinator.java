@@ -8,12 +8,14 @@ import mvc.view.activityWindow.ActivityModifyWindow;
 import mvc.view.activityWindow.ActivityPointWindow;
 import mvc.view.activityWindow.ActivityWindow;
 import mvc.view.employeeWindow.EmployeeAddWindow;
+import mvc.view.employeeWindow.EmployeeModifyWindow;
 import mvc.view.employeeWindow.EmployeeWindow;
 import mvc.view.materialWindow.MaterialAddWindow;
 import mvc.view.materialWindow.MaterialListWindow;
 import mvc.view.materialWindow.MaterialModifyWindow;
 import mvc.view.materialWindow.MaterialWindow;
 import mvc.view.memberWindow.MemberAddWindow;
+import mvc.view.memberWindow.MemberModifyWindow;
 import mvc.view.memberWindow.MemberWindow;
 import mvc.view.orderWindow.OrderAddWindow;
 import mvc.view.orderWindow.OrderListWindow;
@@ -34,12 +36,14 @@ public class Coordinator {
     private ActivityPointWindow activityPointWindow;
     private EmployeeWindow employeeWindow;
     private EmployeeAddWindow employeeAddWindow;
+    private EmployeeModifyWindow employeeModifyWindow;
     private MaterialWindow materialWindow;
     private MaterialAddWindow materialAddWindow;
     private MaterialModifyWindow materialModifyWindow;
     private MaterialListWindow materialListWindow;
     private MemberWindow memberWindow;
     private MemberAddWindow memberAddWindow;
+    private MemberModifyWindow memberModifyWindow;
     private OrderWindow orderWindow;
     private OrderAddWindow orderAddWindow;
     private OrderListWindow orderListWindow;
@@ -215,6 +219,22 @@ public class Coordinator {
         this.orderListWindow = orderListWindow;
     }
 
+    public EmployeeModifyWindow getEmployeeModifyWindow() {
+        return employeeModifyWindow;
+    }
+
+    public void setEmployeeModifyWindow(EmployeeModifyWindow employeeModifyWindow) {
+        this.employeeModifyWindow = employeeModifyWindow;
+    }
+
+    public MemberModifyWindow getMemberModifyWindow() {
+        return memberModifyWindow;
+    }
+
+    public void setMemberModifyWindow(MemberModifyWindow memberModifyWindow) {
+        this.memberModifyWindow = memberModifyWindow;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -275,9 +295,13 @@ public class Coordinator {
                 mainWindow.changePanelLeft(employeeWindow.getContentPane());
                 break;
             case 12:
-                employeeAddWindow.setEmployee(getEmployee());
                 mainWindow.changePanelCenter(employeeAddWindow.getContentPane());
                 break;
+            case 13:
+                employeeModifyWindow.setEmployee(getEmployee());
+                mainWindow.changePanelCenter(employeeModifyWindow.getContentPane());
+                break;
+
 
             // Material
             case 21:
@@ -298,8 +322,11 @@ public class Coordinator {
                 mainWindow.changePanelLeft(memberWindow.getContentPane());
                 break;
             case 32:
-                memberAddWindow.setMember(getMember());
                 mainWindow.changePanelCenter(memberAddWindow.getContentPane());
+                break;
+            case 33:
+                memberModifyWindow.setMember(getMember());
+                mainWindow.changePanelCenter(memberModifyWindow.getContentPane());
                 break;
 
             // Order

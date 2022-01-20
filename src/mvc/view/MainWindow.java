@@ -163,7 +163,6 @@ public class MainWindow extends JFrame implements ActionListener {
 
     public void changePanelCenter(JPanel panel) {
         contentPane.removeAll();
-        //contentPane.add(panel, BorderLayout.CENTER);
         contentPane.add(panel);
         contentPane.repaint();
         contentPane.revalidate();

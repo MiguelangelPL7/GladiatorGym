@@ -112,7 +112,6 @@ public class MaterialModifyWindow extends JPanel implements ActionListener {
             }
             JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
-
     }
 
     public Coordinator getCoordinator() {

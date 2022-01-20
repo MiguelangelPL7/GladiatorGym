@@ -1,7 +1,6 @@
 package mvc.view.memberWindow;
 
 import mvc.controller.Coordinator;
-import mvc.model.vo.Employee;
 import mvc.model.vo.Member;
 import utils.PropertyNames;
 
@@ -9,8 +8,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
-public class MemberAddWindow extends JPanel implements ActionListener {
+public class MemberModifyWindow extends JPanel implements ActionListener {
 
     private Coordinator coordinator;
 
@@ -24,18 +22,20 @@ public class MemberAddWindow extends JPanel implements ActionListener {
             textPriceSubscription, textDateOfBirth, textPaymentMethod, textPaymentNumber, textPhone, textMail,
             textStreet, textCity, textPostalCode, textId;
 
-    private JButton btnMemberAdd, btnDeleteAll;
+    private JButton btnModifyMember, btnDeleteAll;
 
     private JCheckBox checkBoxActive;
 
-    public MemberAddWindow() {
+    private Member member;
+
+    public MemberModifyWindow() {
         initComponents();
     }
 
     private void initComponents() {
         contentPane = new JPanel();
 
-        lblTitle = new JLabel("CREAR UN MIEMBRO");
+        lblTitle = new JLabel("MODIFICAR UN MIEMBRO");
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(lblTitle);
 
@@ -142,11 +142,11 @@ public class MemberAddWindow extends JPanel implements ActionListener {
 
         // Botones
 
-        btnMemberAdd = new JButton();
-        btnMemberAdd.setBounds(110, 360, 120, 25);
-        btnMemberAdd.setText("Añadir miembro");
-        contentPane.add(btnMemberAdd);
-        btnMemberAdd.addActionListener(this);
+        btnModifyMember = new JButton();
+        btnModifyMember.setBounds(110, 360, 120, 25);
+        btnModifyMember.setText("Modificar miembro");
+        btnModifyMember.addActionListener(this);
+        contentPane.add(btnModifyMember);
 
         btnDeleteAll = new JButton();
         btnDeleteAll.setBounds(390, 360, 120, 25);
@@ -157,8 +157,8 @@ public class MemberAddWindow extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == btnMemberAdd) {
-            onBtnAddMember();
+        if (e.getSource() == btnModifyMember) {
+            onBtnModifyMember();
         }
         if (e.getSource() == btnDeleteAll) {
             deleteAllFields();
@@ -183,14 +183,14 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         textPostalCode.setText("");
     }
 
-    private void onBtnAddMember() {
-        int result = coordinator.validarNuevoMiembro(getMemberData());
-        ////-10 = rango inválido para realizar accion
+    private void onBtnModifyMember() {
+        int result = coordinator.validarModificacionMiembro(getMemberData());
+        //-10 = rango inválido para realizar accion
         // 1 = adicion correcta;
-        // 0= adicion fallida
+        //0= adicion fallida
         // -1 = atributos inválidos
-        //-2 = DNI ya existente
-        if (result == 1) {
+        //-2 = id de miembro no existente
+        if(result == 1) {
 
         } else {
             String message = "";
@@ -199,17 +199,48 @@ public class MemberAddWindow extends JPanel implements ActionListener {
                     message = "Rango invalido para realizar la accion";
                     break;
                 case -2:
-                    message = "El DNI ya existe";
+                    message = "El DNI no es correcto";
                     break;
                 case -1:
                     message = "Atributos invalidos";
                     break;
                 case 0:
-                    message = "No se ha podido añadir";
+                    message = "No se ha podido modificar";
                     break;
             }
             JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
+    }
+
+    private void fillFields() {
+        String price = String.valueOf(member.getPriceSubscriptionMember());
+        if(price.equals("0.0")){price="";}
+        String phone = String.valueOf(member.getPhoneMember());
+        if(phone.equals("0")){phone="";}
+        String postalCode = String.valueOf(member.getPostalCodeMember());
+        if(postalCode.equals("0")){postalCode="";}
+        String id = String.valueOf(member.getIdMember());
+        textDni.setText(member.getDniMember());
+        textName.setText(member.getNameMember());
+        textFirstSurname.setText(member.getFirstsurnameMember());
+        textSecondSurname.setText(member.getSecondsurnameMember());
+        textRate.setText(member.getRateMember());
+        textDateSubscription.setText(member.getDateSubscriptionMember());
+        textPriceSubscription.setText(price);
+        textDateOfBirth.setText(member.getDateOfBirthdayMember());
+        textPaymentMethod.setText(member.getPaymentMethodMember());
+        textPaymentNumber.setText(member.getPaymentNumberMember());
+        textPhone.setText(phone);
+        textMail.setText(member.getMailMember());
+        textStreet.setText(member.getStreetMember());
+        textCity.setText(member.getCityMember());
+        textPostalCode.setText(postalCode);
+        if(member.getActiveMember()) {
+            checkBoxActive.setSelected(true);
+        } else {
+            checkBoxActive.setSelected(false);
+        }
+        textId.setText(id);
     }
 
     private Member getMemberData() {
@@ -217,28 +248,28 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         int phone = 0;
         int postalCode = 0;
         int id = 0;
-        if (!textId.getText().equals("")) {
+        if(!textId.getText().equals("")) {
             try {
                 id = Integer.parseInt(textId.getText());
             } catch (Exception e) {
                 id = 0;
             }
         }
-        if (!textPostalCode.getText().equals("")) {
+        if(!textPostalCode.getText().equals("")) {
             try {
                 postalCode = Integer.parseInt(textPostalCode.getText());
             } catch (Exception e) {
                 postalCode = 0;
             }
         }
-        if (!textPhone.getText().equals("")) {
+        if(!textPhone.getText().equals("")) {
             try {
                 phone = Integer.parseInt(textPhone.getText());
             } catch (Exception e) {
                 phone = 0;
             }
         }
-        if (!textPriceSubscription.getText().equals("")) {
+        if(!textPriceSubscription.getText().equals("")) {
             try {
                 price = Double.parseDouble(textPriceSubscription.getText());
             } catch (Exception e) {
@@ -261,7 +292,7 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         member.setStreetMember(textStreet.getText());
         member.setCityMember(textCity.getText());
         member.setPostalCodeMember(postalCode);
-        if (checkBoxActive.isSelected()) {
+        if(checkBoxActive.isSelected()) {
             member.setActiveMember(true);
         } else {
             member.setActiveMember(false);
@@ -280,10 +311,21 @@ public class MemberAddWindow extends JPanel implements ActionListener {
     }
 
     public JPanel getContentPane() {
+        if(member != null) {
+            fillFields();
+        }
         return contentPane;
     }
 
     public void setContentPane(JPanel contentPane) {
         this.contentPane = contentPane;
+    }
+
+    public Member getMember() {
+        return member;
+    }
+
+    public void setMember(Member member) {
+        this.member = member;
     }
 }
