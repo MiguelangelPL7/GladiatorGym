@@ -30,11 +30,14 @@ public class ActivityWindow extends JPanel implements ActionListener {
     private void initsComponents() {
         contentPane = new JPanel();
         //contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-        contentPane.setLayout(new GridLayout(4, 1));
+        contentPane.setLayout(new GridLayout(5, 1));
 
         btnViewInfoActivity = new JButton("Ver info actividad");
         btnViewInfoActivity.addActionListener(this);
         contentPane.add(btnViewInfoActivity);
+
+        lblId = new JLabel("Id actividad");
+        contentPane.add(lblId);
 
         textId = new JTextField(20);
         contentPane.add(textId);

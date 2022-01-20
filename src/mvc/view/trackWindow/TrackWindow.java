@@ -17,7 +17,7 @@ public class TrackWindow extends JPanel implements ActionListener {
 
     private JPanel contentPane;
 
-    private JLabel lblId;
+    private JLabel lblId, lblIdTrack;
 
     private JTextField textIDTrack;
 
@@ -30,11 +30,14 @@ public class TrackWindow extends JPanel implements ActionListener {
 
     private void initComponents() {
         contentPane = new JPanel();
-        contentPane.setLayout(new GridLayout(4, 1));
+        contentPane.setLayout(new GridLayout(5, 1));
 
         btnPointTrack = new JButton("Apuntar pista");
         btnPointTrack.addActionListener(this);
         contentPane.add(btnPointTrack);
+
+        lblIdTrack = new JLabel("Id pista");
+        contentPane.add(lblIdTrack);
 
         textIDTrack = new JTextField(20);
         contentPane.add(textIDTrack);

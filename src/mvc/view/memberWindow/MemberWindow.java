@@ -19,6 +19,8 @@ public class MemberWindow extends JPanel implements ActionListener {
 
     private JTextField textDni;
 
+    private JLabel lblId;
+
     public MemberWindow() {
         initComponents();
     }
@@ -26,13 +28,16 @@ public class MemberWindow extends JPanel implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        contentPane.setLayout(new GridLayout(4, 1));
+        contentPane.setLayout(new GridLayout(5, 1));
 
 
         btnNewMember = new JButton("Nuevo miembro");
         btnNewMember.setBounds(20, 100, 30, 30);
         btnNewMember.addActionListener(this);
         contentPane.add(btnNewMember);
+
+        lblId = new JLabel("ID");
+        contentPane.add(lblId);
 
         textDni = new JTextField(20);
         contentPane.add(textDni);

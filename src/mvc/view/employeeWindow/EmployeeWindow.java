@@ -19,6 +19,8 @@ public class EmployeeWindow extends JPanel implements ActionListener {
 
     private JTextField textDni;
 
+    private JLabel lblDni;
+
     public EmployeeWindow() {
         initComponents();
     }
@@ -26,11 +28,14 @@ public class EmployeeWindow extends JPanel implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        contentPane.setLayout(new GridLayout(4, 1));
+        contentPane.setLayout(new GridLayout(5, 1));
 
         btnCreateEmployee = new JButton("Nuevo empleado");
         btnCreateEmployee.addActionListener(this);
         contentPane.add(btnCreateEmployee);
+
+        lblDni = new JLabel("DNI");
+        contentPane.add(lblDni);
 
         textDni = new JTextField(20);
         contentPane.add(textDni);

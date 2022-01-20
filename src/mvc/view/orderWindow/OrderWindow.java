@@ -33,6 +33,7 @@ public class OrderWindow extends JPanel implements ActionListener {
         btnViewOrders.addActionListener(this);
         contentPane.add(btnViewOrders);
 
+
         lblNid = new JLabel("NID");
         contentPane.add(lblNid);
 

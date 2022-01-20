@@ -22,13 +22,15 @@ public class MaterialWindow extends JPanel implements ActionListener {
 
     private JTextField textMid;
 
+    private JLabel mid;
+
     public MaterialWindow() {
         initComponents();
     }
 
     private void initComponents() {
         contentPane = new JPanel();
-        contentPane.setLayout(new GridLayout(5, 1));
+        contentPane.setLayout(new GridLayout(6, 1));
 
         btnCreateMaterial = new JButton("Nuevo material");
         btnCreateMaterial.setBounds(20, 100, 30, 30);
@@ -44,6 +46,9 @@ public class MaterialWindow extends JPanel implements ActionListener {
         btnListMaterials.setBounds(20, 100, 30, 30);
         btnListMaterials.addActionListener(this);
         contentPane.add(btnListMaterials);
+
+        mid = new JLabel("MID");
+        contentPane.add(mid);
 
         textMid = new JTextField(20);
         contentPane.add(textMid);
