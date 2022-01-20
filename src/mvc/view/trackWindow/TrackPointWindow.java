@@ -63,37 +63,52 @@ public class TrackPointWindow extends JPanel implements ActionListener {
     }
 
     private void onBtnPointTrack() {
-        try {
-            int id = Integer.parseInt(textIDMember.getText());
-            int pid = Integer.parseInt(textPID.getText());
-            int duration = Integer.parseInt(textDuration.getText());
-
-            int result = coordinator.validarApuntarMiembroP(id, pid, textSchedule.getText(), duration);
-
-            //1 = apuntar fallido
-            //0 = pista no encontrada o no disponible
-            //-1 = id de miembro no existe
-            //2 = apuntar correcto
-            if(result == 2) {
-
-            } else {
-                String message = "";
-                switch (result) {
-                    case 1:
-                        message = "No se ha podido apuntar";
-                        break;
-                    case 0:
-                        message = "Pista no encontrada o no disponible";
-                        break;
-                    case -1:
-                        message = "El id del miembro no existe";
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        int id = 0;
+        int pid = 0;
+        int duration = 0;
+        if(!textIDMember.getText().equals("")) {
+            try {
+                id = Integer.parseInt(textIDMember.getText());
+            } catch (Exception e) {
+                id = 0;
             }
+        }
+        if(!textPID.getText().equals("")) {
+            try {
+                pid = Integer.parseInt(textPID.getText());
+            } catch (Exception e) {
+                pid = 0;
+            }
+        }
+        if(!textDuration.getText().equals("")) {
+            try {
+                duration = Integer.parseInt(textDuration.getText());
+            } catch (Exception e) {
+                duration = 0;
+            }
+        }
+        int result = coordinator.validarApuntarMiembroP(id, pid, textSchedule.getText(), duration);
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        //1 = apuntar fallido
+        //0 = pista no encontrada o no disponible
+        //-1 = id de miembro no existe
+        //2 = apuntar correcto
+        if(result == 2) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case 1:
+                    message = "No se ha podido apuntar";
+                    break;
+                case 0:
+                    message = "Pista no encontrada o no disponible";
+                    break;
+                case -1:
+                    message = "El id del miembro no existe";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

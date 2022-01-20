@@ -103,25 +103,42 @@ public class ActivityModifyWindow extends JPanel implements ActionListener {
 
     private Activity getActivityData() {
         Activity activity = new Activity();
-        try {
-            int id = Integer.parseInt(textId.getText());
-            int pid = Integer.parseInt(textPID.getText());
-            int maxCapacity = Integer.parseInt(textMaxCapacity.getText());
-
-            activity.setCodigoActividad(id);
-            activity.setActividadPID(pid);
-            activity.setActividadHorario(textSchedule.getText());
-            activity.setMonitorDNI(textMonitorDNI.getText());
-
-            if(checkBoxAvailability.isSelected()) {
-                activity.setActividadDisponibilidad(true);
-            } else {
-                activity.setActividadDisponibilidad(false);
+        int id = 0;
+        int pid = 0;
+        int maxCapacity = 0;
+        if(!textId.getText().equals("")) {
+            try {
+                id = Integer.parseInt(textId.getText());
+            } catch (Exception e) {
+                id = 0;
             }
-            activity.setCapacidadMaxima(maxCapacity);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
         }
+        if(!textPID.getText().equals("")) {
+            try {
+                pid = Integer.parseInt(textPID.getText());
+            } catch (Exception e) {
+                pid = 0;
+            }
+        }
+        if(!textMaxCapacity.getText().equals("")) {
+            try {
+                maxCapacity = Integer.parseInt(textMaxCapacity.getText());
+            } catch (Exception e) {
+                maxCapacity = 0;
+            }
+        }
+
+        activity.setCodigoActividad(id);
+        activity.setActividadPID(pid);
+        activity.setActividadHorario(textSchedule.getText());
+        activity.setMonitorDNI(textMonitorDNI.getText());
+
+        if(checkBoxAvailability.isSelected()) {
+            activity.setActividadDisponibilidad(true);
+        } else {
+            activity.setActividadDisponibilidad(false);
+        }
+        activity.setCapacidadMaxima(maxCapacity);
         return activity;
     }
 

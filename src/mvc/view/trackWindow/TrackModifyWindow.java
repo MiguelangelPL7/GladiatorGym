@@ -107,26 +107,50 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
     }
 
     private Track getTrackData() {
-        Track track = new Track();
-        try {
-            int id = Integer.parseInt(textIDTrack.getText());
-            int pid = Integer.parseInt(textPID.getText());
-            int memberId = Integer.parseInt(textMemberID.getText());
-            int price = Integer.parseInt(textPrice.getText());
-
-            track.setCodigoPista(id);
-            track.setPistaPID(pid);
-            track.setPistaHorario(textSchedule.getText());
-            track.setMiembroID(memberId);
-            if(checkBoxAvailability.isSelected()) {
-                track.setPistaDisponibilidad(true);
-            } else {
-                track.setPistaDisponibilidad(false);
+        int id = 0;
+        int pid = 0;
+        int memberId = 0;
+        int price = 0;
+        if(!textIDTrack.getText().equals("")) {
+            try {
+                id = Integer.parseInt(textIDTrack.getText());
+            } catch (Exception e) {
+                id = 0;
             }
-            track.setPrecioPorHora(price);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
         }
+        if(!textPID.getText().equals("")) {
+            try {
+                pid = Integer.parseInt(textPID.getText());
+            } catch (Exception e) {
+                pid = 0;
+            }
+        }
+        if(!textMemberID.getText().equals("")) {
+            try {
+                memberId = Integer.parseInt(textMemberID.getText());
+            } catch (Exception e) {
+                memberId = 0;
+            }
+        }
+        if(!textPrice.getText().equals("")) {
+            try {
+                price = Integer.parseInt(textPrice.getText());
+            } catch (Exception e) {
+                price = 0;
+            }
+        }
+        Track track = new Track();
+        track.setCodigoPista(id);
+        track.setPistaPID(pid);
+        track.setPistaHorario(textSchedule.getText());
+        track.setMiembroID(memberId);
+        if(checkBoxAvailability.isSelected()) {
+            track.setPistaDisponibilidad(true);
+        } else {
+            track.setPistaDisponibilidad(false);
+        }
+        track.setPrecioPorHora(price);
+
         return track;
     }
 

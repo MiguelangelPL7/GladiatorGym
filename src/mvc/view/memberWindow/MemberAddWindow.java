@@ -271,37 +271,61 @@ public class MemberAddWindow extends JPanel implements ActionListener {
     }
 
     private Member getMemberData() {
-        Member member = new Member();
-        try{
-            double price = Double.parseDouble(textPriceSubscription.getText());
-            int phone = Integer.parseInt(textPhone.getText());
-            int postalCode = Integer.parseInt(textPostalCode.getText());
-            int id = Integer.parseInt(textId.getText());
-
-            member.setDniMember(textDni.getText());
-            member.setNameMember(textName.getText());
-            member.setFirstsurnameMember(textFirstSurname.getText());
-            member.setSecondsurnameMember(textSecondSurname.getText());
-            member.setRateMember(textRate.getText());
-            member.setDateSubscriptionMember(textDateSubscription.getText());
-            member.setPriceSubscriptionMember(price);
-            member.setDateOfBirthdayMember(textDateOfBirth.getText());
-            member.setPaymentMethodMember(textPaymentMethod.getText());
-            member.setPaymentNumberMember(textPaymentNumber.getText());
-            member.setPhoneMember(phone);
-            member.setMailMember(textMail.getText());
-            member.setStreetMember(textStreet.getText());
-            member.setCityMember(textCity.getText());
-            member.setPostalCodeMember(postalCode);
-            if(checkBoxActive.isSelected()) {
-                member.setActiveMember(true);
-            } else {
-                member.setActiveMember(false);
+        double price = 0;
+        int phone = 0;
+        int postalCode = 0;
+        int id = 0;
+        if(!textId.getText().equals("")) {
+            try {
+                id = Integer.parseInt(textId.getText());
+            } catch (Exception e) {
+                id = 0;
             }
-            member.setIdMember(id);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
         }
+        if(!textPostalCode.getText().equals("")) {
+            try {
+                postalCode = Integer.parseInt(textPostalCode.getText());
+            } catch (Exception e) {
+                postalCode = 0;
+            }
+        }
+        if(!textPhone.getText().equals("")) {
+            try {
+                phone = Integer.parseInt(textPhone.getText());
+            } catch (Exception e) {
+                phone = 0;
+            }
+        }
+        if(!textPriceSubscription.getText().equals("")) {
+            try {
+                price = Integer.parseInt(textPriceSubscription.getText());
+            } catch (Exception e) {
+                price = 0;
+            }
+        }
+        Member member = new Member();
+        member.setDniMember(textDni.getText());
+        member.setNameMember(textName.getText());
+        member.setFirstsurnameMember(textFirstSurname.getText());
+        member.setSecondsurnameMember(textSecondSurname.getText());
+        member.setRateMember(textRate.getText());
+        member.setDateSubscriptionMember(textDateSubscription.getText());
+        member.setPriceSubscriptionMember(price);
+        member.setDateOfBirthdayMember(textDateOfBirth.getText());
+        member.setPaymentMethodMember(textPaymentMethod.getText());
+        member.setPaymentNumberMember(textPaymentNumber.getText());
+        member.setPhoneMember(phone);
+        member.setMailMember(textMail.getText());
+        member.setStreetMember(textStreet.getText());
+        member.setCityMember(textCity.getText());
+        member.setPostalCodeMember(postalCode);
+        if(checkBoxActive.isSelected()) {
+            member.setActiveMember(true);
+        } else {
+            member.setActiveMember(false);
+        }
+        member.setIdMember(id);
+
         return member;
     }
 

@@ -270,32 +270,48 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
     }
 
     private Employee getEmployeeData() {
-        Employee employee = new Employee();
-        try {
-            int phone = Integer.parseInt(textNumberPhone.getText());
-            int postalCode = Integer.parseInt(textPostalCode.getText());
-            double salaryEmployee = Double.parseDouble(textSalary.getText());
-
-            employee.setDniEmployee(textDni.getText());
-            employee.setNameEmployee(textName.getText());
-            employee.setFirstSurnameEmployee(textFirstSurname.getText());
-            employee.setSecondSurnameEmployee(textSecondSurname.getText());
-            employee.setDateAdmissionEmployee(textDateInit.getText());
-            employee.setDateOfBirthdayEmployee(textDateOfBirtht.getText());
-            employee.setPaymentMethodEmployee(textPaymentMethod.getText());
-            employee.setPaymentNumberEmployee(textPaymentNumber.getText());
-            employee.setPhoneEmployee(phone);
-            employee.setMailEmployee(textMail.getText());
-            employee.setStreetEmployee(textStreet.getText());
-            employee.setCityEmployee(textCity.getText());
-            employee.setPostalCodeEmployee(postalCode);
-            employee.setSalaryEmployee(salaryEmployee);
-            employee.setUserEmployee(textUser.getText());
-            employee.setPasswordEmployee(textPass.getText());
-            employee.setGradeEmployee(textRange.getText());
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        int phone = 0;
+        int postalCode = 0;
+        double salaryEmployee = 0;
+        if(!textNumberPhone.getText().equals("")) {
+            try {
+                phone = Integer.parseInt(textNumberPhone.getText());
+            } catch (Exception e) {
+                phone = 0;
+            }
         }
+        if(!textPostalCode.getText().equals("")) {
+            try {
+                postalCode = Integer.parseInt(textPostalCode.getText());
+            } catch (Exception e) {
+                postalCode = 0;
+            }
+        }
+        if(!textSalary.getText().equals("")) {
+            try {
+                salaryEmployee = Integer.parseInt(textSalary.getText());
+            } catch (Exception e) {
+                salaryEmployee = 0;
+            }
+        }
+        Employee employee = new Employee();
+        employee.setDniEmployee(textDni.getText());
+        employee.setNameEmployee(textName.getText());
+        employee.setFirstSurnameEmployee(textFirstSurname.getText());
+        employee.setSecondSurnameEmployee(textSecondSurname.getText());
+        employee.setDateAdmissionEmployee(textDateInit.getText());
+        employee.setDateOfBirthdayEmployee(textDateOfBirtht.getText());
+        employee.setPaymentMethodEmployee(textPaymentMethod.getText());
+        employee.setPaymentNumberEmployee(textPaymentNumber.getText());
+        employee.setPhoneEmployee(phone);
+        employee.setMailEmployee(textMail.getText());
+        employee.setStreetEmployee(textStreet.getText());
+        employee.setCityEmployee(textCity.getText());
+        employee.setPostalCodeEmployee(postalCode);
+        employee.setSalaryEmployee(salaryEmployee);
+        employee.setUserEmployee(textUser.getText());
+        employee.setPasswordEmployee(textPass.getText());
+        employee.setGradeEmployee(textRange.getText());
         return employee;
     }
 

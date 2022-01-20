@@ -80,36 +80,38 @@ public class MaterialModifyWindow extends JPanel implements ActionListener {
     }
 
     private void onBtnModifyMaterial() {
-        try {
-            int units = Integer.parseInt(textUnits.getText());
-
-            int result = coordinator.validarModificacionMaterial(textMid.getText(), textType.getText(), units);
-
-            // 1 = modificacion correcta
-            // -1 = atributos de modificacion incorrectos
-            //-2 = mid de material no existente
-            //-10 = rango inválido para realizar accion
-            if(result == 1) {
-
-            } else {
-                String message = "";
-                switch (result) {
-                    case -10:
-                        message = "Rango invalido para realizar accion";
-                        break;
-                    case -2:
-                        message = "Mid de material no existente";
-                        break;
-                    case -1:
-                        message = "Atributos invalidos";
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        int units = 0;
+        if(!textUnits.getText().equals("")) {
+            try {
+                units = Integer.parseInt(textUnits.getText());
+            } catch (Exception e) {
+                units = 0;
             }
-
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
         }
+        int result = coordinator.validarModificacionMaterial(textMid.getText(), textType.getText(), units);
+
+        // 1 = modificacion correcta
+        // -1 = atributos de modificacion incorrectos
+        //-2 = mid de material no existente
+        //-10 = rango inválido para realizar accion
+        if(result == 1) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case -10:
+                    message = "Rango invalido para realizar accion";
+                    break;
+                case -2:
+                    message = "Mid de material no existente";
+                    break;
+                case -1:
+                    message = "Atributos invalidos";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        }
+
     }
 
     public Coordinator getCoordinator() {

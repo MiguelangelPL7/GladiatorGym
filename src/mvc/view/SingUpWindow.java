@@ -69,10 +69,7 @@ public class SingUpWindow extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == btnInit) {
-            //onBtnInit();
-            coordinator.viewMainWindow();
-            this.dispose();
-            this.setVisible(false);
+            onBtnInit();
         }
     }
 

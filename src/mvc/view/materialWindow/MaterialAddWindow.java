@@ -102,45 +102,53 @@ public class MaterialAddWindow extends JPanel implements ActionListener {
     }
 
     private void onBtnCreateMaterial() {
-        try {
-            double weight = Double.parseDouble(textWeight.getText());
-            int units = Integer.parseInt(textUnits.getText());
-
-            Material material = new Material();
-            material.setMidMaterial(textMid.getText());
-            material.setNameMaterial(textName.getText());
-            material.setWeightMaterial(weight);
-            material.setUnitsMaterial(units);
-            material.setActivityMaterial(textActivity.getText());
-            material.setBrandMaterial(textBrand.getText());
-            material.setOthersMaterial(textOthers.getText());
-
-
-            int result = coordinator.validarAdicionMaterial(material);
-
-            // 1 = adicion correcta;
-            // 0= adicion fallida
-            // -1 = atributos inválidos
-            //-2 = nombre de material ya existente
-            if(result == 1) {
-
-            } else {
-                String message = "";
-                switch (result) {
-                    case -2:
-                        message = "Material ya existente";
-                        break;
-                    case -1:
-                        message = "Atributos invalidos";
-                        break;
-                    case 0:
-                        message = "No se ha podido añadir";
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        double weight = 0;
+        int units = 0;
+        if(!textWeight.getText().equals("")) {
+            try {
+                weight = Integer.parseInt(textWeight.getText());
+            } catch (Exception e) {
+                weight = 0;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        if(!textUnits.getText().equals("")) {
+            try {
+                units = Integer.parseInt(textUnits.getText());
+            } catch (Exception e) {
+                units = 0;
+            }
+        }
+        Material material = new Material();
+        material.setMidMaterial(textMid.getText());
+        material.setNameMaterial(textName.getText());
+        material.setWeightMaterial(weight);
+        material.setUnitsMaterial(units);
+        material.setActivityMaterial(textActivity.getText());
+        material.setBrandMaterial(textBrand.getText());
+        material.setOthersMaterial(textOthers.getText());
+
+        int result = coordinator.validarAdicionMaterial(material);
+
+        // 1 = adicion correcta;
+        // 0= adicion fallida
+        // -1 = atributos inválidos
+        //-2 = nombre de material ya existente
+        if(result == 1) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case -2:
+                    message = "Material ya existente";
+                    break;
+                case -1:
+                    message = "Atributos invalidos";
+                    break;
+                case 0:
+                    message = "No se ha podido añadir";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

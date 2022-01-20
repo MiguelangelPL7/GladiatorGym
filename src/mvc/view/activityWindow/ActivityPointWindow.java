@@ -58,40 +58,49 @@ public class ActivityPointWindow extends JPanel implements ActionListener {
     }
 
     private void onBtnPointWindow() {
-
-        try {
-            int id = Integer.parseInt(textId.getText());
-            int pid = Integer.parseInt(textPID.getText());
-
-            int result = coordinator.validarApuntarMiembroA(id, pid, textSchedule.getText());
-
-            //100 = miembro ya apuntado
-            //2 = apuntado correctamente,
-            // 1 = apuntar fallido
-            //0 = actividad no encontrada o no disponible
-            // -1 = id de miembro no existe
-            if(result == 2) {
-
-            } else {
-                String message = "";
-                switch (result) {
-                    case 100:
-                        message = "El miembro ya esta apuntado";
-                        break;
-                    case 1:
-                        message = "No se ha podido apuntar";
-                        break;
-                    case 0:
-                        message = "Actividad no encontrada o no disponible";
-                        break;
-                    case -1:
-                        message = "El id del miembro no existe";
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        int id = 0;
+        int pid = 0;
+        if(!textId.getText().equals("")) {
+            try {
+                id = Integer.parseInt(textId.getText());
+            } catch (Exception e) {
+                id = 0;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        if(!textPID.getText().equals("")) {
+            try {
+                pid = Integer.parseInt(textPID.getText());
+            } catch (Exception e) {
+                pid = 0;
+            }
+        }
+
+        int result = coordinator.validarApuntarMiembroA(id, pid, textSchedule.getText());
+
+        //100 = miembro ya apuntado
+        //2 = apuntado correctamente,
+        // 1 = apuntar fallido
+        //0 = actividad no encontrada o no disponible
+        // -1 = id de miembro no existe
+        if(result == 2) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case 100:
+                    message = "El miembro ya esta apuntado";
+                    break;
+                case 1:
+                    message = "No se ha podido apuntar";
+                    break;
+                case 0:
+                    message = "Actividad no encontrada o no disponible";
+                    break;
+                case -1:
+                    message = "El id del miembro no existe";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 

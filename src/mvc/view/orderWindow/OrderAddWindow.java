@@ -29,27 +29,22 @@ public class OrderAddWindow extends JPanel implements ActionListener {
     private void initComponents() {
         contentPane = new JPanel();
 
-        contentPane.setLayout(null);
+        //contentPane.setLayout(null);
 
         lblTitle = new JLabel("CREAR PEDIDO");
-        lblTitle.setBounds(250, 20, 1000, 100);
         lblTitle.setFont(new java.awt.Font("Verdana", 1, 18));
         contentPane.add(lblTitle);
 
         lblNid = new JLabel("NID");
-        lblNid.setBounds(150, 100, 80, 25);
         contentPane.add(lblNid);
 
         textNid = new JTextField(20);
-        textNid.setBounds(200, 100, 80, 25);
         contentPane.add(textNid);
 
         lblName = new JLabel("Nombre proveedor");
-        lblName.setBounds(50, 150, 120, 25);
         contentPane.add(lblName);
 
         textName = new JTextField(20);
-        textName.setBounds(200, 150, 80, 25);
         contentPane.add(textName);
 
         lblPrice = new JLabel("Precio");
@@ -117,48 +112,57 @@ public class OrderAddWindow extends JPanel implements ActionListener {
     }
 
     private void onBtnMakeOrder() {
-        try{
-            double price = Double.parseDouble(textPrice.getText());
-            double weight = Double.parseDouble(textWeight.getText());
-
-            Order order = new Order();
-            order.setNidOrder(textNid.getText());
-            order.setNameProviderOrder(textName.getText());
-            order.setPriceOrder(price);
-            order.setDateDeliveryOrder(textDateDelivery.getText());
-            order.setWeightOrder(weight);
-
-            ArrayList<Material> materials = new ArrayList<>();
-
-            int result = coordinator.validarAdicionPedido(order, materials);
-
-            //-10 = rango inválido para realizar accion
-            // 1 = adicion correcta;
-            // 0= adicion fallida
-            // -1 = atributos inválidos
-            // -2 = materiales inválidos
-            if(result == 1) {
-
-            } else {
-                String message = "";
-                switch (result) {
-                    case -10:
-                        message = "Rango invalido para realizar la accion";
-                        break;
-                    case -2:
-                        message = "Materiales invalido";
-                        break;
-                    case -1:
-                        message = "Atributos invalidos";
-                        break;
-                    case 0:
-                        message = "No se ha podido añadir";
-                        break;
-                }
-                JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
+        double price = 0;
+        double weight = 0;
+        if(!textPrice.getText().equals("")) {
+            try {
+                price = Integer.parseInt(textPrice.getText());
+            } catch (Exception e) {
+                price = 0;
             }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null,"Debe ingresar un dato numerico","Error",JOptionPane.ERROR_MESSAGE);
+        }
+        if(!textWeight.getText().equals("")) {
+            try {
+                weight = Integer.parseInt(textWeight.getText());
+            } catch (Exception e) {
+                weight = 0;
+            }
+        }
+        Order order = new Order();
+        order.setNidOrder(textNid.getText());
+        order.setNameProviderOrder(textName.getText());
+        order.setPriceOrder(price);
+        order.setDateDeliveryOrder(textDateDelivery.getText());
+        order.setWeightOrder(weight);
+
+        ArrayList<Material> materials = new ArrayList<>();
+
+        int result = coordinator.validarAdicionPedido(order, materials);
+
+        //-10 = rango inválido para realizar accion
+        // 1 = adicion correcta;
+        // 0= adicion fallida
+        // -1 = atributos inválidos
+        // -2 = materiales inválidos
+        if(result == 1) {
+
+        } else {
+            String message = "";
+            switch (result) {
+                case -10:
+                    message = "Rango invalido para realizar la accion";
+                    break;
+                case -2:
+                    message = "Materiales invalido";
+                    break;
+                case -1:
+                    message = "Atributos invalidos";
+                    break;
+                case 0:
+                    message = "No se ha podido añadir";
+                    break;
+            }
+            JOptionPane.showMessageDialog(null, message, PropertyNames.WARNING_MESSAGE_TITLE, JOptionPane.WARNING_MESSAGE);
         }
     }
 
