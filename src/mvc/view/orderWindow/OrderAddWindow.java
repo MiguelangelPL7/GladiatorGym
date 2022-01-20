@@ -171,14 +171,14 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         double weight = 0;
         if(!textPrice.getText().equals("")) {
             try {
-                price = Integer.parseInt(textPrice.getText());
+                price = Double.parseDouble(textPrice.getText());
             } catch (Exception e) {
                 price = 0;
             }
         }
         if(!textWeight.getText().equals("")) {
             try {
-                weight = Integer.parseInt(textWeight.getText());
+                weight = Double.parseDouble(textWeight.getText());
             } catch (Exception e) {
                 weight = 0;
             }
@@ -227,21 +227,21 @@ public class OrderAddWindow extends JPanel implements ActionListener {
         if(!l11.equals("") && !l12.equals("") && !l13.equals("")) {
             m1.setMidMaterial(l11.getText());
             m1.setUnitsMaterial(Integer.parseInt(l12.getText()));
-            m1.setPriceOrderMaterial(Integer.parseInt(l13.getText()));
+            m1.setPriceOrderMaterial(Double.parseDouble(l13.getText()));
             materials.add(m1);
         }
         Material m2 = new Material();
         if(!l21.equals("") && !l22.equals("") && !l23.equals("")) {
             m2.setMidMaterial(l21.getText());
             m2.setUnitsMaterial(Integer.parseInt(l22.getText()));
-            m2.setPriceOrderMaterial(Integer.parseInt(l23.getText()));
+            m2.setPriceOrderMaterial(Double.parseDouble(l23.getText()));
             materials.add(m2);
         }
         Material m3 = new Material();
         if(!l31.equals("") && !l32.equals("") && !l33.equals("")) {
             m3.setMidMaterial(l31.getText());
             m3.setUnitsMaterial(Integer.parseInt(l32.getText()));
-            m3.setPriceOrderMaterial(Integer.parseInt(l33.getText()));
+            m3.setPriceOrderMaterial(Double.parseDouble(l33.getText()));
             materials.add(m3);
         }
         return materials;

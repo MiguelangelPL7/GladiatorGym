@@ -106,7 +106,7 @@ public class MaterialAddWindow extends JPanel implements ActionListener {
         int units = 0;
         if(!textWeight.getText().equals("")) {
             try {
-                weight = Integer.parseInt(textWeight.getText());
+                weight = Double.parseDouble(textWeight.getText());
             } catch (Exception e) {
                 weight = 0;
             }

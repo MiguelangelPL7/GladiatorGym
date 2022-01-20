@@ -136,9 +136,11 @@ public class MemberAddWindow extends JPanel implements ActionListener {
 
         lblId = new JLabel("ID");
         contentPane.add(lblId);
+        lblId.setVisible(false);
 
         textId = new JTextField(20);
         contentPane.add(textId);
+        textId.setVisible(false);
 
         // Botones
 
@@ -171,8 +173,26 @@ public class MemberAddWindow extends JPanel implements ActionListener {
             onBtnModifyMember();
         }
         if (e.getSource() == btnDeleteAll) {
-
+            deleteAllFields();
         }
+    }
+
+    private void deleteAllFields() {
+        textDni.setText("");
+        textName.setText("");
+        textFirstSurname.setText("");
+        textSecondSurname.setText("");
+        textRate.setText("");
+        textDateSubscription.setText("");
+        textPriceSubscription.setText("");
+        textDateOfBirth.setText("");
+        textPaymentMethod.setText("");
+        textPaymentNumber.setText("");
+        textPhone.setText("");
+        textMail.setText("");
+        textStreet.setText("");
+        textCity.setText("");
+        textPostalCode.setText("");
     }
 
     private void onBtnAddMember() {
@@ -292,7 +312,7 @@ public class MemberAddWindow extends JPanel implements ActionListener {
         }
         if(!textPriceSubscription.getText().equals("")) {
             try {
-                price = Integer.parseInt(textPriceSubscription.getText());
+                price = Double.parseDouble(textPriceSubscription.getText());
             } catch (Exception e) {
                 price = 0;
             }
@@ -336,6 +356,8 @@ public class MemberAddWindow extends JPanel implements ActionListener {
             fillFields();
             btnModifyMember.setVisible(true);
             btnMemberAdd.setVisible(false);
+            lblId.setVisible(true);
+            textId.setVisible(true);
         }
         return contentPane;
     }

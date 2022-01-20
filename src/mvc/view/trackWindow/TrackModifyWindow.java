@@ -104,7 +104,7 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
         int id = 0;
         int pid = 0;
         int memberId = 0;
-        int price = 0;
+        double price = 0;
         if(!textIDTrack.getText().equals("")) {
             try {
                 id = Integer.parseInt(textIDTrack.getText());
@@ -121,7 +121,7 @@ public class TrackModifyWindow extends JPanel implements ActionListener {
         }
         if(!textPrice.getText().equals("")) {
             try {
-                price = Integer.parseInt(textPrice.getText());
+                price = Double.parseDouble(textPrice.getText());
             } catch (Exception e) {
                 price = 0;
             }

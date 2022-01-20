@@ -173,11 +173,8 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         if (e.getSource() == btnModifyEmployee) {
             onBtnModifyEmployee();
         }
-        if (e.getSource() == btnCancel) {
-
-        }
         if (e.getSource() == btnDeleteAll) {
-
+            deleteAllFields();
         }
     }
 
@@ -239,6 +236,26 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         }
     }
 
+    private void deleteAllFields() {
+        textDni.setText("");
+        textName.setText("");
+        textFirstSurname.setText("");
+        textSecondSurname.setText("");
+        textDateInit.setText("");
+        textDateOfBirtht.setText("");
+        textPaymentMethod.setText("");
+        textPaymentNumber.setText("");
+        textNumberPhone.setText("");
+        textMail.setText("");
+        textStreet.setText("");
+        textCity.setText("");
+        textPostalCode.setText("");
+        textSalary.setText("");
+        textUser.setText("");
+        textPass.setText("");
+        textRange.setText("");
+    }
+
     private void fillFields() {
         String phone = String.valueOf(employee.getPhoneEmployee());
         if(phone.equals("0")){phone="";}
@@ -286,7 +303,7 @@ public class EmployeeAddWindow extends JPanel implements ActionListener {
         }
         if(!textSalary.getText().equals("")) {
             try {
-                salaryEmployee = Integer.parseInt(textSalary.getText());
+                salaryEmployee = Double.parseDouble(textSalary.getText());
             } catch (Exception e) {
                 salaryEmployee = 0;
             }
