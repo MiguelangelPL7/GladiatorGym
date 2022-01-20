@@ -24,21 +24,19 @@ public class MaterialListWindow extends JPanel {
 
     private void completeMaterials() {
         ArrayList<Material> materials = coordinator.solicitarListaMateriales();
+        if(materials.size() > 0) {
+            contentPane.setLayout(new GridLayout(materials.size()+1, 8));
+            contentPane.add(new JLabel("Numero"));
+            contentPane.add(new JLabel("MID"));
+            contentPane.add(new JLabel("Nombre"));
+            contentPane.add(new JLabel("Peso"));
+            contentPane.add(new JLabel("Unidades"));
+            contentPane.add(new JLabel("Actividad"));
+            contentPane.add(new JLabel("Marca"));
+            contentPane.add(new JLabel("Otros"));
 
-        contentPane.setLayout(new GridLayout(1, 8));
-        contentPane.add(new JLabel("Numero"));
-        contentPane.add(new JLabel("MID"));
-        contentPane.add(new JLabel("Nombre"));
-        contentPane.add(new JLabel("Peso"));
-        contentPane.add(new JLabel("Unidades"));
-        contentPane.add(new JLabel("Actividad"));
-        contentPane.add(new JLabel("Marca"));
-        contentPane.add(new JLabel("Otros"));
-
-        if(materials != null) {
-            contentPane.setLayout(new GridLayout(materials.size(), 8));
-            for(int i = 1; i <= 8; i++) {
-                contentPane.add(new JLabel(i+""));
+            for(int i = 0; i < materials.size(); i++) {
+                contentPane.add(new JLabel(i+1+""));
                 contentPane.add(new JLabel(materials.get(i).getMidMaterial()));
                 contentPane.add(new JLabel(materials.get(i).getNameMaterial()));
                 contentPane.add(new JLabel(materials.get(i).getWeightMaterial()+""));
@@ -47,6 +45,8 @@ public class MaterialListWindow extends JPanel {
                 contentPane.add(new JLabel(materials.get(i).getBrandMaterial()));
                 contentPane.add(new JLabel(materials.get(i).getOthersMaterial()));
             }
+        } else {
+            contentPane.add(new JLabel("No hay materiales"));
         }
     }
 
@@ -59,6 +59,7 @@ public class MaterialListWindow extends JPanel {
     }
 
     public JPanel getContentPane() {
+        contentPane.removeAll();
         completeMaterials();
         return contentPane;
     }
