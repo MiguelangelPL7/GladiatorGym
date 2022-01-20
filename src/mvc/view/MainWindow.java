@@ -92,8 +92,8 @@ public class MainWindow extends JFrame implements ActionListener {
         panelInit();
 
         //Prueba
-        panelIzq.setBackground(Color.cyan);
-        contentPane.setBackground(Color.BLUE);
+        panelIzq.setBackground(Color.LIGHT_GRAY);
+        contentPane.setBackground(new Color(91, 153, 144));
     }
 
     @Override

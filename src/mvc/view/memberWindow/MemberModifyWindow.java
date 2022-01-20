@@ -63,7 +63,7 @@ public class MemberModifyWindow extends JPanel implements ActionListener {
         textSecondSurname = new JTextField(20);
         contentPane.add(textSecondSurname);
 
-        lblRate = new JLabel("Rol");
+        lblRate = new JLabel("Tarifa");
         contentPane.add(lblRate);
 
         textRate = new JTextField(20);
